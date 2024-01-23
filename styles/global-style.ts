@@ -30,14 +30,11 @@ const GlobalStyle = createGlobalStyle`
   padding: 0;
   box-sizing: border-box;
   text-decoration: none;
-  font-family: Pretendard;  
+  font-family: Pretendard;
   }
 
   html, body {
     font-size: 62.5%;
-    color: red;
-    background-color: var(--black-4B4B4B);
-    font-size: 2rem;
   }
 
   ul, ol {
