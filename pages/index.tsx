@@ -1,10 +1,6 @@
 import Head from "next/head";
+import Test from "@/components/sidemenu";
 
 export default function Home() {
-  return (
-    <>
-      <div>Hi HomePage </div>
-      <div> hii</div>
-    </>
-  );
+  return <Test></Test>;
 }
