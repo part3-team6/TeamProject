@@ -1,10 +1,10 @@
 import Head from "next/head";
+import Test from "@/components/dashHeader";
 
 export default function Home() {
   return (
     <>
-      <div>Hi HomePage </div>
-      <div> hii</div>
+      <Test />
     </>
   );
 }
