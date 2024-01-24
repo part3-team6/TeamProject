@@ -7,7 +7,12 @@ export const sidemenu = styled.div`
   flex-direction: column;
   padding: 2rem 2.4rem;
   border-right: 0.1rem solid var(--gray-D9D9D9);
-  background-color: pink;
+  @media all and (max-width: 1124px) {
+    width: 16rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 6.7rem;
+  }
 `;
 
 export const sideLogo = styled.div`
@@ -17,22 +22,25 @@ export const sideLogo = styled.div`
   margin-bottom: 6rem;
   display: flex;
   align-items: flex-end;
-  & span {
+  cursor: pointer;
+  @media all and (max-width: 767px) {
+    width: 2.4rem;
+    margin-bottom: 4.5rem;
   }
-`;
-export const sideLogoImg = styled.div`
-  width: 2.8rem;
-  height: 3.3rem;
-  position: relative;
-  margin-bottom: 6rem;
 `;
 export const subTitle = styled.div`
   display: flex;
   justify-content: space-between;
+  align-items: center;
   color: var(--gray-787486);
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 1.5rem;
+  @media all and (max-width: 767px) {
+    & span {
+      display: none;
+    }
+  }
 `;
 export const more = styled.div`
   width: 2rem;
@@ -41,11 +49,39 @@ export const more = styled.div`
   cursor: pointer;
 `;
 export const sideList = styled.div`
-  width: 27.6rem;
+  /* width: 100%; */
   height: 4.5rem;
   color: var(--gray-787486);
   font-size: 1.8rem;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  @media all and (max-width: 1124px) {
+    font-size: 1.6rem;
+  }
+  @media all and (max-width: 767px) {
+    & span {
+      display: none;
+    }
+    justify-content: center;
+  }
+`;
+export const colors = styled.div`
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 99px;
+  margin-right: 1rem;
+  @media all and (max-width: 767px) {
+    margin-right: 0rem;
+  }
+`;
+export const crown = styled.div`
+  width: 1.8rem;
+  height: 1.4rem;
+  position: relative;
+  margin-left: 1rem;
+  @media all and (max-width: 767px) {
+    display: none;
+  }
 `;
