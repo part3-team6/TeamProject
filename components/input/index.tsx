@@ -2,8 +2,11 @@ import { useState } from "react";
 import * as S from "./styled";
 import Image from "next/image";
 
-function Input() {
-  const [status, setStatus] = useState(false);
+interface InputProps {
+  data: string;
+}
+
+function Input({ data }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
   const handlePwd = () => {
@@ -12,7 +15,7 @@ function Input() {
 
   return (
     <>
-      {status ? (
+      {data === "email" ? (
         <S.inputWrap>
           <S.label htmlFor="email">이메일</S.label>
           <S.input
