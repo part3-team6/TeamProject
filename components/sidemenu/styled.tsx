@@ -54,9 +54,11 @@ export const sideList = styled.div`
   color: var(--gray-787486);
   font-size: 1.8rem;
   font-weight: 500;
-  display: flex;
-  align-items: center;
   cursor: pointer;
+  & a {
+    display: flex;
+    align-items: center;
+  }
   @media all and (max-width: 1199px) {
     font-size: 1.6rem;
   }
