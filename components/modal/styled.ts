@@ -143,7 +143,7 @@ export const EllipseUl = styled.ul`
   margin-top: 2.8rem;
   transition: transform 1s ease-in-out;
   :hover {
-    transform: scale(1.5);
+    transform: scale(1.2);
   }
 `;
 
@@ -168,32 +168,6 @@ export const deleteText = styled.p`
 `;
 
 //  newDashboardColor 부분 끝
-
-// export const purpleEllipse = styled.div`
-//   width: 24px;
-//   height: 24px;
-//   background-color: var(--purple-760DDE);
-// `;
-
-// export const OrangeEllipse = styled.div`
-//   width: 24px;
-//   height: 24px;
-//   background-color: var(--orange-FFA500);
-// `;
-
-// export const blueEllipse = styled.div`
-//   width: 24px;
-//   height: 24px;
-//   background-color: var(--blue-76A6EA);
-// `;
-
-// export const pinkEllipse = styled.div`
-//   width: 24px;
-//   height: 24px;
-//   background-color: var(--pink-E876EA);
-// `;
-
-// ---- modalCheckIt 부분
 
 export const description = styled.p`
   margin-top: 7rem;
