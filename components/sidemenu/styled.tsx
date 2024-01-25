@@ -7,7 +7,7 @@ export const sidemenu = styled.div`
   flex-direction: column;
   padding: 2rem 2.4rem;
   border-right: 0.1rem solid var(--gray-D9D9D9);
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 1199px) {
     width: 16rem;
   }
   @media all and (max-width: 767px) {
@@ -57,7 +57,7 @@ export const sideList = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 1199px) {
     font-size: 1.6rem;
   }
   @media all and (max-width: 767px) {
