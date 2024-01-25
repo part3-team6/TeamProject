@@ -2,6 +2,7 @@ import Image from "next/image";
 import * as S from "./styled";
 import SEARCH_IMG from "./contents";
 import { useState } from "react";
+import mock from "./mock";
 
 function InviteDash() {
   const [values, setValues] = useState("");
@@ -25,10 +26,17 @@ function InviteDash() {
           <S.menu>초대자</S.menu>
           <S.menu>수락 여부</S.menu>
         </S.menuDiv>
-        <S.buttonGap>
-          <S.yesButton>수락</S.yesButton>
-          <S.noButton>거절</S.noButton>
-        </S.buttonGap>
+        {mock.map((data) => (
+          <S.section key={data.name}>
+            <S.colors backgroundColor={data.color} />
+            <S.name>{data.name}</S.name>
+            <S.inviter>{data.inviter}</S.inviter>
+            <S.buttonGap>
+              <S.yesButton>수락</S.yesButton>
+              <S.noButton>거절</S.noButton>
+            </S.buttonGap>
+          </S.section>
+        ))}
       </S.container>
     </>
   );

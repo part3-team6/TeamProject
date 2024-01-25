@@ -1,6 +1,7 @@
 import { styled } from "styled-components";
 
 export const container = styled.div`
+  background-color: rgba(0, 0, 0, 0.2);
   width: 102.2rem;
   height: 60rem;
   flex-shrink: 0;
@@ -11,9 +12,11 @@ export const title = styled.p`
   /* font-family: Pretendard; */
   font-size: 2.4rem;
   font-weight: 700;
+  padding: 3.2rem 0 2rem 2.8rem;
 `;
 export const inputContainer = styled.div`
   position: relative;
+  margin: 0 2.8rem 2.4rem 2.8rem;
 `;
 
 export const input = styled.input`
@@ -39,9 +42,6 @@ export const searchIcon = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
-  /* border-style: none;
-  border-color: none; */
-  /* border: none; */
 `;
 
 export const menu = styled.p`
@@ -88,4 +88,39 @@ export const noButton = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-weight: 500;
+`;
+
+export const section = styled.section`
+  /* justify-content: space-between;
+  display: flex; */
+  display: grid;
+  grid-template-columns: 2rem 21rem 26rem 1fr;
+  align-items: center;
+  border-bottom: 1px solid var(--black-333236);
+  height: 6.9rem;
+  /* padding-bottom: 2.6rem; */
+`;
+
+export const colors = styled.div`
+  background-color: ${(props) => props?.backgroundColor || ""};
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 99px;
+  @media (max-width: 767px) {
+    margin-right: 0rem;
+  }
+`;
+
+export const name = styled.p`
+  color: var(--black-333236);
+  /* font-family: Pretendard; */
+  font-size: 1.6rem;
+  font-weight: 400;
+`;
+
+export const inviter = styled.p`
+  color: var(--black-333236);
+  /* font-family: Pretendard; */
+  font-size: 1.6rem;
+  font-weight: 400;
 `;
