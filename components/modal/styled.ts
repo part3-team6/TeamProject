@@ -24,6 +24,12 @@ export const container: any = styled.div`
   flex-direction: column;
   display: flex;
   justify-content: center;
+
+  @media (max-width: 767px) {
+    padding: 2.8rem 2rem 2.8rem 2rem;
+    width: initial;
+    height: initial;
+  }
 `;
 
 // 마진값 나중에 모달 합쳐지고 보고 지우기
@@ -49,6 +55,11 @@ export const button = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.5rem;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    padding: 1.2rem 5.6rem;
+    font-size: 1.4rem;
+  }
 `;
 
 export const cancelButton = styled.button`
@@ -65,6 +76,11 @@ export const cancelButton = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    padding: 1.2rem 5.6rem;
+    font-size: 1.4rem;
+  }
 `;
 
 export const title = styled.p`
@@ -74,6 +90,10 @@ export const title = styled.p`
   font-weight: 700;
   line-height: normal;
   margin-bottom: 3.2rem;
+
+  @media (max-width: 767px) {
+    font-size: 2rem;
+  }
 `;
 
 export const name = styled.p`
@@ -82,6 +102,10 @@ export const name = styled.p`
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (max-width: 767px) {
+    font-size: 1.6rem;
+  }
 `;
 
 export const input = styled.input`
@@ -92,8 +116,14 @@ export const input = styled.input`
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
   margin: 1rem auto;
-  font-size: 1.2rem;
+  font-size: 1.6rem;
   padding: 1.4rem;
+
+  @media (max-width: 767px) {
+    width: 28.7rem;
+    height: 4.2rem;
+    font-size: 1.2rem;
+  }
 `;
 
 export const errText = styled.p`
@@ -111,6 +141,10 @@ export const EllipseUl = styled.ul`
   display: flex;
   gap: 1rem;
   margin-top: 2.8rem;
+  transition: transform 1s ease-in-out;
+  :hover {
+    transform: scale(1.5);
+  }
 `;
 
 export const colorEllipse: any = styled.li`
@@ -120,6 +154,7 @@ export const colorEllipse: any = styled.li`
     ${(props: any) => props?.backgroundColor || "--green-7AC555"}
   );
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 export const deleteText = styled.p`
@@ -159,6 +194,7 @@ export const deleteText = styled.p`
 // `;
 
 // ---- modalCheckIt 부분
+
 export const description = styled.p`
   margin-top: 7rem;
   color: var(--black-333236);
@@ -169,4 +205,9 @@ export const description = styled.p`
   font-weight: 500;
   line-height: normal;
   cursor: pointer;
+`;
+
+export const test = styled.img`
+  width: 2.4rem;
+  height: 2.4rem;
 `;
