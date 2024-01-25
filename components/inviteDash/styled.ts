@@ -1,10 +1,22 @@
 import { styled } from "styled-components";
 
 export const container = styled.div`
+  border-radius: 0.8rem;
   background-color: rgba(0, 0, 0, 0.2);
   width: 102.2rem;
   height: 60rem;
   flex-shrink: 0;
+  /* overflow: hidden; */
+
+  @media (max-width: 1199px) {
+    width: 50.4rem;
+    height: 59.2rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 26rem;
+    height: 83.6rem;
+  }
 `;
 
 export const title = styled.p`
@@ -13,10 +25,19 @@ export const title = styled.p`
   font-size: 2.4rem;
   font-weight: 700;
   padding: 3.2rem 0 2rem 2.8rem;
+
+  @media (max-width: 767px) {
+    font-size: 2rem;
+  }
 `;
+
 export const inputContainer = styled.div`
   position: relative;
-  margin: 0 2.8rem 2.4rem 2.8rem;
+  margin: 0 2.8rem 2.4rem;
+
+  @media (max-width: 767px) {
+    margin: 0 1.6rem 2.4rem;
+  }
 `;
 
 export const input = styled.input`
@@ -31,6 +52,16 @@ export const input = styled.input`
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
+
+  @media (max-width: 1199px) {
+    width: 44.8rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 22.8rem;
+    height: 3.6rem;
+    padding: 1rem 0 1rem 4.4rem;
+  }
 `;
 
 export const searchIcon = styled.button`
@@ -42,6 +73,11 @@ export const searchIcon = styled.button`
   transform: translateY(-50%);
   background: none;
   border: none;
+
+  @media (max-width: 767px) {
+    width: 2.2rem;
+    height: 2.2rem;
+  }
 `;
 
 export const menu = styled.p`
@@ -49,12 +85,25 @@ export const menu = styled.p`
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
+  @media (max-width: 767px) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const menuDiv = styled.div`
-  padding: 2.4rem 28.4rem 0 2.8rem;
+  padding: 0 28.4rem 0 2.8rem;
   display: flex;
   justify-content: space-between;
+
+  @media (max-width: 1199px) {
+    padding: 0 12.2rem 0 2.8rem;
+  }
+
+  @media (max-width: 767px) {
+    padding: 0 0 1.2rem 1.6rem;
+    gap: 1rem;
+    flex-direction: column;
+  }
 `;
 
 export const buttonGap = styled.div`
@@ -74,6 +123,11 @@ export const yesButton = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-weight: 500;
+
+  @media (max-width: 1199px) {
+    width: 7.2rem;
+    height: 3rem;
+  }
 `;
 
 export const noButton = styled.button`
@@ -88,17 +142,30 @@ export const noButton = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-weight: 500;
+
+  @media (max-width: 1199px) {
+    width: 7.2rem;
+    height: 3rem;
+  }
 `;
 
 export const section = styled.section`
-  /* justify-content: space-between;
-  display: flex; */
   display: grid;
-  grid-template-columns: 2rem 21rem 26rem 1fr;
+  grid-template-columns: 2rem 28.5rem 33.5rem 1fr;
   align-items: center;
   border-bottom: 1px solid var(--black-333236);
-  height: 6.9rem;
+  height: 7rem;
+  padding-left: 3.6rem;
   /* padding-bottom: 2.6rem; */
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 1.4rem 12rem 15rem 1fr;
+  }
+
+  @media (max-width: 767px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 export const colors = styled.div`
@@ -111,16 +178,11 @@ export const colors = styled.div`
   }
 `;
 
-export const name = styled.p`
+export const text = styled.p`
   color: var(--black-333236);
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
-`;
-
-export const inviter = styled.p`
-  color: var(--black-333236);
-  /* font-family: Pretendard; */
-  font-size: 1.6rem;
-  font-weight: 400;
+  overflow: hidden;
+  white-space: nowrap;
 `;

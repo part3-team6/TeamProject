@@ -29,8 +29,8 @@ function InviteDash() {
         {mock.map((data) => (
           <S.section key={data.name}>
             <S.colors backgroundColor={data.color} />
-            <S.name>{data.name}</S.name>
-            <S.inviter>{data.inviter}</S.inviter>
+            <S.text>{data.name}</S.text>
+            <S.text>{data.inviter}</S.text>
             <S.buttonGap>
               <S.yesButton>수락</S.yesButton>
               <S.noButton>거절</S.noButton>
