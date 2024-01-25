@@ -10,7 +10,7 @@ export const headerWrap = styled.div`
   padding: 0 3rem 0 3rem;
   margin-left: 30rem;
   font-size: 1.6rem;
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 1199px) {
     width: calc(100vw - 16rem);
     margin-left: 16rem;
     justify-content: flex-end;
@@ -25,7 +25,7 @@ export const dashBoard = styled.p`
   color: var(--black-333236);
   font-size: 2rem;
   font-weight: bold;
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 1199px) {
     display: none;
   }
 `;
@@ -33,7 +33,7 @@ export const headerData = styled.div`
   display: flex;
   align-items: center;
   gap: 1.6rem;
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 1199px) {
     gap: 1.2rem;
   }
   @media all and (max-width: 767px) {
@@ -57,7 +57,7 @@ export const btn = styled.button`
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
 
-  @media all and (max-width: 1124px) {
+  @media all and (max-width: 11299px) {
     font-size: 1.4rem;
   }
   @media all and (max-width: 767px) {
