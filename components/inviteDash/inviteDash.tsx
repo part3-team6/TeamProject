@@ -4,6 +4,13 @@ import SEARCH_IMG from "./contents";
 import { useState } from "react";
 import mock from "./mock";
 
+// 목 데이터 map으로 빨래질 한 타입
+interface mockDataType {
+  name: string;
+  inviter: string;
+  color: string;
+}
+
 function InviteDash() {
   const [values, setValues] = useState("");
 
@@ -26,8 +33,8 @@ function InviteDash() {
           <S.menu>초대자</S.menu>
           <S.menu>수락 여부</S.menu>
         </S.menuDiv>
-        {mock.map((data) => (
-          <S.section key={data.name}>
+        {mock.map((data: mockDataType, index: number) => (
+          <S.section key={index}>
             <S.colors backgroundColor={data.color} />
             <S.text>{data.name}</S.text>
             <S.text>{data.inviter}</S.text>
