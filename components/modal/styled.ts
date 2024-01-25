@@ -137,7 +137,16 @@ export const errText = styled.p`
 
 // newDashboardColor (children) 부분
 
+export const colorEllipseInner = styled.div`
+  position: relative;
+  & img {
+    display: ${(props: any) =>
+      props.choiceColor === props.backgroundColor ? "block" : "none"};
+  }
+`;
+
 export const EllipseUl = styled.ul`
+  position: relative;
   display: flex;
   gap: 1rem;
   margin-top: 2.8rem;
