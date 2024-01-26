@@ -53,7 +53,10 @@ function Card({ mock }: CardProps) {
               <S.tagDate>
                 <S.labelWrap>
                   {item.tags.map((tag, tagIndex) => (
-                    <S.label key={tagIndex}>
+                    <S.label
+                      key={tagIndex}
+                      length={Math.ceil((tag.length % 4) + 1)}
+                    >
                       <span>{tag}</span>
                     </S.label>
                   ))}

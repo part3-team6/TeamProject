@@ -6,7 +6,7 @@ const mock = [
     title: "새로운 일정관리",
     description: "description",
     dueDate: "2022.12.31",
-    tags: ["프로젝트", "백엔드"],
+    tags: ["프로젝트", "백엔드", "이이", "아"],
     imageUrl: "/images/chip+.svg",
   },
   {
@@ -35,7 +35,7 @@ const mock = [
     title: "이미지가 없다면?",
     description: "description",
     dueDate: "2024.1.25",
-    tags: ["이미지가 없어"],
+    tags: ["이미지가 없어", "이미지가 없"],
     imageUrl: "",
   },
 ];
