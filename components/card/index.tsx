@@ -51,16 +51,16 @@ function Card({ mock }: CardProps) {
               <S.cardTitle>{item.title}</S.cardTitle>
 
               <S.tagDate>
-                <S.labelWrap>
+                <S.tagWrap>
                   {item.tags.map((tag, tagIndex) => (
-                    <S.label
+                    <S.tag
                       key={tagIndex}
                       length={Math.ceil((tag.length % 4) + 1)}
                     >
                       <span>{tag}</span>
-                    </S.label>
+                    </S.tag>
                   ))}
-                </S.labelWrap>
+                </S.tagWrap>
                 <S.dateWrap>
                   <S.date>
                     <S.dateImg>

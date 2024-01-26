@@ -51,7 +51,7 @@ export const inner = styled.div`
     position: relative;
   }
 `;
-export const label = styled.div`
+export const tag = styled.div`
   padding: 0.4rem 0.6rem;
   background-color: ${(props) => {
     switch (props.length) {
@@ -88,7 +88,7 @@ export const label = styled.div`
     }};
   }
 `;
-export const labelWrap = styled.div`
+export const tagWrap = styled.div`
   display: flex;
   gap: 0.6rem;
   flex-wrap: wrap;
