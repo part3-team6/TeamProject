@@ -1,13 +1,10 @@
 import Head from "next/head";
 
-
 export default function Home() {
-
-
-  return 
+  return (
     <>
-     
+      <div>Hi HomePage </div>
+      <div> hii</div>
     </>
-
-
+  );
 }
