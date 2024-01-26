@@ -28,6 +28,7 @@ export const title = styled.p`
 
   @media (max-width: 767px) {
     font-size: 2rem;
+    padding: 2.4rem 0 1.6rem 2rem;
   }
 `;
 
@@ -36,7 +37,7 @@ export const inputContainer = styled.div`
   margin: 0 2.8rem 2.4rem;
 
   @media (max-width: 767px) {
-    margin: 0 1.6rem 2.4rem;
+    margin: 0 1.6rem 0.8rem;
   }
 `;
 
@@ -80,13 +81,19 @@ export const searchIcon = styled.button`
   }
 `;
 
+interface menuProps {
+  display: string;
+}
+// 타입을 모르겠노 하
 export const menu = styled.p`
+  /* display: block; */
   color: var(--gray-9FA6B2);
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
   @media (max-width: 767px) {
     font-size: 1.4rem;
+    display: ${(props: menuProps) => props?.display || "flex"};
   }
 `;
 
@@ -100,7 +107,7 @@ export const menuDiv = styled.div`
   }
 
   @media (max-width: 767px) {
-    padding: 0 0 1.2rem 1.6rem;
+    padding: 1.6rem 0 1.2rem 1.6rem;
     gap: 1rem;
     flex-direction: column;
   }
@@ -109,6 +116,10 @@ export const menuDiv = styled.div`
 export const buttonGap = styled.div`
   display: flex;
   gap: 1rem;
+
+  @media (max-width: 767px) {
+    padding: 0 1.6rem;
+  }
 `;
 
 // button 패딩 이상 없으면 빼기
@@ -127,6 +138,11 @@ export const yesButton = styled.button`
   @media (max-width: 1199px) {
     width: 7.2rem;
     height: 3rem;
+  }
+
+  @media (max-width: 767px) {
+    width: 10.9rem;
+    padding: 0.7rem 3.7rem;
   }
 `;
 
@@ -147,6 +163,11 @@ export const noButton = styled.button`
     width: 7.2rem;
     height: 3rem;
   }
+
+  @media (max-width: 767px) {
+    width: 10.9rem;
+    padding: 0.7rem 3.7rem;
+  }
 `;
 
 export const section = styled.section`
@@ -158,13 +179,20 @@ export const section = styled.section`
   padding-left: 3.6rem;
   /* padding-bottom: 2.6rem; */
 
+  &:last-child {
+    border-bottom: 0;
+  }
+
   @media (max-width: 1199px) {
     grid-template-columns: 1.4rem 12rem 15rem 1fr;
   }
 
   @media (max-width: 767px) {
+    height: 11rem;
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    padding: 0 0 1.6rem 0;
   }
 `;
 
@@ -175,6 +203,7 @@ export const colors = styled.div`
   border-radius: 99px;
   @media (max-width: 767px) {
     margin-right: 0rem;
+    display: ${(props) => props?.display || ""};
   }
 `;
 
