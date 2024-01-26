@@ -4,32 +4,34 @@ import SEARCH_IMG from "./contents";
 import { useEffect, useState } from "react";
 import mock from "./mock";
 
-// 목 데이터 map으로 빨래질 한 타입
 interface mockDataType {
   name: string;
   inviter: string;
   color: string;
 }
-// B백그라운드 확인하고
-// ismobile 끄고 작업해보고, 다른 곳에 끼워서 해보고 ISmobile때문인지 확인해보기.
+
 function InviteDash() {
   const [values, setValues] = useState("");
   const [ismobile, setIsmobile] = useState(false);
+  const [isWidth, setisWidth] = useState(NaN);
+  console.log(isWidth);
 
   useEffect(() => {
     const mobileResize = () => {
-      setIsmobile(window.innerWidth <= 767);
-
-      window.addEventListener("resize", mobileResize);
-
-      mobileResize();
-
-      return () => window.removeEventListener("resize", mobileResize);
+      setisWidth(window.innerWidth);
     };
-  }, []);
-  // console.log(window.innerWidth);
-  // console.log(values);
-  // console.log(ismobile);
+
+    window.addEventListener("resize", mobileResize);
+    mobileResize();
+    if (isWidth <= 767) {
+      setIsmobile(true);
+    } else {
+      setIsmobile(false);
+    }
+
+    return () => window.removeEventListener("resize", mobileResize);
+  }, [isWidth]);
+
   return (
     <>
       <S.container>
@@ -60,7 +62,7 @@ function InviteDash() {
               <S.colors backgroundColor={data.color} display={"none"} />
 
               <S.buttonGap>
-                <S.yesButton>하이</S.yesButton>
+                <S.yesButton>수락</S.yesButton>
                 <S.noButton>거절</S.noButton>
               </S.buttonGap>
             </S.section>

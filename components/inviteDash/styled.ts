@@ -2,20 +2,15 @@ import { styled } from "styled-components";
 
 export const container = styled.div`
   border-radius: 0.8rem;
-  background-color: rgba(0, 0, 0, 0.2);
   width: 102.2rem;
-  height: 60rem;
   flex-shrink: 0;
-  /* overflow: hidden; */
 
   @media (max-width: 1199px) {
     width: 50.4rem;
-    height: 59.2rem;
   }
 
   @media (max-width: 767px) {
     width: 26rem;
-    height: 83.6rem;
   }
 `;
 
@@ -81,19 +76,16 @@ export const searchIcon = styled.button`
   }
 `;
 
-interface menuProps {
-  display: string;
-}
-// 타입을 모르겠노 하
-export const menu = styled.p`
-  /* display: block; */
+export const menu: any = styled.p`
+  display: block;
   color: var(--gray-9FA6B2);
   /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
   @media (max-width: 767px) {
     font-size: 1.4rem;
-    display: ${(props: menuProps) => props?.display || "flex"};
+    display: ${(props: any) => props?.display || "grid"};
+    grid-template-columns: 1fr 1fr;
   }
 `;
 
@@ -122,11 +114,9 @@ export const buttonGap = styled.div`
   }
 `;
 
-// button 패딩 이상 없으면 빼기
 export const yesButton = styled.button`
   width: 8.4rem;
   height: 3.2rem;
-  /* padding: 0.7rem 2.9rem; */
   border-radius: 0.4rem;
   background: var(--violet-5534DA);
   color: var(--white-white_FFFFFF, #fff);
@@ -149,7 +139,6 @@ export const yesButton = styled.button`
 export const noButton = styled.button`
   width: 8.4rem;
   height: 3.2rem;
-  /* padding: 0.7rem 2.9rem; */
   border-radius: 0.4rem;
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
@@ -177,7 +166,6 @@ export const section = styled.section`
   border-bottom: 1px solid var(--black-333236);
   height: 7rem;
   padding-left: 3.6rem;
-  /* padding-bottom: 2.6rem; */
 
   &:last-child {
     border-bottom: 0;
@@ -188,7 +176,7 @@ export const section = styled.section`
   }
 
   @media (max-width: 767px) {
-    height: 11rem;
+    height: 12rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -196,14 +184,14 @@ export const section = styled.section`
   }
 `;
 
-export const colors = styled.div`
-  background-color: ${(props) => props?.backgroundColor || ""};
+export const colors: any = styled.div`
+  background-color: ${(props: any) => props?.backgroundColor || ""};
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 99px;
   @media (max-width: 767px) {
     margin-right: 0rem;
-    display: ${(props) => props?.display || ""};
+    display: ${(props: any) => props?.display || ""};
   }
 `;
 
@@ -214,4 +202,8 @@ export const text = styled.p`
   font-weight: 400;
   overflow: hidden;
   white-space: nowrap;
+
+  @media (max-width: 767px) {
+    font-size: 1.4rem;
+  }
 `;
