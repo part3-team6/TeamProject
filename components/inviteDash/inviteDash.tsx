@@ -13,12 +13,12 @@ interface mockDataType {
 function InviteDash() {
   const [values, setValues] = useState("");
   const [ismobile, setIsmobile] = useState(false);
-  const [isWidth, setisWidth] = useState(NaN);
+  const [isWidth, setIsWidth] = useState(NaN);
   console.log(isWidth);
 
   useEffect(() => {
     const mobileResize = () => {
-      setisWidth(window.innerWidth);
+      setIsWidth(window.innerWidth);
     };
 
     window.addEventListener("resize", mobileResize);
