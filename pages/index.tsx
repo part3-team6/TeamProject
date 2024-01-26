@@ -4,9 +4,8 @@ import Head from "next/head";
 export default function Home() {
   return (
     <>
-      <InviteDash />
-      {/* <div>Hi HomePage </div>
-      <div> hii</div> */}
+      <div>Hi HomePage </div>
+      <div> hii</div>
     </>
   );
 }
