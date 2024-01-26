@@ -2,6 +2,7 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Tag from "../tag";
 
 interface CardProps {
   mock: [
@@ -53,12 +54,7 @@ function Card({ mock }: CardProps) {
               <S.tagDate>
                 <S.tagWrap>
                   {item.tags.map((tag, tagIndex) => (
-                    <S.tag
-                      key={tagIndex}
-                      length={Math.ceil((tag.length % 4) + 1)}
-                    >
-                      <span>{tag}</span>
-                    </S.tag>
+                    <Tag tag={tag} tagIndex={tagIndex} />
                   ))}
                 </S.tagWrap>
                 <S.dateWrap>
