@@ -1,4 +1,3 @@
-import InviteDash from "@/components/inviteDash/inviteDash";
 import Head from "next/head";
 
 export default function Home() {
