@@ -16,7 +16,16 @@ const mock = [
     title: "카드카드",
     description: "description",
     dueDate: "2024.1.25",
-    tags: ["졸립다", "배고파", "태그", "늘어난다"],
+    tags: [
+      "졸립다",
+      "배고파",
+      "태그",
+      "늘어난다",
+      "졸립다",
+      "배고파",
+      "태그",
+      "늘어난다",
+    ],
     imageUrl: "/images/logoLogin.svg",
   },
   {

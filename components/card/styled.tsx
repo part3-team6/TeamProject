@@ -70,6 +70,7 @@ export const labelWrap = styled.div`
 `;
 export const dateWrap = styled.div`
   display: flex;
+  gap: 0.6rem;
   flex-shrink: 0;
   flex-grow: 1;
   justify-content: space-between;
