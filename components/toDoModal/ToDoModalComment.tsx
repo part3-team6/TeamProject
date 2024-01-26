@@ -1,7 +1,12 @@
 import Image from "next/image";
 import * as S from "./styled";
 
-const ToDoModalComment = () => {
+interface CommentProps {
+  key: number;
+  comment?: string;
+}
+
+const ToDoModalComment = (comments: CommentProps) => {
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
@@ -12,7 +17,7 @@ const ToDoModalComment = () => {
           <h1>정만철</h1>
           <p>2022.12.27 14:00</p>
         </div>
-        <span>오늘 안에 ccc까지 만들 수 있을까요?</span>
+        <span>{comments.comment}</span>
         <ul>
           <li>수정</li>
           <li>삭제</li>

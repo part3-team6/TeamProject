@@ -23,8 +23,9 @@ export const ModalBG = styled.div`
 
 export const ModalContainer = styled.div`
   width: 730px;
-  height: 763px;
+  max-height: 763px;
   position: relative;
+  border: 1px solid var(--gray-D9D9D9);
   border-radius: 10px;
   background-color: var(--white-FFFFFF);
 `;
@@ -127,7 +128,7 @@ export const ToDoModalUser = styled.div`
 
 export const ModalContent = styled.div`
   width: 100%;
-  height: 663px;
+  max-height: 663px;
   padding: 0 28px;
 `;
 
@@ -232,12 +233,21 @@ export const ModalCommentInput = styled.div`
     height: 32px;
     padding: 9px 31px;
   }
+
+  & ul {
+    width: 450px;
+    max-height: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 `;
 
-export const ModalComment = styled.div`
+export const ModalComment = styled.li`
   width: 450px;
   height: 80px;
-  margin-top: 20px;
+  margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
 `;

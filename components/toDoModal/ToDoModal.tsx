@@ -31,26 +31,33 @@ const ToDoModal: React.FC<ModalProps> = ({
   img,
 }) => {
   const [column, setColumn] = useState("todo");
-  const [comment, setComment] = useState("");
-  const [renderedComponent, setRenderedComponent] =
-    useState<ReactElement | null>(null);
+  const [comment, setComment] = useState<string>("");
+  const [comments, setComments] = useState<string[]>([]);
+  const [renderedOption, setRenderedOption] = useState<ReactElement | null>(
+    null,
+  );
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
   };
 
   const handleCommentSubmit = () => {
-    if (comment) {
-      console.log(`Comment submmitted: ${comment}`);
+    try {
+      setComments((prevComments: string[]) => {
+        return [...prevComments, comment];
+      });
+    } catch (err) {
+      console.log("댓글 추가 중 오류 발생", err);
     }
-    // 실제 서버로 댓글을 전송하는 로직 추가해야됨!
+
+    setComment("");
   };
 
   const onClickModalOption = () => {
-    if (renderedComponent) {
-      setRenderedComponent(null);
+    if (renderedOption) {
+      setRenderedOption(null);
     } else {
-      setRenderedComponent(<ToDoModalOption />);
+      setRenderedOption(<ToDoModalOption />);
     }
   };
 
@@ -74,7 +81,7 @@ const ToDoModal: React.FC<ModalProps> = ({
             <button onClick={onClickModalClose}>
               <Image src={closeX} alt="closeX" width={32} height={32} />
             </button>
-            {renderedComponent}
+            {renderedOption}
           </div>
         </S.ModalHeader>
         <ToDoModalUser user={user} deadline={deadline} />
@@ -101,7 +108,11 @@ const ToDoModal: React.FC<ModalProps> = ({
               />
               <Button children="입력" onClick={handleCommentSubmit} />
             </div>
-            <ToDoModalComment />
+            <ul>
+              {comments.map((comment, index) => (
+                <ToDoModalComment key={index} comment={comment} />
+              ))}
+            </ul>
           </S.ModalCommentInput>
         </S.ModalContent>
       </S.ModalContainer>

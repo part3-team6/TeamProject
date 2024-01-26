@@ -11,3 +11,5 @@ const mock = {
   tags: ["프로젝트", "일반", "백엔드", "상"],
   img: "/images/codeit.svg",
 };
+
+export default mock;
