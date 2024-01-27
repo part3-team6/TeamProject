@@ -36,6 +36,7 @@ function InviteDash() {
     <>
       <S.container>
         <S.title>초대받은 대쉬보드</S.title>
+
         <S.inputContainer>
           <S.input
             placeholder="검색"
@@ -46,7 +47,7 @@ function InviteDash() {
           </S.searchIcon>
         </S.inputContainer>
         {ismobile ? (
-          mock.map((data: mockDataType, index: number) => (
+          mock?.map((data?: mockDataType, index?: number) => (
             <S.section key={index}>
               <S.menuDiv>
                 <S.menu>
@@ -74,7 +75,7 @@ function InviteDash() {
               <S.menu>초대자</S.menu>
               <S.menu display={"none"}>수락 여부</S.menu>
             </S.menuDiv>
-            {mock.map((data: mockDataType, index: number) => (
+            {mock?.map((data: mockDataType, index: number) => (
               <S.section key={index}>
                 <S.colors backgroundColor={data.color} display={"none"} />
                 <S.text>{data.name}</S.text>

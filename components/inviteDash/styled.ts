@@ -27,6 +27,21 @@ export const title = styled.p`
   }
 `;
 
+// 편지지 이미지 스타일
+export const unsub = styled.div`
+  position: relative;
+  width: 10rem;
+  height: 10rem;
+`;
+
+export const noDash = styled.p`
+  color: var(--gray-9FA6B2);
+  text-align: center;
+  /* font-family: Pretendard; */
+  font-size: 1.8rem;
+  font-weight: 400;
+`;
+
 export const inputContainer = styled.div`
   position: relative;
   margin: 0 2.8rem 2.4rem;
