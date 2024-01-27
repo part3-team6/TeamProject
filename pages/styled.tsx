@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const landingBack = styled.div`
   width: 100%;
-  height: 100%; // 나중에 수정해야함
   background-color: black;
 `;
 
@@ -12,6 +11,9 @@ export const landinginner = styled.div`
   display: flex;
   flex-direction: column;
   color: var(--white-FFFFFF);
+  @media all and (max-width: 767px) {
+    padding: 9.4rem 1.6rem 0;
+  }
 `;
 
 export const mainImg = styled.div`
@@ -20,6 +22,14 @@ export const mainImg = styled.div`
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  @media all and (max-width: 1199px) {
+    width: 53.7rem;
+    height: 31.4rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 28.7rem;
+    height: 16.8rem;
+  }
 `;
 
 export const mainWrap = styled.div`
@@ -38,6 +48,22 @@ export const mainText = styled.div`
     font-size: 9rem;
     font-weight: 700;
   }
+  @media all and (max-width: 1199px) {
+    font-size: 5.6rem;
+    & span {
+      font-size: 7rem;
+    }
+  }
+  @media all and (max-width: 767px) {
+    font-size: 4rem;
+    & p {
+      display: flex;
+      flex-direction: column;
+    }
+    & span {
+      font-size: 4.2rem;
+    }
+  }
 `;
 
 export const login = styled.div`
@@ -55,6 +81,13 @@ export const login = styled.div`
     padding: 1.5rem 0px;
     text-align: center;
   }
+  @media all and (max-width: 1199px) {
+    font-size: 1.6rem;
+  }
+  @media all and (max-width: 767px) {
+    font-size: 1.4rem;
+    margin-bottom: 0;
+  }
 `;
 
 export const pointWrap = styled.div`
@@ -63,13 +96,31 @@ export const pointWrap = styled.div`
   height: 60rem;
   border-radius: 8px;
   background: var(--black-171717);
-  margin: 9rem 0;
+  margin: 9rem auto;
   display: flex;
   padding: 10.3rem 0 0;
+  @media all and (max-width: 1199px) {
+    flex-direction: column;
+    max-width: 66.4rem;
+    height: 97.2rem;
+    align-items: center;
+    &:nth-child(3) {
+      flex-direction: column-reverse;
+    }
+  }
+  @media all and (max-width: 767px) {
+    max-width: 34.3rem;
+    height: 68.6rem;
+    font-size: 1.4rem;
+    margin-bottom: 0;
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 export const pointText = styled.div`
-  width: 59rem;
+  width: 100%;
+  max-width: 59rem;
   height: 49rem;
   display: flex;
   flex-direction: column;
@@ -80,11 +131,18 @@ export const pointText = styled.div`
     font-size: 2.2rem;
     font-weight: 500;
   }
+  @media all and (max-width: 767px) {
+    font-size: 1.4rem;
+    padding-left: 0;
+  }
 `;
 export const point = styled.p`
   color: var(--white-FFFFFF);
   font-size: 4.8rem;
   font-weight: 700;
+  @media all and (max-width: 767px) {
+    font-size: 3.6rem;
+  }
 `;
 
 export const pointImg = styled.div`
@@ -96,11 +154,20 @@ export const pointImg = styled.div`
   & img {
     object-fit: contain;
   }
+  @media all and (max-width: 767px) {
+    max-width: 29.6rem;
+  }
 `;
 
 export const how = styled.div`
   display: flex;
   flex-direction: column;
+  @media all and (max-width: 1199px) {
+    align-items: center;
+  }
+  @media all and (max-width: 767px) {
+    margin-top: 9rem;
+  }
 `;
 
 export const howTitle = styled.div`
@@ -108,23 +175,35 @@ export const howTitle = styled.div`
   font-size: 2.8rem;
   font-weight: 700;
   margin-bottom: 3.6rem;
+  @media all and (max-width: 767px) {
+    font-size: 2.2rem;
+  }
 `;
 
 export const howCards = styled.div`
   display: flex;
   justify-content: space-between;
+  gap: 3.3rem;
+  @media all and (max-width: 1199px) {
+    flex-direction: column;
+    gap: 4.8rem;
+  }
 `;
 
 export const howCard = styled.div`
   width: 100%;
   max-width: 38rem;
-  height: 38rem;
+  /* height: 38rem; */
   display: flex;
   flex-direction: column;
+  @media all and (max-width: 767px) {
+    max-width: 34.3rem;
+  }
 `;
 
 export const howImg = styled.div`
-  width: 37.8rem;
+  width: 100%;
+  max-width: 37.8rem;
   height: 26rem;
   border-radius: 8px 8px 0px 0px;
   background: var(--black-4B4B4B);
@@ -142,7 +221,8 @@ export const howImgWrap = styled.div`
   }
 `;
 export const howText = styled.div`
-  width: 378px;
+  width: 100%;
+  max-width: 37.8rem;
   height: 124px;
   flex-shrink: 0;
   border-radius: 0px 0px 8px 8px;
@@ -171,6 +251,11 @@ export const footer = styled.div`
   margin-top: 16rem;
   color: var(--gray-9FA6B2);
   font-size: 1.6rem;
+  @media all and (max-width: 767px) {
+    flex-direction: column;
+    gap: 1.2rem;
+    margin-bottom: 16rem;
+  }
 `;
 export const faq = styled.div`
   display: flex;
