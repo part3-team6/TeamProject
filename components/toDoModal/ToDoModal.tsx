@@ -1,10 +1,11 @@
 import { ReactElement, useEffect, useState } from "react";
 import Button from "./Button";
 import closeX from "../../public/images/closeX.svg";
-import ToDoModalComment from "./ToDoModalComment";
 import Image from "next/image";
 import optionDots from "../../public/images/3dot.svg";
+import ToDoModalComment from "./ToDoModalComment";
 import ToDoModalOption from "./ToDoModalOption";
+import ToDoModalTag from "./ToDoModalTag";
 import ToDoModalUser from "./ToDoModalUser";
 import * as S from "./styled";
 
@@ -92,9 +93,7 @@ const ToDoModal: React.FC<ModalProps> = ({
               <h2>{column}</h2>
             </div>
             <p>|</p>
-            <ul>
-              {tags && tags.map((tag, index) => <li key={index}>{tag}</li>)}
-            </ul>
+            <ToDoModalTag tags={tags} />
           </S.ModalTag>
           <S.ModalWords>{content}</S.ModalWords>
           <Image src={img || ""} alt="img" width={450} height={205} />

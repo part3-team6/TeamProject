@@ -8,7 +8,15 @@ const mock = {
   content:
     "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley.",
   deadline: "2022.12.30 19:00",
-  tags: ["프로젝트", "일반", "백엔드", "상"],
+  tags: [
+    "프로젝트",
+    "일반",
+    "백엔드",
+    "네모네모상자",
+    "도움",
+    "프로젝트2",
+    "스페셜",
+  ],
   img: "/images/codeit.svg",
 };
 

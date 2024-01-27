@@ -84,6 +84,7 @@ export const ModalOption = styled.div`
     transition: 0.3s;
 
     &:hover {
+      font-weight: 500;
       color: var(--violet-5534DA);
       background-color: var(--violet-8-percent);
     }
@@ -158,12 +159,14 @@ export const ModalTag = styled.div`
 
   & div h2 {
     font-size: 12px;
+    white-space: nowrap;
   }
 
   & ul {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     gap: 10px;
   }
 
@@ -201,6 +204,7 @@ export const ModalCommentInput = styled.div`
     font-size: 16px;
     font-weight: 500;
     color: var(--black-333236);
+    margin-left: 4px;
     margin-bottom: 10px;
   }
 
@@ -215,6 +219,11 @@ export const ModalCommentInput = styled.div`
     border: 1px solid var(--gray-D9D9D9);
     border-radius: 6px;
     font-size: 14px;
+    resize: none;
+
+    &:focus {
+      outline: 1px solid var(--violet-5534DA);
+    }
 
     &::placeholder {
       line-height: 1.5;
