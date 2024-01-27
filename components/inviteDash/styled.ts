@@ -27,11 +27,23 @@ export const title = styled.p`
   }
 `;
 
-// 편지지 이미지 스타일
+// 초대받는 대쉬보드 없을때 스타일
+// noDash.tsx
+export const noDashflex = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 export const unsub = styled.div`
   position: relative;
   width: 10rem;
   height: 10rem;
+  margin-top: 4.6rem;
+
+  @media (max-width: 767px) {
+    margin-top: 10.5rem;
+  }
 `;
 
 export const noDash = styled.p`
@@ -40,7 +52,13 @@ export const noDash = styled.p`
   /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 400;
+  padding: 2.4rem 0 12.8rem 0;
+
+  @media (max-width: 767px) {
+    padding: 1.6rem 0 15.4rem 0;
+  }
 `;
+// 끝
 
 export const inputContainer = styled.div`
   position: relative;
@@ -91,7 +109,7 @@ export const searchIcon = styled.button`
   }
 `;
 
-export const menu: any = styled.p`
+export const menu = styled.p<{ display?: string }>`
   display: block;
   color: var(--gray-9FA6B2);
   /* font-family: Pretendard; */
@@ -99,7 +117,7 @@ export const menu: any = styled.p`
   font-weight: 400;
   @media (max-width: 767px) {
     font-size: 1.4rem;
-    display: ${(props: any) => props?.display || "grid"};
+    display: ${(props) => props?.display || "grid"};
     grid-template-columns: 1fr 1fr;
   }
 `;
@@ -199,14 +217,17 @@ export const section = styled.section`
   }
 `;
 
-export const colors: any = styled.div`
-  background-color: ${(props: any) => props?.backgroundColor || ""};
+export const colors = styled.div<{
+  display?: string;
+  backgroundColor?: string;
+}>`
+  background-color: ${(props) => props?.backgroundColor || ""};
   width: 0.8rem;
   height: 0.8rem;
   border-radius: 99px;
   @media (max-width: 767px) {
     margin-right: 0rem;
-    display: ${(props: any) => props?.display || ""};
+    display: ${(props) => props?.display || ""};
   }
 `;
 
