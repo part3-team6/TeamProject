@@ -19,7 +19,7 @@ export const ModalBG = styled.div`
   align-items: center;
   position: fixed;
   top: 0;
-  background-color: #f9f9f9;
+  background-color: rgba(0, 0, 0, 0.7);
 `;
 
 export const ModalContainer = styled.div`
