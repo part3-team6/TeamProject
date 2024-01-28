@@ -66,6 +66,19 @@ const ToDoModal: React.FC<ModalProps> = ({
     return;
   };
 
+  const handleModifyComment = (index: number) => {
+    const updatedComments = [...comments];
+    updatedComments[index] = comment;
+    setComments(updatedComments);
+    setComment("");
+  };
+
+  const handleDeleteComment = (index: number) => {
+    const updatedComments = [...comments];
+    updatedComments.splice(index, 1);
+    setComments(updatedComments);
+  };
+
   useEffect(() => {
     setColumn(columnName);
   }, [columnName]);
@@ -109,7 +122,12 @@ const ToDoModal: React.FC<ModalProps> = ({
             </div>
             <ul>
               {comments.map((comment, index) => (
-                <ToDoModalComment key={index} comment={comment} />
+                <ToDoModalComment
+                  key={index}
+                  comment={comment}
+                  onModifyComment={() => handleModifyComment(index)}
+                  onDeleteComment={() => handleDeleteComment(index)}
+                />
               ))}
             </ul>
           </S.ModalCommentInput>

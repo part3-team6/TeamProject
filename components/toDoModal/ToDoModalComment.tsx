@@ -4,9 +4,24 @@ import * as S from "./styled";
 interface CommentProps {
   key: number;
   comment?: string;
+  onModifyComment: (id: number) => void;
+  onDeleteComment: (id: number) => void;
 }
 
-const ToDoModalComment = (comments: CommentProps) => {
+const ToDoModalComment = ({
+  key,
+  comment,
+  onModifyComment,
+  onDeleteComment,
+}: CommentProps) => {
+  const handleModifyComment = () => {
+    onModifyComment(key);
+  };
+
+  const handleDeleteComment = () => {
+    onDeleteComment(key);
+  };
+
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
@@ -17,10 +32,10 @@ const ToDoModalComment = (comments: CommentProps) => {
           <h1>정만철</h1>
           <p>2022.12.27 14:00</p>
         </div>
-        <span>{comments.comment}</span>
+        <span>{comment}</span>
         <ul>
-          <li>수정</li>
-          <li>삭제</li>
+          <li onClick={handleModifyComment}>수정</li>
+          <li onClick={handleDeleteComment}>삭제</li>
         </ul>
       </S.ModalCommentContainer>
     </S.ModalComment>
