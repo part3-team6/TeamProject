@@ -263,7 +263,7 @@ export const ModalCommentInput = styled.div`
     }
   }
 
-  & ul {
+  & > ul {
     width: 450px;
     max-height: 120px;
     margin-top: 20px;
@@ -274,8 +274,7 @@ export const ModalCommentInput = styled.div`
 `;
 
 export const ModalComment = styled.li`
-  width: 450px;
-  height: 80px;
+  width: 400px;
   margin-bottom: 20px;
   display: flex;
   align-items: flex-start;
@@ -287,13 +286,16 @@ export const ModalCommentImg = styled.div`
 `;
 
 export const ModalCommentContainer = styled.div`
+  width: 350px;
+  height: 100%;
+
   & div:first-child {
     display: flex;
     align-items: center;
     font-size: 12px;
     font-weight: 400;
     margin-top: 8px;
-    margin-bottom: 6px;
+    margin-bottom: 10px;
 
     & h1 {
       margin: 0;

@@ -5,6 +5,10 @@ import { useState } from "react";
 
 interface CommentProps {
   id: number;
+  user: {
+    name: string;
+    image?: string;
+  };
   comment?: string;
   onEditComment: (id: number, editedComment: string) => void;
   onDeleteComment: (id: number) => void;
@@ -12,6 +16,7 @@ interface CommentProps {
 
 const ToDoModalComment = ({
   id,
+  user,
   comment,
   onEditComment,
   onDeleteComment,
@@ -40,11 +45,11 @@ const ToDoModalComment = ({
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
-        <Image src="/images/chip+.svg" alt="img" width={30} height={30} />
+        <Image src="/images/chip+.svg" alt="img" width={20} height={20} />
       </S.ModalCommentImg>
       <S.ModalCommentContainer>
         <div>
-          <h1>정만철</h1>
+          <h1>{user.name}</h1>
           <p>2022.12.27 14:00</p>
         </div>
         {isEditing ? (

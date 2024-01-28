@@ -125,6 +125,7 @@ const ToDoModal: React.FC<ModalProps> = ({
                 <ToDoModalComment
                   key={index}
                   id={index}
+                  user={user}
                   comment={comment}
                   onEditComment={handleEditComment}
                   onDeleteComment={() => handleDeleteComment(index)}
