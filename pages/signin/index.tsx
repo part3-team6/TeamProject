@@ -5,8 +5,10 @@ import Input from "@/components/input";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import useUserStore from "@/store/user";
 
 function SignIn() {
+  const { user, setUser } = useUserStore();
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
 
@@ -14,14 +16,14 @@ function SignIn() {
     email: "",
     password: "",
   });
-  console.log(value);
+
   const router = useRouter();
-  //   useEffect(() => {
-  //     const LS = localStorage.getItem("login");
-  //     if (LS !== null) {
-  //       router.push(`/`);
-  //     }
-  //   }, []);
+  useEffect(() => {
+    const LS = localStorage.getItem("login");
+    if (LS !== null) {
+      router.push(`/`);
+    }
+  }, []);
 
   const validateEmail = (email: string) => {
     const isValidEmail = /\S+@\S+\.\S+/.test(email);
@@ -52,17 +54,19 @@ function SignIn() {
     }
   };
 
-  async function login() {
+  async function login(e: React.FocusEvent<HTMLInputElement>) {
+    e.preventDefault();
     const res = await axios.post(`auth/login`, value);
     console.log(res.data.accessToken);
     localStorage.removeItem("login");
     localStorage.setItem("login", res.data.accessToken);
+    getUser();
     router.push("/");
   }
 
-  async function getFd() {
+  async function getUser() {
     const res = await axios.get(`users/me`);
-    console.log(res);
+    setUser(res.data);
   }
   return (
     <S.signinback>
