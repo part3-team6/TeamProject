@@ -1,25 +1,40 @@
 import Image from "next/image";
 import * as S from "./styled";
+import Button from "./Button";
+import { useState } from "react";
 
 interface CommentProps {
-  key: number;
+  id: number;
   comment?: string;
-  onModifyComment: (id: number) => void;
+  onEditComment: (id: number, editedComment: string) => void;
   onDeleteComment: (id: number) => void;
 }
 
 const ToDoModalComment = ({
-  key,
+  id,
   comment,
-  onModifyComment,
+  onEditComment,
   onDeleteComment,
 }: CommentProps) => {
-  const handleModifyComment = () => {
-    onModifyComment(key);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedComment, setEditedComment] = useState(comment || "");
+
+  const handleEditComment = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveEdit = () => {
+    onEditComment(id, editedComment);
+    setIsEditing(false);
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setEditedComment(comment || "");
   };
 
   const handleDeleteComment = () => {
-    onDeleteComment(key);
+    onDeleteComment(id);
   };
 
   return (
@@ -32,11 +47,26 @@ const ToDoModalComment = ({
           <h1>정만철</h1>
           <p>2022.12.27 14:00</p>
         </div>
-        <span>{comment}</span>
-        <ul>
-          <li onClick={handleModifyComment}>수정</li>
-          <li onClick={handleDeleteComment}>삭제</li>
-        </ul>
+        {isEditing ? (
+          <S.ModalEditComment>
+            <textarea
+              value={editedComment}
+              onChange={(e) => setEditedComment(e.target.value)}
+            />
+            <div>
+              <Button onClick={handleSaveEdit}>저장</Button>
+              <Button onClick={handleCancelEdit}>취소</Button>
+            </div>
+          </S.ModalEditComment>
+        ) : (
+          <div>
+            <span>{comment}</span>
+            <ul>
+              <li onClick={handleEditComment}>수정</li>
+              <li onClick={handleDeleteComment}>삭제</li>
+            </ul>
+          </div>
+        )}
       </S.ModalCommentContainer>
     </S.ModalComment>
   );

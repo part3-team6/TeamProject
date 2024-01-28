@@ -8,6 +8,7 @@ export const StyledButton = styled.button`
   cursor: pointer;
   color: var(--purple-760DDE);
   background-color: var(--white-FFFFFF);
+  transition: 0.3s;
 `;
 
 export const ModalBG = styled.div`
@@ -81,7 +82,6 @@ export const ModalOption = styled.div`
     border-radius: 4px;
     padding: 10px 12px;
     margin: 6px;
-    transition: 0.3s;
 
     &:hover {
       font-weight: 500;
@@ -249,13 +249,18 @@ export const ModalCommentInput = styled.div`
     position: absolute;
     bottom: 12px;
     right: 12px;
-    border: 1px solid var(--gray-D9D9D9);
+    border: 1px solid var(--violet-5534DA);
     border-radius: 5px;
     font-size: 12px;
     font-weight: 500;
     width: 90px;
     height: 32px;
     padding: 9px 31px;
+
+    &:hover {
+      background-color: var(--violet-5534DA);
+      color: var(--white-FFFFFF);
+    }
   }
 
   & ul {
@@ -282,7 +287,7 @@ export const ModalCommentImg = styled.div`
 `;
 
 export const ModalCommentContainer = styled.div`
-  & div {
+  & div:first-child {
     display: flex;
     align-items: center;
     font-size: 12px;
@@ -315,6 +320,36 @@ export const ModalCommentContainer = styled.div`
     & li {
       color: var(--gray-9FA6B2);
       text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+`;
+
+export const ModalEditComment = styled.div`
+  & textarea {
+    width: 350px;
+    height: 60px;
+    padding: 6px;
+    margin-top: 5px;
+    resize: none;
+    font-size: 12px;
+  }
+
+  & div {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+  }
+
+  & div button {
+    padding: 3px 6px;
+    border: 1px solid var(--black-333236);
+    border-radius: 5px;
+    color: var(--black-333236);
+
+    &:hover {
+      background-color: var(--black-333236);
+      color: var(--white-FFFFFF);
     }
   }
 `;

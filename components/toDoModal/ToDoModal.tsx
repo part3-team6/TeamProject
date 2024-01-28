@@ -66,16 +66,16 @@ const ToDoModal: React.FC<ModalProps> = ({
     return;
   };
 
-  const handleModifyComment = (index: number) => {
-    const updatedComments = [...comments];
-    updatedComments[index] = comment;
+  const handleEditComment = (id: number, editedComment: string) => {
+    const updatedComments = comments.map((c, i) =>
+      i === id ? editedComment : c,
+    );
     setComments(updatedComments);
-    setComment("");
   };
 
-  const handleDeleteComment = (index: number) => {
+  const handleDeleteComment = (id: number) => {
     const updatedComments = [...comments];
-    updatedComments.splice(index, 1);
+    updatedComments.splice(id, 1);
     setComments(updatedComments);
   };
 
@@ -124,8 +124,9 @@ const ToDoModal: React.FC<ModalProps> = ({
               {comments.map((comment, index) => (
                 <ToDoModalComment
                   key={index}
+                  id={index}
                   comment={comment}
-                  onModifyComment={() => handleModifyComment(index)}
+                  onEditComment={handleEditComment}
                   onDeleteComment={() => handleDeleteComment(index)}
                 />
               ))}
