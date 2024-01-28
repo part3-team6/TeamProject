@@ -7,8 +7,9 @@ interface InputProps {
   placeholder: string;
   data: string;
   wrong: boolean;
+  event: any;
 }
-function Input({ data, placeholder, title, wrong = false }: InputProps) {
+function Input({ data, placeholder, title, wrong = false, event }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
   const handlePwd = () => {
@@ -24,17 +25,19 @@ function Input({ data, placeholder, title, wrong = false }: InputProps) {
             type={data === "이메일" ? "email" : "text"}
             id={data}
             placeholder={placeholder}
+            onBlur={event}
           ></S.input>
           {wrong && <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>}
         </S.inputWrap>
       ) : (
         <S.inputWrap>
-          <S.label htmlFor={data}>{title}</S.label>
+          <S.label htmlFor={data + title}>{title}</S.label>
           <S.inputInner>
             <S.input
               type={pwd ? "password" : "text"}
-              id={data}
+              id={data + title}
               placeholder={placeholder}
+              onBlur={event}
             ></S.input>
             <S.imageWrap onClick={handlePwd}>
               {pwd ? (

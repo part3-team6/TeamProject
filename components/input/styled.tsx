@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 export const inputWrap = styled.div`
-  width: 52rem;
+  width: 100%;
+  max-width: 52rem;
   height: 7.7rem;
   display: flex;
   flex-direction: column;
