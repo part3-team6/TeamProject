@@ -3,10 +3,12 @@ import * as S from "./styled";
 import Image from "next/image";
 
 interface InputProps {
+  title: string;
+  placeholder: string;
   data: string;
+  wrong: boolean;
 }
-
-function Input({ data }: InputProps) {
+function Input({ data, placeholder, title, wrong = false }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
   const handlePwd = () => {
@@ -15,24 +17,24 @@ function Input({ data }: InputProps) {
 
   return (
     <>
-      {data === "email" ? (
+      {data !== "pwd" ? (
         <S.inputWrap>
-          <S.label htmlFor="email">이메일</S.label>
+          <S.label htmlFor={data}>{title}</S.label>
           <S.input
-            type="email"
-            id="email"
-            placeholder="이메일을 입력해 주세요"
+            type={data === "이메일" ? "email" : "text"}
+            id={data}
+            placeholder={placeholder}
           ></S.input>
-          <S.wrong>이메일 형식으로 작성해 주세요.</S.wrong>
+          {wrong && <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>}
         </S.inputWrap>
       ) : (
         <S.inputWrap>
-          <S.label htmlFor="password">비밀번호</S.label>
+          <S.label htmlFor={data}>{title}</S.label>
           <S.inputInner>
             <S.input
               type={pwd ? "password" : "text"}
-              id="password"
-              placeholder="비밀번호를 입력해 주세요"
+              id={data}
+              placeholder={placeholder}
             ></S.input>
             <S.imageWrap onClick={handlePwd}>
               {pwd ? (
@@ -42,7 +44,13 @@ function Input({ data }: InputProps) {
               )}
             </S.imageWrap>
           </S.inputInner>
-          <S.wrong>8자 이상 입력해 주세요.</S.wrong>
+
+          {wrong &&
+            (title === "비밀번호" ? (
+              <S.wrong>8자 이상 입력해 주세요.</S.wrong>
+            ) : (
+              <S.wrong>비밀번호를 확인해 주세요.</S.wrong>
+            ))}
         </S.inputWrap>
       )}
     </>
