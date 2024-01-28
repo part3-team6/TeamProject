@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
 export const inputWrap = styled.div`
-  width: 52rem;
+  width: 100%;
+  max-width: 52rem;
   height: 7.7rem;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
+
 export const inputInner = styled.div`
   position: relative;
 `;
@@ -23,6 +25,10 @@ export const input = styled.input`
   border-radius: 8px;
   border: 1px solid var(--violet-5534DA);
   background: var(--white-FFFFFF);
+  font-size: 1.6rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
 `;
 
 export const imageWrap = styled.div`
