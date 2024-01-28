@@ -9,7 +9,10 @@ interface CommentProps {
     name: string;
     image?: string;
   };
-  comment?: string;
+  comment: {
+    text: string;
+    time: string;
+  };
   onEditComment: (id: number, editedComment: string) => void;
   onDeleteComment: (id: number) => void;
 }
@@ -22,7 +25,7 @@ const ToDoModalComment = ({
   onDeleteComment,
 }: CommentProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [editedComment, setEditedComment] = useState(comment || "");
+  const [editedComment, setEditedComment] = useState(comment.text || "");
 
   const handleEditComment = () => {
     setIsEditing(true);
@@ -35,7 +38,7 @@ const ToDoModalComment = ({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedComment(comment || "");
+    setEditedComment(comment.text || "");
   };
 
   const handleDeleteComment = () => {
@@ -50,7 +53,7 @@ const ToDoModalComment = ({
       <S.ModalCommentContainer>
         <div>
           <h1>{user.name}</h1>
-          <p>2022.12.27 14:00</p>
+          <p>{comment.time}</p>
         </div>
         {isEditing ? (
           <S.ModalEditComment>
@@ -65,7 +68,7 @@ const ToDoModalComment = ({
           </S.ModalEditComment>
         ) : (
           <div>
-            <span>{comment}</span>
+            <span>{comment.text}</span>
             <ul>
               <li onClick={handleEditComment}>수정</li>
               <li onClick={handleDeleteComment}>삭제</li>

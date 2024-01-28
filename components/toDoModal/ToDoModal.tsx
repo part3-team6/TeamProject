@@ -33,7 +33,9 @@ const ToDoModal: React.FC<ModalProps> = ({
 }) => {
   const [column, setColumn] = useState("todo");
   const [comment, setComment] = useState<string>("");
-  const [comments, setComments] = useState<string[]>([]);
+  const [comments, setComments] = useState<{ text: string; time: string }[]>(
+    [],
+  );
   const [renderedOption, setRenderedOption] = useState<ReactElement | null>(
     null,
   );
@@ -44,9 +46,16 @@ const ToDoModal: React.FC<ModalProps> = ({
 
   const handleCommentSubmit = () => {
     try {
-      setComments((prevComments: string[]) => {
-        return [...prevComments, comment];
-      });
+      const currentTime = new Date().toLocaleString();
+      const newComment = {
+        text: comment,
+        time: currentTime,
+      };
+
+      setComments((prevComments: { text: string; time: string }[]) => [
+        ...prevComments,
+        newComment,
+      ]);
     } catch (err) {
       console.log("댓글 추가 중 오류 발생", err);
     }
@@ -67,10 +76,11 @@ const ToDoModal: React.FC<ModalProps> = ({
   };
 
   const handleEditComment = (id: number, editedComment: string) => {
-    const updatedComments = comments.map((c, i) =>
-      i === id ? editedComment : c,
-    );
-    setComments(updatedComments);
+    setComments((prevComments) => {
+      return prevComments.map((comment, i) =>
+        i === id ? { ...comment, text: editedComment } : comment,
+      );
+    });
   };
 
   const handleDeleteComment = (id: number) => {
@@ -121,12 +131,12 @@ const ToDoModal: React.FC<ModalProps> = ({
               <Button children="입력" onClick={handleCommentSubmit} />
             </div>
             <ul>
-              {comments.map((comment, index) => (
+              {comments.map((commentItem, index) => (
                 <ToDoModalComment
                   key={index}
                   id={index}
                   user={user}
-                  comment={comment}
+                  comment={commentItem}
                   onEditComment={handleEditComment}
                   onDeleteComment={() => handleDeleteComment(index)}
                 />
