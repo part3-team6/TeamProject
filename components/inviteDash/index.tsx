@@ -13,21 +13,25 @@ interface mockDataType {
 
 function InviteDash() {
   const [values, setValues] = useState("");
-  const [ismobile, setIsmobile] = useState(false);
-  const [isWidth, setIsWidth] = useState(NaN);
-  console.log(isWidth);
+  const [ismobile, setIsMobile] = useState(false);
+  // const [isWidth, setIsWidth] = useState(NaN);
+  console.log(ismobile);
 
   useEffect(() => {
-    const mobileResize = debounce(() => {
-      setIsWidth(window.innerWidth);
-      setIsmobile(window.innerWidth <= 767);
-    }, 100);
+    setIsMobile(window.innerWidth <= 767);
 
-    window.addEventListener("resize", mobileResize);
-    mobileResize();
+    window.addEventListener("resize", () => {
+      // 창의 너비가 변경될 때마다 isMobile 값을 업데이트
+      setIsMobile(window.innerWidth <= 767);
+    });
 
-    return () => window.removeEventListener("resize", mobileResize);
-  }, [isWidth]);
+    return () => {
+      window.removeEventListener("resize", () => {
+        // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
+        setIsMobile(window.innerWidth <= 767);
+      });
+    };
+  }, [setIsMobile]);
 
   return mock.length !== 0 ? (
     <>
