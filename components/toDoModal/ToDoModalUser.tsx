@@ -26,8 +26,8 @@ const ToDoModalUser: React.FC<ToDoModalUserProps> = ({ user, deadline }) => {
             src={user?.image || ""}
             alt="img"
             layout="intrinsic"
-            width={30}
-            height={30}
+            width={20}
+            height={20}
           />
           <p>{user?.name}</p>
         </div>

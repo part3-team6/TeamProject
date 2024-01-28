@@ -106,7 +106,7 @@ export const ToDoModalUser = styled.div`
   right: 28px;
 
   & > div {
-    height: 50px;
+    height: 45px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -124,6 +124,9 @@ export const ToDoModalUser = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+
+  @media (max-width: 768px) {
   }
 `;
 
@@ -185,6 +188,18 @@ export const ModalTag = styled.div`
     padding: 0 10px;
     background-color: #f9eee3;
     color: #d58d49;
+  }
+
+  & ul li:last-child {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & button {
+    background: none;
+    border: none;
+    color: var(--black-333236);
   }
 `;
 
