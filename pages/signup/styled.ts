@@ -18,6 +18,10 @@ export const logo = styled.div`
   margin: 17.3rem auto 1rem;
   width: 20rem;
   height: 27.9rem;
+
+  @media (max-width: 767) {
+    margin: 10.8rem auto 0.8rem;
+  }
 `;
 
 export const text = styled.p`
@@ -52,6 +56,12 @@ export const button = styled.button`
   /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 500;
+
+  @media (max-width: 767px) {
+    width: 35rem;
+    height: 5rem;
+    gap: 1rem;
+  }
 `;
 
 export const logintext = styled.div`
