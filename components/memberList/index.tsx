@@ -208,7 +208,7 @@ function List({ props }: { props: string }) {
         ) : (
           <S.MemberList>
             {mapData2.invitations.map((item, index) => (
-              <Email key={`${index}-member`} email={item.invitee.email} />
+              <Email key={`${index}-email`} email={item.invitee.email} />
             ))}
           </S.MemberList>
         )
