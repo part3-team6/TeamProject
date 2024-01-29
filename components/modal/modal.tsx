@@ -12,6 +12,7 @@ export interface ModalProps {
   cancel: MouseEventHandler;
   value: (value: string) => void;
   submit: any;
+  handleModalEsc: any;
 }
 
 // 중복된 컬럼인지 아닌지 테스트용 나중 변경 요망.
@@ -30,6 +31,7 @@ function Modal({
   cancel,
   value,
   submit,
+  handleModalEsc,
 }: ModalProps) {
   const [values, setValues] = useState("");
 
@@ -42,7 +44,7 @@ function Modal({
   return (
     <>
       <S.background>
-        <S.container onClick={handleStopPropagation}>
+        <S.container onClick={handleStopPropagation} onKeyDown={handleModalEsc}>
           <div>
             <S.title>{title}</S.title>
             <S.name>{name}</S.name>

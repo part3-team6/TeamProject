@@ -40,7 +40,7 @@ function Mydashboard() {
   const { side, setSide } = useSideStore();
   const [invited, setInvited] = useState<any>(null); // 초대 토글..? 이건 뭐드라..?
   const [currentPage, setCurrentPage] = useState<number>(1); // 페이지네이션
-  // const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
+  const [inviteAccepted, setInviteAccepted] = useState(false); // 초대 수락 거절 토글
   const [currentUser, setCurrentUser] = useState<any>(null); // 유저 정보
 
   // 아 이거 유저 정보 가져오는거.
@@ -81,6 +81,12 @@ function Mydashboard() {
 
   const handleNewDashboardClick = () => {
     setCreateDashboardModal(true);
+  };
+
+  const handleModalEsc = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      setCreateDashboardModal(false);
+    }
   };
 
   // 초대 수락 거절 토글
@@ -191,7 +197,7 @@ function Mydashboard() {
     myDashboard(currentPage, sizePages);
     sideBarDashboard();
     inviteList();
-  }, [setNewDashboard, setCurrentPage, setInvited]);
+  }, [setNewDashboard, setCurrentPage, setInvited, setInviteAccepted]);
 
   return (
     <>
@@ -205,6 +211,7 @@ function Mydashboard() {
           cancel={handleModalCancel}
           value={setValues}
           submit={createDashboard}
+          handleModalEsc={handleModalEsc}
         >
           <S.EllipseUl>
             {ColorData.map((color) => (
@@ -278,7 +285,11 @@ function Mydashboard() {
               </S.pageNation>
             </S.pageNationFlex>
           </S.dashboardGrid>
-          <InviteDash mock={invited} />
+          <InviteDash
+            mock={invited}
+            // setInviteAccepted={setInviteAccepted}
+            // inviteAccepted={inviteAccepted}
+          />
         </S.mainContainer>
       </S.background>
     </>

@@ -3,7 +3,7 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 import NoDash from "./noDash";
 import axios from "@/lib/axios";
-
+// , setInviteAccepted, inviteAccepted
 function InviteDash({ mock }: any) {
   const [ismobile, setIsMobile] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -25,6 +25,7 @@ function InviteDash({ mock }: any) {
   };
 
   const handleinviteToggle = async (action: string, invitationId: number) => {
+    console.log(action);
     try {
       let response;
       if (action === "accept") {
@@ -38,8 +39,20 @@ function InviteDash({ mock }: any) {
       }
     } catch (error) {
       console.error("초대 수락 거절 오류", error);
+    } finally {
+      window.location.reload();
     }
   };
+
+  // const handleinviteClick = (action: string, invitationId: number) => {
+  //   if (action === "accept") {
+  //     setInviteAccepted(true);
+  //     handleinviteToggle(action, invitationId, inviteAccepted);
+  //   } else if (action === "reject") {
+  //     setInviteAccepted(false);
+  //     handleinviteToggle(action, invitationId, inviteAccepted);
+  //   }
+  // };
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
@@ -54,8 +67,7 @@ function InviteDash({ mock }: any) {
 
   useEffect(() => {
     handleSearch();
-    handleinviteToggle();
-  }, [searchTerm]);
+  }, [searchTerm, setInviteAccepted]);
 
   return mock?.invitations?.length !== 0 ? (
     <S.container>
