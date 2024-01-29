@@ -3,14 +3,22 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
+interface Dashboard {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: string; // 혹은 Date 형식으로 바꿀 수도 있어, 라이브러리에 맞게
+  updatedAt: string; // 마찬가지로 Date 형식 고려해봐
+  createdByMe: boolean;
+  userId: number;
+}
+
 interface SidemenuProps {
-  mock: [
-    {
-      title: string;
-      mine: boolean;
-      color: string;
-    },
-  ];
+  mock: {
+    cursorId: number;
+    totalCount: number;
+    dashboards: Dashboard[];
+  };
 }
 
 function Sidemenu({ mock }: SidemenuProps) {
@@ -50,12 +58,12 @@ function Sidemenu({ mock }: SidemenuProps) {
         </S.more>
       </S.subTitle>
 
-      {mock.map((item, index) => (
+      {mock.dashboards.map((item, index) => (
         <S.sideList key={index}>
           <Link href={"/link"}>
             <S.colors style={{ backgroundColor: item.color }}></S.colors>
             <span>{item.title}</span>
-            {item.mine && (
+            {item.createdByMe && (
               <S.crown>
                 <Image src={"/images/crown.svg"} alt="crown" fill />
               </S.crown>

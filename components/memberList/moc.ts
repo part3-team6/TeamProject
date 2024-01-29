@@ -1,0 +1,208 @@
+export const mocData = {
+  members: [
+    {
+      id: 0,
+      userId: 0,
+      email: "eewww@",
+      nickname: "김",
+      profileImageUrl: "/images/ellipsUnchecked.svg",
+      createdAt: "2024-01-25T13:20:54.326Z",
+      updatedAt: "2024-01-25T13:20:54.326Z",
+      isOwner: true,
+    },
+    {
+      id: 1,
+      userId: 0,
+      email: "saddsad@",
+      nickname: "이",
+      profileImageUrl: "/images/ellipsUnchecked.svg",
+      createdAt: "2024-01-25T13:20:54.326Z",
+      updatedAt: "2024-01-25T13:20:54.326Z",
+      isOwner: false,
+    },
+    {
+      id: 2,
+      userId: 0,
+      email: "stridsads@ng",
+      nickname: "박",
+      profileImageUrl: "/images/ellipsUnchecked.svg",
+      createdAt: "2024-01-25T13:20:54.326Z",
+      updatedAt: "2024-01-25T13:20:54.326Z",
+      isOwner: false,
+    },
+    {
+      id: 3,
+      userId: 0,
+      email: "strindsad@g",
+      nickname: "최",
+      profileImageUrl: "/images/ellipsUnchecked.svg",
+      createdAt: "2024-01-25T13:20:54.326Z",
+      updatedAt: "2024-01-25T13:20:54.326Z",
+      isOwner: false,
+    },
+    {
+      id: 4,
+      userId: 0,
+      email: "adadad@",
+      nickname: "정",
+      profileImageUrl: "/images/ellipsUnchecked.svg",
+      createdAt: "2024-01-25T13:20:54.326Z",
+      updatedAt: "2024-01-25T13:20:54.326Z",
+      isOwner: false,
+    },
+  ],
+  totalCount: 5,
+};
+
+export const mocData2 = {
+  totalCount: 7,
+  invitations: [
+    {
+      id: 0,
+      inviter: {
+        nickname: "string",
+        email: "",
+        id: 0,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 0,
+      },
+      invitee: {
+        nickname: "string",
+        email: "1@",
+        id: 0,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 1,
+      inviter: {
+        nickname: "string",
+        email: "222",
+        id: 1,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 1,
+      },
+      invitee: {
+        nickname: "string",
+        email: "222",
+        id: 1,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 2,
+      inviter: {
+        nickname: "string",
+        email: "333",
+        id: 2,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 2,
+      },
+      invitee: {
+        nickname: "string",
+        email: "333",
+        id: 2,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 3,
+      inviter: {
+        nickname: "string",
+        email: "444",
+        id: 3,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 3,
+      },
+      invitee: {
+        nickname: "string",
+        email: "444",
+        id: 3,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 4,
+      inviter: {
+        nickname: "string",
+        email: "555",
+        id: 4,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 4,
+      },
+      invitee: {
+        nickname: "string",
+        email: "555",
+        id: 4,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 5,
+      inviter: {
+        nickname: "string",
+        email: "666",
+        id: 5,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 5,
+      },
+      invitee: {
+        nickname: "string",
+        email: "666",
+        id: 5,
+      },
+      inviteAccepted: false,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+    {
+      id: 6,
+      inviter: {
+        nickname: "string",
+        email: "666",
+        id: 6,
+      },
+      teamId: "string",
+      dashboard: {
+        title: "string",
+        id: 6,
+      },
+      invitee: {
+        nickname: "string",
+        email: "777",
+        id: 6,
+      },
+      inviteAccepted: true,
+      createdAt: "2024-01-26T10:53:15.019Z",
+      updatedAt: "2024-01-26T10:53:15.019Z",
+    },
+  ],
+};
