@@ -49,10 +49,12 @@ function NavBar({ black }: { black: boolean }) {
         )}
       </S.LogoContainer>
       <S.LoginoutContainer>
-        <Link href="https://nid.naver.com/nidlogin.login?mode=form&url=https://www.naver.com/">
+        <Link href={"/signin"}>
           <S.Loginout black={black}>로그인</S.Loginout>
         </Link>
-        <S.Loginout black={black}>로그아웃</S.Loginout>
+        <Link href={"/signup"}>
+          <S.Loginout black={black}>회원가입</S.Loginout>
+        </Link>
       </S.LoginoutContainer>
     </S.Nav>
   );

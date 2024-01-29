@@ -19,7 +19,7 @@ export default function Home() {
             </p>
           </S.mainText>
           <S.login>
-            <Link href={"/login"}>로그인하기</Link>
+            <Link href={"/signin"}>로그인하기</Link>
           </S.login>
         </S.mainWrap>
 
