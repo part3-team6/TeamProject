@@ -2,6 +2,9 @@ import { styled } from "styled-components";
 
 // height값 나중에 모달 화면띄울때 보고 맞추기
 export const background = styled.div`
+  width: 100%;
+  z-index: 1;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -9,18 +12,13 @@ export const background = styled.div`
   height: 108rem;
 `;
 
-// 마진값은 각 컴포넌트 확인용이라 나중에 지우기
-// width,height, background: pink값 또한 마찬가지
-export const container: any = styled.div`
+export const container: any = styled.div<{ width: string; height: string }>`
   padding: 3.2rem 2.8rem 2.8rem 2.8rem;
-  width: ${(props: any) => props?.width || ""};
-  height: ${(props: any) => props?.height || ""};
+  width: ${(props) => props?.width || ""};
+  height: ${(props) => props?.height || ""};
   flex-shrink: 0;
   border-radius: 0.8rem;
-  /* background: var(--white-FFFFFF); */
-  background: pink;
-  // 마진값도 나중에 지우기
-  margin: 2rem;
+  background: var(--white-FFFFFF);
   flex-direction: column;
   display: flex;
   justify-content: center;
@@ -32,9 +30,7 @@ export const container: any = styled.div`
   }
 `;
 
-// 마진값 나중에 모달 합쳐지고 보고 지우기
 export const buttonFlex = styled.div`
-  /* margin: ${(props: any) => props?.margin || "2.8rem"} 0 0 0; */
   margin-top: 2.8rem;
   justify-content: flex-end;
   display: flex;
@@ -137,10 +133,13 @@ export const errText = styled.p`
 
 // newDashboardColor (children) 부분
 
-export const colorEllipseInner = styled.div`
+export const colorEllipseInner = styled.div<{
+  backgroundColor: string;
+  choiceColor: string;
+}>`
   position: relative;
   & img {
-    display: ${(props: any) =>
+    display: ${(props) =>
       props.choiceColor === props.backgroundColor ? "block" : "none"};
   }
 `;
@@ -156,11 +155,11 @@ export const EllipseUl = styled.ul`
   }
 `;
 
-export const colorEllipse: any = styled.li`
+export const colorEllipse = styled.li<{ backgroundColor: string }>`
   width: 2.4rem;
   height: 2.4rem;
   background-color: var(
-    ${(props: any) => props?.backgroundColor || "--green-7AC555"}
+    ${(props) => props?.backgroundColor || "--green-7AC555"}
   );
   border-radius: 50%;
   cursor: pointer;
