@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import * as S from "./styled";
 import Image from "next/image";
 
@@ -7,9 +7,9 @@ interface InputProps {
   placeholder: string;
   data: string;
   wrong: boolean;
-  handleBlur: any;
-  handleChange: any;
-  value: any;
+  handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  value: string;
 }
 function Input({
   data,
