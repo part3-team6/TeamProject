@@ -5,8 +5,11 @@ import Link from "next/link";
 import { useState } from "react";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
 
 function Signup() {
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
   const [emailError, setemailError] = useState<boolean>(false);
@@ -19,7 +22,8 @@ function Signup() {
     pwd비밀번호: "",
     pwd비밀번호확인: "",
   });
-  console.log(pwdError);
+  console.log(showSuccessModal);
+  console.log(showErrorModal);
 
   // 이용약관 체크 확인
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +36,7 @@ function Signup() {
   // 각 input value값 추출
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    console.log(e.target.id);
+    // console.log(e.target.id);
 
     setValues((prevValues) => ({
       ...prevValues,
@@ -44,11 +48,25 @@ function Signup() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (isChecked && !emailError && !pwdCheckError && !nicknameError) {
-      await axios.post("users", { email, nickname, password });
+    try {
+      if (isChecked && !emailError && !pwdCheckError && !nicknameError) {
+        const response = await axios.post("users", {
+          email,
+          nickname,
+          password,
+        });
+        if (response.data.success) {
+          setShowSuccessModal(true);
+          router.push("/signin");
+        }
+      }
+    } catch (error: any) {
+      if (error.response && error.response.status === 409) {
+        setShowErrorModal(true);
+      } else {
+        console.error("회원가입 요청 오류:", error);
+      }
     }
-
-    router.push("/login");
   };
 
   // 유효성검사 true 나오게끔
@@ -96,20 +114,16 @@ function Signup() {
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.id) {
       case "이메일":
-        console.log(validateEmail(e.target.id));
         validateEmail(e.target.value);
         break;
       case "닉네임":
-        console.log(validateNickname(e.target.id));
         validateNickname(e.target.value);
         break;
       case "pwd비밀번호":
-        console.log(validatePassword(e.target.id));
         validatePassword(e.target.value);
         break;
       case "pwd비밀번호확인":
-        console.log(validatePasswordCheck(e.target.id));
-        validatePasswordCheck(e.target.value);
+        validatePasswordCheck(e.target.value, password);
         break;
       default:
         break;
@@ -118,6 +132,12 @@ function Signup() {
 
   return (
     <>
+      {showSuccessModal && (
+        <ModalCheckIt text="가입이 완료되었습니다!" submitButton="확인" />
+      )}
+      {showErrorModal && (
+        <ModalCheckIt text="이미 사용 중인 이메일입니다." submitButton="확인" />
+      )}
       <S.container>
         <S.logo>
           <Link href={"/"}>

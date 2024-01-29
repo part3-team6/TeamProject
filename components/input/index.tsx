@@ -60,6 +60,7 @@ function Input({
               id={data + title}
               placeholder={placeholder}
               onChange={handleChange}
+              onBlur={handleBlur}
               value={value}
             ></S.input>
             <S.imageWrap onClick={handlePwd}>
@@ -70,15 +71,15 @@ function Input({
               )}
             </S.imageWrap>
           </S.inputInner>
-          {wrong && title === "비밀번호확인" && (
+          {/* {wrong && title === "비밀번호" && (
             <S.wrong>8자 이상 입력해 주세요.</S.wrong>
-          )}
-          {/* {wrong &&
+          )} */}
+          {wrong &&
             (title === "비밀번호" ? (
               <S.wrong>8자 이상 입력해 주세요.</S.wrong>
             ) : (
               <S.wrong>비밀번호를 확인해 주세요.</S.wrong>
-            ))} */}
+            ))}
         </S.inputWrap>
       )}
     </>

@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 export const form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 3rem;
 `;
 
 export const container = styled.div`
