@@ -1,7 +1,10 @@
 import Head from "next/head";
 import axios from "@/lib/axios";
+import useUserStore from "@/store/user";
 
 export default function Test() {
+  const { user, setUser } = useUserStore();
+  console.log(user);
   async function getFolders() {
     const res = await axios.post(`auth/login`, {
       email: "codeit@codeit.com",

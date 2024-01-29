@@ -44,8 +44,7 @@ function SignIn() {
       password: password,
     }));
   };
-  //   email: "codeit@codeit.com",
-  //       password: "123456789",
+
   const handleFocusOut = (e: React.FocusEvent<HTMLInputElement>) => {
     if (e.target.id === "이메일") {
       validateEmail(e.target.value);
@@ -56,18 +55,28 @@ function SignIn() {
 
   async function login(e: React.FocusEvent<HTMLInputElement>) {
     e.preventDefault();
-    const res = await axios.post(`auth/login`, value);
-    console.log(res.data.accessToken);
-    localStorage.removeItem("login");
-    localStorage.setItem("login", res.data.accessToken);
-    getUser();
-    router.push("/");
-  }
 
-  async function getUser() {
-    const res = await axios.get(`users/me`);
-    setUser(res.data);
+    try {
+      const res = await axios.post("auth/login", value);
+      localStorage.setItem("login", res.data.accessToken);
+
+      await setUserData();
+      router.push("/");
+    } catch (error) {
+      setEmailError(true);
+      setPasswordError(true);
+      console.error("로그인 실패:", error);
+    }
   }
+  const setUserData = async () => {
+    try {
+      const respons = await axios.get("users/me");
+      setUser(respons.data);
+    } catch (error) {
+      console.error("사용자 정보 가져오기 실패:", error);
+    }
+  };
+
   return (
     <S.signinback>
       <S.signin>
