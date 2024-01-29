@@ -2,11 +2,14 @@ import { styled } from "styled-components";
 
 // height값 나중에 모달 화면띄울때 보고 맞추기
 export const background = styled.div`
+  width: 100%;
+  z-index: 1;
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
-  height: 108rem;
+  height: 121.1rem;
 `;
 
 // 마진값은 각 컴포넌트 확인용이라 나중에 지우기

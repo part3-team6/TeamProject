@@ -8,11 +8,12 @@ import { useRouter } from "next/router";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 
 function Signup() {
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [showErrorModal, setShowErrorModal] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
   const router = useRouter();
-  const [emailError, setemailError] = useState<boolean>(false);
+  const [modalToggle, setModalToggle] = useState(false); // 모달 토글
+  const [showSuccessModal, setShowSuccessModal] = useState(false); // 회원가입 성공 모달
+  const [showErrorModal, setShowErrorModal] = useState(false); // 회원가입 실패 모달
+  const [isChecked, setIsChecked] = useState(false); // 이용약관 체크
+  const [emailError, setemailError] = useState<boolean>(false); // 각종 에러 문구
   const [pwdError, setpwdError] = useState<boolean>(false);
   const [pwdCheckError, setpwdCheckError] = useState<boolean>(false);
   const [nicknameError, setNicknameError] = useState<boolean>(false);
@@ -21,16 +22,21 @@ function Signup() {
     닉네임: "",
     pwd비밀번호: "",
     pwd비밀번호확인: "",
-  });
+  }); // input value값
   console.log(showSuccessModal);
-  console.log(showErrorModal);
+  // console.log(showErrorModal);
 
   // 이용약관 체크 확인
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIsChecked(e.target.checked);
   };
 
-  const { 이메일: email, 닉네임: nickname, pwd비밀번호: password } = values;
+  const {
+    이메일: email,
+    닉네임: nickname,
+    pwd비밀번호: password,
+    pwd비밀번호확인: passwordCheck,
+  } = values;
   console.log(values);
 
   // 각 input value값 추출
@@ -67,6 +73,11 @@ function Signup() {
         console.error("회원가입 요청 오류:", error);
       }
     }
+  };
+
+  const handleModalToggle = () => {
+    setShowSuccessModal(false);
+    setShowErrorModal(false);
   };
 
   // 유효성검사 true 나오게끔
@@ -130,13 +141,45 @@ function Signup() {
     }
   };
 
+  // foucs in
+  const handleFocusEmail = () => {
+    setemailError(false);
+  };
+  const handleFocusNickname = () => {
+    setNicknameError(false);
+  };
+  const handleFocusPassword = () => {
+    setpwdError(false);
+  };
+  const handleFocusPasswordCheck = () => {
+    setpwdCheckError(false);
+  };
+  // 에러메세지가 없고 모든값이 빈값이 아닐때 버튼 활성화
+  const lastCheck =
+    isChecked &&
+    !emailError &&
+    !pwdCheckError &&
+    !nicknameError &&
+    email !== "" &&
+    password !== "" &&
+    nickname !== "" &&
+    passwordCheck == password;
+
   return (
     <>
       {showSuccessModal && (
-        <ModalCheckIt text="가입이 완료되었습니다!" submitButton="확인" />
+        <ModalCheckIt
+          text="가입이 완료되었습니다!"
+          submitButton="확인"
+          wrong={handleModalToggle}
+        />
       )}
       {showErrorModal && (
-        <ModalCheckIt text="이미 사용 중인 이메일입니다." submitButton="확인" />
+        <ModalCheckIt
+          text="이미 사용 중인 이메일입니다."
+          submitButton="확인"
+          wrong={handleModalToggle}
+        />
       )}
       <S.container>
         <S.logo>
@@ -155,6 +198,7 @@ function Signup() {
             wrong={emailError}
             handleChange={handleChange}
             value={values.이메일}
+            test={handleFocusEmail}
           />
           <Input
             data="닉네임"
@@ -164,6 +208,7 @@ function Signup() {
             value={values.닉네임}
             wrong={nicknameError}
             handleBlur={handleBlur}
+            test={handleFocusNickname}
           />
           <Input
             title="비밀번호"
@@ -173,6 +218,7 @@ function Signup() {
             value={values.pwd비밀번호}
             wrong={pwdError}
             handleBlur={handleBlur}
+            test={handleFocusPassword}
           />
           <Input
             title="비밀번호확인"
@@ -182,6 +228,7 @@ function Signup() {
             value={values.pwd비밀번호확인}
             wrong={pwdCheckError}
             handleBlur={handleBlur}
+            test={handleFocusPasswordCheck}
           />
           <S.checkBox>
             <S.checkInput
@@ -192,7 +239,7 @@ function Signup() {
             />
             <S.label htmlFor="agree">이용약관에 동의합니다</S.label>
           </S.checkBox>
-          {isChecked && !emailError && !pwdCheckError && !nicknameError ? (
+          {lastCheck ? (
             <S.button type="submit">가입하기</S.button>
           ) : (
             <S.noneButton>가입하기</S.noneButton>

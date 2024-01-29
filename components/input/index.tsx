@@ -10,6 +10,7 @@ interface InputProps {
   handleBlur: (e: React.FocusEvent<HTMLInputElement>) => void;
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
+  test: () => void;
 }
 function Input({
   data,
@@ -19,6 +20,7 @@ function Input({
   handleBlur,
   handleChange,
   value,
+  test,
 }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
@@ -38,6 +40,7 @@ function Input({
             placeholder={placeholder}
             onChange={handleChange}
             value={value}
+            onFocus={test}
           ></S.input>
           {wrong && data === "이메일" && (
             <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>
@@ -62,6 +65,7 @@ function Input({
               onChange={handleChange}
               onBlur={handleBlur}
               value={value}
+              onFocus={test}
             ></S.input>
             <S.imageWrap onClick={handlePwd}>
               {pwd ? (
