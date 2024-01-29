@@ -46,11 +46,31 @@ export const checkInput = styled.input`
   border: 1px solid var(--gray-D9D9D9);
 `;
 
-export const button = styled.button`
+export const noneButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 52rem;
   height: 5rem;
   border-radius: 0.8rem;
   background: var(--gray-9FA6B2);
+  color: var(--white, #fff);
+  /* font-family: Pretendard; */
+  font-size: 1.8rem;
+  font-weight: 500;
+
+  @media (max-width: 767px) {
+    width: 35rem;
+    height: 5rem;
+    gap: 1rem;
+  }
+`;
+
+export const button = styled.button`
+  width: 52rem;
+  height: 5rem;
+  border-radius: 0.8rem;
+  background: var(--violet-5534DA);
   color: var(--white, #fff);
   text-align: center;
   /* font-family: Pretendard; */

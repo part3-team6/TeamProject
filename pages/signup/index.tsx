@@ -51,6 +51,7 @@ function Signup() {
     router.push("/login");
   };
 
+  // 유효성검사 true 나오게끔
   const validateEmail = (email: string) => {
     const isvalidateEmail = /\S+@\S+\.\S+/.test(email);
     setemailError(!isvalidateEmail);
@@ -91,6 +92,7 @@ function Signup() {
     }));
   };
 
+  // foucs out
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     switch (e.target.id) {
       case "이메일":
@@ -170,7 +172,12 @@ function Signup() {
             />
             <S.label htmlFor="agree">이용약관에 동의합니다</S.label>
           </S.checkBox>
-          <S.button type="submit">가입하기</S.button>
+          {isChecked && !emailError && !pwdCheckError && !nicknameError ? (
+            <S.button type="submit">가입하기</S.button>
+          ) : (
+            <S.noneButton>가입하기</S.noneButton>
+          )}
+
           <S.logintext>
             이미 가입하셨나요?
             <S.linkLogin>
