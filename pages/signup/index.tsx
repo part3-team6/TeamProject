@@ -55,7 +55,7 @@ function Signup() {
           nickname,
           password,
         });
-        if (response.data.success) {
+        if (response.status === 201) {
           setShowSuccessModal(true);
           router.push("/signin");
         }
@@ -101,7 +101,7 @@ function Signup() {
   };
 
   const validateNickname = (nickname: string) => {
-    const isvalidateNuckname = nickname.length <= 10;
+    const isvalidateNuckname = nickname.length <= 10 && nickname.length !== 0;
     setNicknameError(!isvalidateNuckname);
 
     setValues((prev) => ({
