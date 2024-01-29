@@ -133,10 +133,12 @@ export const errText = styled.p`
 
 // newDashboardColor (children) 부분
 
-export const colorEllipseInner = styled.div<{
+interface colorEllipseInnerProps {
   backgroundColor: string;
   choiceColor: string;
-}>`
+}
+
+export const colorEllipseInner = styled.div<colorEllipseInnerProps>`
   position: relative;
   & img {
     display: ${(props) =>
