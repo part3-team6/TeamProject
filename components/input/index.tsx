@@ -41,6 +41,7 @@ function Input({
             onChange={handleChange}
             value={value}
             onFocus={test}
+            wrong={wrong}
           ></S.input>
           {wrong && data === "이메일" && (
             <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>
@@ -48,11 +49,6 @@ function Input({
           {wrong && data === "닉네임" && (
             <S.wrong>열 자 이하로 작성해주세요.</S.wrong>
           )}
-          {/* {wrong && data === "이메일" ? (
-            <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>
-          ) : (
-            <S.wrong>열 자 이하로 작성해주세요.</S.wrong>
-          )} */}
         </S.inputWrap>
       ) : (
         <S.inputWrap>
@@ -66,6 +62,7 @@ function Input({
               onBlur={handleBlur}
               value={value}
               onFocus={test}
+              wrong={wrong}
             ></S.input>
             <S.imageWrap onClick={handlePwd}>
               {pwd ? (
@@ -75,9 +72,6 @@ function Input({
               )}
             </S.imageWrap>
           </S.inputInner>
-          {/* {wrong && title === "비밀번호" && (
-            <S.wrong>8자 이상 입력해 주세요.</S.wrong>
-          )} */}
           {wrong &&
             (title === "비밀번호" ? (
               <S.wrong>8자 이상 입력해 주세요.</S.wrong>

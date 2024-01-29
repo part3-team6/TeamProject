@@ -7,24 +7,28 @@ import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 
+interface valuesType {
+  이메일: string;
+  닉네임: string;
+  pwd비밀번호: string;
+  pwd비밀번호확인: string;
+}
+
 function Signup() {
   const router = useRouter();
-  const [modalToggle, setModalToggle] = useState(false); // 모달 토글
-  const [showSuccessModal, setShowSuccessModal] = useState(false); // 회원가입 성공 모달
-  const [showErrorModal, setShowErrorModal] = useState(false); // 회원가입 실패 모달
-  const [isChecked, setIsChecked] = useState(false); // 이용약관 체크
+  const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false); // 회원가입 성공 모달
+  const [showErrorModal, setShowErrorModal] = useState<boolean>(false); // 회원가입 실패 모달
+  const [isChecked, setIsChecked] = useState<boolean>(false); // 이용약관 체크
   const [emailError, setemailError] = useState<boolean>(false); // 각종 에러 문구
   const [pwdError, setpwdError] = useState<boolean>(false);
   const [pwdCheckError, setpwdCheckError] = useState<boolean>(false);
   const [nicknameError, setNicknameError] = useState<boolean>(false);
-  const [values, setValues] = useState({
+  const [values, setValues] = useState<valuesType>({
     이메일: "",
     닉네임: "",
     pwd비밀번호: "",
     pwd비밀번호확인: "",
   }); // input value값
-  console.log(showSuccessModal);
-  // console.log(showErrorModal);
 
   // 이용약관 체크 확인
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,13 +41,10 @@ function Signup() {
     pwd비밀번호: password,
     pwd비밀번호확인: passwordCheck,
   } = values;
-  console.log(values);
 
   // 각 input value값 추출
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target;
-    // console.log(e.target.id);
-
     setValues((prevValues) => ({
       ...prevValues,
       [id]: value,
@@ -76,7 +77,7 @@ function Signup() {
   };
 
   const handleModalToggle = () => {
-    setShowSuccessModal(false);
+    // setShowSuccessModal(false);
     setShowErrorModal(false);
   };
 
@@ -101,7 +102,7 @@ function Signup() {
     }));
   };
 
-  const validatePasswordCheck = (passwordCheck: string, password?: string) => {
+  const validatePasswordCheck = (passwordCheck: string, password: string) => {
     const isvalidatePasswordCheck = password === passwordCheck;
     setpwdCheckError(!isvalidatePasswordCheck);
 
@@ -143,6 +144,7 @@ function Signup() {
 
   // foucs in
   const handleFocusEmail = () => {
+    //스위치 돌리기.
     setemailError(false);
   };
   const handleFocusNickname = () => {
@@ -154,16 +156,21 @@ function Signup() {
   const handleFocusPasswordCheck = () => {
     setpwdCheckError(false);
   };
+
   // 에러메세지가 없고 모든값이 빈값이 아닐때 버튼 활성화
   const lastCheck =
     isChecked &&
     !emailError &&
-    !pwdCheckError &&
     !nicknameError &&
+    !pwdError &&
+    !pwdCheckError &&
     email !== "" &&
     password !== "" &&
     nickname !== "" &&
-    passwordCheck == password;
+    passwordCheck == password &&
+    password.length >= 8 &&
+    /\S+@\S+\.\S+/.test(email) &&
+    nickname.length <= 10;
 
   return (
     <>
@@ -248,7 +255,7 @@ function Signup() {
           <S.logintext>
             이미 가입하셨나요?
             <S.linkLogin>
-              <Link href={"/login"}>로그인하기</Link>
+              <Link href={"/signin"}>로그인하기</Link>
             </S.linkLogin>
           </S.logintext>
         </S.form>

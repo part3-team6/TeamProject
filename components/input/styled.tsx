@@ -19,14 +19,16 @@ export const label = styled.label`
   font-weight: 400;
 `;
 
-export const input = styled.input`
+export const input = styled.input<{ wrong: boolean }>`
   width: 100%;
   padding: 15px 16px;
   border-radius: 8px;
-  border: 1px solid var(--violet-5534DA);
+  border: ${(props) =>
+    props.wrong
+      ? "1px solid var(--red-D6173A)"
+      : "1px solid var(--violet-5534DA)"};
   background: var(--white-FFFFFF);
   font-size: 1.6rem;
-  font-style: normal;
   font-weight: 400;
   line-height: normal;
 `;
