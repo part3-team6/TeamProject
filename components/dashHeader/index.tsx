@@ -76,6 +76,8 @@ function Header({ member, title }: HeaderProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const myNameRef = useRef<HTMLDivElement>(null);
 
+  console.log(mock?.totalCount);
+
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
