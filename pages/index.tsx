@@ -3,8 +3,17 @@ import Header from "@/components/nav/NavBar";
 import * as S from "./styled";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 export default function Home() {
+  const router = useRouter();
+  useEffect(() => {
+    const LS = localStorage.getItem("login");
+    if (LS !== null) {
+      router.push(`/boards`);
+    }
+  }, []);
   return (
     <S.landingBack>
       <Header black={true} />

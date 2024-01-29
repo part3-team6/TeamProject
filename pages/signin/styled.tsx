@@ -50,7 +50,7 @@ export const submit = styled.input`
   justify-content: center;
   align-items: center;
   border-radius: 8px;
-  background: var(--gray-9FA6B2);
+  background: var(--violet-5534DA);
   color: var(--white-FFFFFF);
   font-size: 1.8rem;
   font-weight: 500;

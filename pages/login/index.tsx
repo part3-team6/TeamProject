@@ -1,8 +1,10 @@
 import Head from "next/head";
 import axios from "@/lib/axios";
 import useUserStore from "@/store/user";
+import { useRouter } from "next/router";
 
 export default function Test() {
+  const router = useRouter();
   const { user, setUser } = useUserStore();
   console.log(user);
   async function getFolders() {
@@ -28,6 +30,8 @@ export default function Test() {
   };
   const clickclickclick = () => {
     localStorage.removeItem("login");
+    localStorage.removeItem("user-store");
+    router.push("/signin");
   };
 
   return (
