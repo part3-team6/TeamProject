@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import * as S from "@/components/toDoModal/styled";
+import * as S from "./styled";
 import Image from "next/image";
 import addFill from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
 import arrowDropDown from "@/public/images/arrowDropDown.svg";
 import calenderToday from "@/public/images/calendarToday.svg";
-import DropDownModal from "@/components/toDoModal/dropDownModal";
+import DropDownModal from "@/components/todoModal/dropDownModal";
 
 interface ModalInterface {}
 
