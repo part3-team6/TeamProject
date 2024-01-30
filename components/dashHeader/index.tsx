@@ -5,8 +5,14 @@ import { useEffect, useState } from "react";
 interface HeaderProps {
   mock: [
     {
-      color: string;
-      name: string;
+      id: number;
+      userId: number;
+      email: string;
+      nickname: string;
+      profileImageUrl: string;
+      createdAt: string;
+      updatedAt: string;
+      isOwner: boolean;
     },
   ];
   title: string;
@@ -61,7 +67,7 @@ function Header({ mock, title }: HeaderProps) {
                 key={index}
                 style={{ backgroundColor: item.color }}
               >
-                {item.name.slice(0, 1).toUpperCase()}
+                {item.nickname.slice(0, 1).toUpperCase()}
               </S.headerCircle>
             ))}
           {sliceMock ? (
