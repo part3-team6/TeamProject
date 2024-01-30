@@ -24,19 +24,19 @@ interface Member {
 function MyPage() {
   const { user, setUser } = useUserStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
-  const [previewUrl, setPreviewUrl] = useState(
-    user.profileImageUrl || "/images/more.svg",
-  );
+  const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
   const [profileValue, setProfileValue] = useState({
     nickname: "",
-    profileImageUrl: "",
+    profileImageUrl: null,
   });
-  const router = useRouter();
 
+  const router = useRouter();
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
-      setPreviewUrl(response.data.profileImageUrl); // 상태 업데이트 추가
+      if (response.data.profileImageUrl !== null) {
+        setPreviewUrl(response.data.profileImageUrl);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -73,7 +73,12 @@ function MyPage() {
     try {
       const res = await axios.put(`users/me`, profileValue);
       setUser(res.data);
-      router.push("/mypage");
+      console.log(res.data);
+      if (!res.data.profileImageUrl) {
+        setPreviewUrl("/images/more.svg");
+      } else {
+        setPreviewUrl(res.data.profileImageUrl);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -93,7 +98,7 @@ function MyPage() {
     if (file && file.type.startsWith("image/")) {
       const imageUrl = await uploadImage(file);
       if (imageUrl) {
-        setPreviewUrl(imageUrl);
+        setPreviewUrl(imageUrl.profileImageUrl);
         setProfileValue((prev) => ({
           ...prev,
           profileImageUrl: imageUrl.profileImageUrl,
@@ -107,6 +112,7 @@ function MyPage() {
       validateNick(e.target.value);
     }
   };
+
   return (
     <>
       <Header mock={mocks[0]} title="계정관리"></Header>
@@ -119,7 +125,8 @@ function MyPage() {
           <S.inputBox>
             <S.boxImg>
               <Image
-                src={previewUrl ? previewUrl : "/images/more.svg"}
+                key={previewUrl}
+                src={previewUrl}
                 alt="이미지 추가"
                 fill
                 placeholder="blur"
