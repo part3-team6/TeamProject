@@ -17,7 +17,7 @@ export const headerWrap = styled.div`
   }
   @media all and (max-width: 767px) {
     width: calc(100vw - 0.7rem);
-    margin-left: 0.7rem;
+    margin-left: 7rem;
   }
 `;
 
@@ -84,6 +84,7 @@ export const headerCircle = styled.div`
   align-items: center;
   justify-content: center;
   border: 1px solid #fff;
+  position: relative;
   z-index: 1;
   @media all and (max-width: 767px) {
     width: 3.4rem;
