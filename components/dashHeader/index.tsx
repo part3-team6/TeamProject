@@ -3,12 +3,10 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 
 interface HeaderProps {
-  mock: [
-    {
-      color: string;
-      name: string;
-    },
-  ];
+  mock: {
+    color: string;
+    name: string;
+  }[];
   title: string;
 }
 
