@@ -27,10 +27,6 @@ function Modal({
 }: ModalProps) {
   const [values, setValues] = useState("");
 
-  // input value값 잘 받아지는지 테스트 콘솔.
-  console.log(values);
-  // const handleInputValues = () => {};
-
   return (
     <>
       <S.background>

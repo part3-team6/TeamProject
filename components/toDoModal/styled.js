@@ -49,6 +49,9 @@ export const ModalHeader = styled.div`
   }
 
   & > div > button {
+    width: 28px;
+    height: 28px;
+    position: relative;
     background: none;
     border: none;
   }
@@ -124,6 +127,7 @@ export const ToDoModalUser = styled.div`
     display: flex;
     align-items: center;
     gap: 8px;
+    position: relative;
   }
 
   @media (max-width: 768px) {
@@ -134,6 +138,7 @@ export const ModalContent = styled.div`
   width: 100%;
   max-height: 663px;
   padding: 0 28px;
+  position: relative;
 `;
 
 export const ModalTag = styled.div`
@@ -211,6 +216,12 @@ export const ModalWords = styled.p`
   padding: 16px 0;
 `;
 
+export const ModalContentImage = styled.div`
+  width: 450px;
+  height: 200px;
+  position: relative;
+`;
+
 export const ModalCommentInput = styled.div`
   width: 450px;
   margin-top: 24px;
@@ -283,6 +294,12 @@ export const ModalComment = styled.li`
 export const ModalCommentImg = styled.div`
   margin-top: 4px;
   margin-right: 10px;
+  position: relative;
+
+  & div {
+    width: 34px;
+    height: 34px;
+  }
 `;
 
 export const ModalCommentContainer = styled.div`

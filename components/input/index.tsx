@@ -11,6 +11,7 @@ interface InputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
   test: () => void;
+  disabled?: string;
   // hookform: any;
 }
 function Input({
@@ -22,6 +23,7 @@ function Input({
   handleChange,
   value,
   test,
+  disabled,
 }: // hookform,
 InputProps) {
   const [pwd, setPwd] = useState(true);
@@ -45,6 +47,7 @@ InputProps) {
             value={value}
             onFocus={test}
             wrong={wrong}
+            disabled={disabled ? disabled : null}
           ></S.input>
           {wrong && data === "이메일" && (
             <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>

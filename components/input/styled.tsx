@@ -8,6 +8,7 @@ export const inputWrap = styled.div`
   flex-direction: column;
   gap: 0.8rem;
 `;
+
 export const inputInner = styled.div`
   position: relative;
 `;

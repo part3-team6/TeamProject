@@ -48,7 +48,9 @@ const ToDoModalComment = ({
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
-        <Image src="/images/chip+.svg" alt="img" width={20} height={20} />
+        <div>
+          <Image src={user?.image || ""} alt="img" fill />
+        </div>
       </S.ModalCommentImg>
       <S.ModalCommentContainer>
         <div>

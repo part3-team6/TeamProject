@@ -1,12 +1,10 @@
 import { ReactElement, useEffect, useState } from "react";
 import Button from "./Button";
-import closeX from "../../public/images/closeX.svg";
-import Image from "next/image";
-import optionDots from "../../public/images/3dot.svg";
 import ToDoModalComment from "./ToDoModalComment";
 import ToDoModalOption from "./ToDoModalOption";
 import ToDoModalTag from "./ToDoModalTag";
 import ToDoModalUser from "./ToDoModalUser";
+import Image from "next/image";
 import * as S from "./styled";
 
 interface ModalProps {
@@ -100,10 +98,10 @@ const ToDoModal: React.FC<ModalProps> = ({
           <h1>{title}</h1>
           <div>
             <button onClick={onClickModalOption}>
-              <Image src={optionDots} alt="3dot" width={32} height={32} />
+              <Image src={"/images/3dot.svg"} alt="3dot" fill />
             </button>
             <button onClick={onClickModalClose}>
-              <Image src={closeX} alt="closeX" width={32} height={32} />
+              <Image src={"/images/closeX.svg"} alt="closeX" fill />
             </button>
             {renderedOption}
           </div>
@@ -119,7 +117,9 @@ const ToDoModal: React.FC<ModalProps> = ({
             <ToDoModalTag tags={tags} />
           </S.ModalTag>
           <S.ModalWords>{content}</S.ModalWords>
-          <Image src={img || ""} alt="img" width={450} height={205} />
+          <S.ModalContentImage>
+            <Image src={img || ""} alt="img" fill />
+          </S.ModalContentImage>
           <S.ModalCommentInput>
             <h3>댓글</h3>
             <div>
