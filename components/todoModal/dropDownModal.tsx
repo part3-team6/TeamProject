@@ -1,5 +1,5 @@
 import React from "react";
-import * as S from "@/components/toDoModal/styled";
+import * as S from "@/components/todoModal/styled";
 
 function DropDownModal() {
   return (
