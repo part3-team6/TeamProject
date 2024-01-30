@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "@/components/toDoModal/styled";
 import Image from "next/image";
 import addFill from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
 import arrowDropDown from "@/public/images/arrowDropDown.svg";
 import calenderToday from "@/public/images/calendarToday.svg";
+import DropDownModal from "@/components/toDoModal/dropDownModal";
 
 interface ModalInterface {}
 
 function EditModal({}: ModalInterface) {
+  const [statusDropDown, setStatusDropDown] = useState(false);
+  const [managerDropDown, setManagerDropDown] = useState(false);
+
+  const handleStatusDropDownClick = () => {
+    setStatusDropDown(!statusDropDown);
+  };
+
+  const handleManagerDropDownClick = () => {
+    setManagerDropDown(!managerDropDown);
+  };
+
   return (
     <>
       <S.layer>
@@ -17,7 +29,7 @@ function EditModal({}: ModalInterface) {
             <S.flexContainer>
               <S.flexContainers>
                 <S.inputTitle>상태</S.inputTitle>
-                <S.arrowDropContainer>
+                <S.arrowDropContainer onClick={handleStatusDropDownClick}>
                   <S.statusInput />
                   <S.arrowDropWrapper style={{ right: "1rem" }}>
                     <Image
@@ -28,6 +40,7 @@ function EditModal({}: ModalInterface) {
                     ></Image>
                   </S.arrowDropWrapper>
                 </S.arrowDropContainer>
+                {statusDropDown && <DropDownModal />}
               </S.flexContainers>
 
               <S.flexContainers>
@@ -42,6 +55,7 @@ function EditModal({}: ModalInterface) {
                       top: "20%",
                       right: "1rem",
                     }}
+                    onClick={handleManagerDropDownClick}
                   >
                     <Image
                       src={arrowDropDown}
@@ -51,8 +65,10 @@ function EditModal({}: ModalInterface) {
                     />
                   </div>
                 </div>
+                {managerDropDown && <DropDownModal />}
               </S.flexContainers>
             </S.flexContainer>
+
             <S.inputTitle>제목 *</S.inputTitle>
             <S.input placeholder="제목을 입력해 주세요" />
             <S.inputTitle>설명 *</S.inputTitle>

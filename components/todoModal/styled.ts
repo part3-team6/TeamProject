@@ -227,6 +227,29 @@ export const StatusInputContainer = styled.div`
 export const ArrowIcon = styled.div`
   position: absolute;
   top: 50%;
-  right: 10px; // 원하는 간격으로 조절하세요
+  right: 10px;
   transform: translateY(-50%);
+`;
+
+export const dropDownContainer = styled.div`
+  position: relative;
+`;
+
+export const dropDownWrapper = styled.div`
+  position: absolute;
+
+  width: 21.7rem;
+  height: 11.8rem;
+
+  border-radius: 6px;
+  border: 1px solid var(--gray-D9D9D9);
+  background: var(--white-FFFFFF);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.08);
+
+  z-index: 1;
+
+  @media (max-width: 767px) {
+    width: 28.7rem;
+    height: 11.8rem;
+  }
 `;

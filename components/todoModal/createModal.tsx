@@ -1,13 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "@/components/toDoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
 import arrowDropDown from "@/public/images/arrowDropDown.svg";
 import calenderToday from "@/public/images/calendarToday.svg";
+import DropDownModal from "./dropDownModal";
+import axios from "@/lib/axios";
 
 interface ModalInterface {}
 
 function CreateModal({}: ModalInterface) {
+  const [managerDropDown, setManagerDropDown] = useState(false);
+
+  const handleManagerDropDownClick = () => {
+    setManagerDropDown(!managerDropDown);
+  };
+
+  function handlePressEnter(e: any) {
+    if (e.key === "Enter") e.preventDefault();
+  }
+
+  async function fetchMembers() {
+    try {
+      const response = await axios.get("members");
+      const members = response.data;
+
+      console.log("회원 목록:", members);
+    } catch (error) {
+      console.error("회원 가져오기 오류:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
   return (
     <>
       <S.layer>
@@ -15,8 +42,9 @@ function CreateModal({}: ModalInterface) {
           <div>
             <S.mainTitle>할 일 생성</S.mainTitle>
             <S.inputTitle>담당자</S.inputTitle>
-            <S.arrowDropContainer>
+            <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput placeholder="이름을 입력해 주세요"></S.managerInput>
+              {managerDropDown && <DropDownModal />}
               <S.arrowDropWrapper>
                 <Image
                   src={arrowDropDown}
