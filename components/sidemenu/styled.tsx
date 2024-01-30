@@ -2,11 +2,13 @@ import styled from "styled-components";
 
 export const sidemenu = styled.div`
   width: 30rem;
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   padding: 2rem 2.4rem;
   border-right: 0.1rem solid var(--gray-D9D9D9);
+  position: absolute;
+  top: 0;
   @media all and (max-width: 1199px) {
     width: 16rem;
   }

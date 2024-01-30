@@ -4,9 +4,15 @@ interface ModalCheckItProps {
   submitButton: string;
   text: string;
   cancelButton?: string;
+  wrong: any;
 }
 
-function ModalCheckIt({ submitButton, text, cancelButton }: ModalCheckItProps) {
+function ModalCheckIt({
+  submitButton,
+  text,
+  cancelButton,
+  wrong,
+}: ModalCheckItProps) {
   return (
     <>
       <S.background>
@@ -14,7 +20,7 @@ function ModalCheckIt({ submitButton, text, cancelButton }: ModalCheckItProps) {
           <S.description>{text}</S.description>
           <S.buttonFlex>
             {cancelButton && <S.cancelButton>{cancelButton}</S.cancelButton>}
-            <S.button>{submitButton}</S.button>
+            <S.button onClick={wrong}>{submitButton}</S.button>
           </S.buttonFlex>
         </S.container>
       </S.background>

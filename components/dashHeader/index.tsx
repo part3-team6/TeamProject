@@ -1,16 +1,29 @@
 import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
+import useUserStore from "@/store/user";
 
 interface HeaderProps {
   mock: {
-    color: string;
-    name: string;
-  }[];
+    members: [
+      {
+        id: number;
+        userId: number;
+        email: string;
+        nickname: string;
+        profileImageUrl: string;
+        createdAt: string;
+        updatedAt: string;
+        isOwner: boolean;
+      },
+    ];
+    totalCount: number;
+  };
   title: string;
 }
 
 function Header({ mock, title }: HeaderProps) {
+  const { user } = useUserStore();
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
 
@@ -29,7 +42,10 @@ function Header({ mock, title }: HeaderProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const sliceMock = isTablet ? mock.slice(0, 2) : mock.slice(0, 5);
+  const sliceMock = isTablet
+    ? mock.members.slice(0, 2)
+    : mock.members.slice(0, 5);
+
   return (
     <S.headerWrap>
       <S.dashBoard>{title}</S.dashBoard>
@@ -57,22 +73,28 @@ function Header({ mock, title }: HeaderProps) {
             sliceMock.slice(0, 4).map((item, index) => (
               <S.headerCircle
                 key={index}
-                style={{ backgroundColor: item.color }}
+                style={{ backgroundImage: item.profileImageUrl }}
               >
-                {item.name.slice(0, 1).toUpperCase()}
+                {item.nickname.slice(0, 1).toUpperCase()}
               </S.headerCircle>
             ))}
           {sliceMock ? (
-            <S.headerCircle>+{mock.length - 2}</S.headerCircle>
+            <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
           ) : (
-            <S.headerCircle>+{mock.length - 4}</S.headerCircle>
+            <S.headerCircle>+{mock.totalCount - 4}</S.headerCircle>
           )}
         </S.member>
 
         <S.line></S.line>
         <S.myName>
-          <S.headerCircle>내</S.headerCircle>
-          <span>내 이름</span>
+          <S.headerCircle>
+            {!user.profileImageUrl ? (
+              user.nickname.slice(0, 1).toUpperCase()
+            ) : (
+              <Image src={user.profileImageUrl} alt="유저 프로필" fill />
+            )}
+          </S.headerCircle>
+          <span>{user.nickname}</span>
         </S.myName>
       </S.headerData>
     </S.headerWrap>
