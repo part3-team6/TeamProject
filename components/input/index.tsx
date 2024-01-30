@@ -11,6 +11,7 @@ interface InputProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string;
   test: () => void;
+  // hookform: any;
 }
 function Input({
   data,
@@ -21,7 +22,8 @@ function Input({
   handleChange,
   value,
   test,
-}: InputProps) {
+}: // hookform,
+InputProps) {
   const [pwd, setPwd] = useState(true);
 
   const handlePwd = () => {
@@ -34,6 +36,7 @@ function Input({
         <S.inputWrap>
           <S.label htmlFor={data}>{title}</S.label>
           <S.input
+            // {...hookform}
             onBlur={handleBlur}
             type={data === "이메일" ? "email" : "text"}
             id={data}
@@ -47,7 +50,7 @@ function Input({
             <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>
           )}
           {wrong && data === "닉네임" && (
-            <S.wrong>열 자 이하로 작성해주세요.</S.wrong>
+            <S.wrong>10자 이하로 작성해주세요.</S.wrong>
           )}
         </S.inputWrap>
       ) : (
@@ -55,6 +58,7 @@ function Input({
           <S.label htmlFor={data + title}>{title}</S.label>
           <S.inputInner>
             <S.input
+              // {...hookform}
               type={pwd ? "password" : "text"}
               id={data + title}
               placeholder={placeholder}
