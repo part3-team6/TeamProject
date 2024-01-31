@@ -4,6 +4,7 @@ export const container = styled.div`
   border-radius: 0.8rem;
   width: 102.2rem;
   flex-shrink: 0;
+  background: var(--white-FFFFFF);
 
   @media (max-width: 1199px) {
     width: 50.4rem;

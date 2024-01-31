@@ -5,18 +5,17 @@ import useUserStore from "@/store/user";
 
 interface HeaderProps {
   mock: {
-    members: [
-      {
-        id: number;
-        userId: number;
-        email: string;
-        nickname: string;
-        profileImageUrl: string;
-        createdAt: string;
-        updatedAt: string;
-        isOwner: boolean;
-      },
-    ];
+    members: {
+      id?: number;
+      userId?: number;
+      email?: string;
+      nickname: string;
+      profileImageUrl?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      isOwner?: boolean;
+    }[];
+
     totalCount: number;
   };
   title: string;
@@ -88,13 +87,13 @@ function Header({ mock, title }: HeaderProps) {
         <S.line></S.line>
         <S.myName>
           <S.headerCircle>
-            {!user.profileImageUrl ? (
-              user.nickname.slice(0, 1).toUpperCase()
+            {!user?.profileImageUrl ? (
+              user?.nickname.slice(0, 1).toUpperCase()
             ) : (
-              <Image src={user.profileImageUrl} alt="유저 프로필" fill />
+              <Image src={user?.profileImageUrl} alt="유저 프로필" fill />
             )}
           </S.headerCircle>
-          <span>{user.nickname}</span>
+          <span>{user?.nickname}</span>
         </S.myName>
       </S.headerData>
     </S.headerWrap>
