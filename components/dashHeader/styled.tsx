@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const headerWrap = styled.div`
-  width: calc(100vw - 30rem);
+  width: calc(100% - 30rem);
   height: 7rem;
   border-bottom: 1px solid var(--gray-D9D9D9);
   display: flex;
