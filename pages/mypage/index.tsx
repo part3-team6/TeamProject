@@ -31,6 +31,8 @@ function MyPage() {
   });
 
   const router = useRouter();
+
+  // -- 이미지 / 비밀번호 변경 시작
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
@@ -98,11 +100,13 @@ function MyPage() {
     if (file && file.type.startsWith("image/")) {
       const imageUrl = await uploadImage(file);
       if (imageUrl) {
-        setPreviewUrl(imageUrl.profileImageUrl);
         setProfileValue((prev) => ({
           ...prev,
           profileImageUrl: imageUrl.profileImageUrl,
         }));
+
+        setPreviewUrl(imageUrl.profileImageUrl);
+        router.push("/mypage");
       }
     }
   };
@@ -112,6 +116,7 @@ function MyPage() {
       validateNick(e.target.value);
     }
   };
+  // -- 이미지 / 비밀번호 변경 끝
 
   return (
     <>
