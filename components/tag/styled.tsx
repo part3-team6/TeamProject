@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const tag = styled.div`
+export const tag = styled.div<{ length: number }>`
   padding: 0.4rem 0.6rem;
   background-color: ${(props) => {
     switch (props.length) {

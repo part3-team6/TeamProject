@@ -9,6 +9,8 @@ import Header from "@/components/dashHeader";
 import Image from "next/image";
 import Input from "@/components/input";
 import { useRouter } from "next/router";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
+import useToggle from "@/hooks/useToggle";
 
 interface Member {
   id: number;
@@ -25,20 +27,27 @@ function MyPage() {
   const { user, setUser } = useUserStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
+  const [pwdWrong, setPwdWrong] = useState(false);
+  const [modalText, setModalText] = useState("");
+  const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
   const [profileValue, setProfileValue] = useState({
-    nickname: "",
+    nickname: user.nickname,
     profileImageUrl: null,
   });
-
   const router = useRouter();
-
-  // -- 이미지 / 비밀번호 변경 시작
+  console.log(pwdWrong);
+  const [pwdValue, setPwdValue] = useState({
+    password: "",
+    newPassword: "",
+  });
+  console.log(pwdValue);
+  // -- 이미지 / 닉네임 변경 시작
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
-      if (response.data.profileImageUrl !== null) {
-        setPreviewUrl(response.data.profileImageUrl);
-      }
+      // if (response.data.profileImageUrl !== null) {
+      //   setPreviewUrl(response.data.profileImageUrl);
+      // }
     } catch (error) {
       console.error(error);
     }
@@ -116,10 +125,64 @@ function MyPage() {
       validateNick(e.target.value);
     }
   };
-  // -- 이미지 / 비밀번호 변경 끝
+  // -- 이미지 / 닉네임 변경 끝
+
+  // 비밀번호 변경 시작
+  const pwdChange = async (e: MouseEvent) => {
+    e.preventDefault();
+    if (!pwdWrong && pwdValue.password !== "" && pwdValue.newPassword !== "") {
+      try {
+        const res = await axios.put("/auth/password", pwdValue);
+        console.log(res);
+        setModalText("비밀번호가 변경 되었습니다");
+        showPwdToggle();
+        router.push("/mypage");
+      } catch (err) {
+        console.log(err);
+        setModalText(err.response.data.message);
+        showPwdToggle();
+      }
+    }
+    // setModalText("값이 전부 비어있습니다.");
+    // showPwdToggle();
+  };
+
+  const getPwd = (e: MouseEvent) => {
+    if (pwdValue.password === "") {
+      setPwdWrong(true);
+    }
+    setPwdValue((prev) => ({
+      ...prev,
+      password: e.target.value,
+    }));
+  };
+
+  const getNewPwd = (e: MouseEvent) => {
+    setPwdValue((prev) => ({
+      ...prev,
+      newPassword: e.target.value,
+    }));
+  };
+
+  const checkPwd = (e: MouseEvent) => {
+    if (pwdValue.newPassword !== e.target.value) {
+      setPwdWrong(true);
+    } else {
+      setPwdWrong(false);
+    }
+  };
+
+  // 비밀번호 변경 끝
 
   return (
     <>
+      {showPwdError && (
+        <ModalCheckIt
+          text={modalText}
+          submitButton="확인"
+          wrong={showPwdToggle}
+        />
+      )}
       <Header mock={mocks[0]} title="계정관리"></Header>
       <Sidemenu mock={mock}></Sidemenu>
       <S.mypage>
@@ -170,31 +233,42 @@ function MyPage() {
             type="submit"
             // onClick={handleChangeProfile}
             value={"저장"}
+            pwdWrong={false}
           />
         </S.box>
 
-        <S.box>
+        <S.box onSubmit={pwdChange}>
           <S.boxTitle>비밀번호 변경</S.boxTitle>
           <S.inputBox>
             <S.inputs>
               <Input
                 title="현재 비밀번호"
                 placeholder="현재 비밀번호 입력"
-                data="현재 비밀번호"
+                data="pwd"
+                handleBlur={getPwd}
               />
               <Input
                 title="새 비밀번호"
                 placeholder="새 비밀번호 입력"
-                data="새 비밀번호"
+                data="pwd"
+                handleBlur={getNewPwd}
+                handleChange={checkPwd}
               />
               <Input
                 title="새 비밀번호 확인"
                 placeholder="새 비밀번호 입력"
-                data="새 비밀번호 확인"
+                data="pwd"
+                handleChange={checkPwd}
+                wrong={pwdWrong}
               />
             </S.inputs>
           </S.inputBox>
-          <S.submit type="submit" value={"변경"} />
+          <S.submit
+            type="submit"
+            value="변경"
+            pwdWrong={pwdWrong}
+            // disabled={pwdWrong}
+          />
         </S.box>
       </S.mypage>
     </>

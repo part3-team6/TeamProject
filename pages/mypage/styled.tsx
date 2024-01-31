@@ -78,7 +78,10 @@ export const submit = styled.input`
   line-height: 3.2rem;
   font-weight: 500;
   cursor: pointer;
+  display: block;
+  opacity: ${(props) => (props.pwdWrong ? 0.5 : 1)};
 `;
+
 export const inputBox = styled.div`
   display: flex;
   gap: 1.6rem;
