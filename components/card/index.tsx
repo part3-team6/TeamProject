@@ -5,18 +5,16 @@ import Link from "next/link";
 import Tag from "../tag";
 
 interface CardProps {
-  mock: [
-    {
-      assigneeUserId: number;
-      dashboardId: number;
-      columnId: number;
-      title: string;
-      description: string;
-      dueDate: string;
-      tags: [string];
-      imageUrl: string;
-    },
-  ];
+  mock: {
+    assigneeUserId: number;
+    dashboardId: number;
+    columnId: number;
+    title: string;
+    description: string;
+    dueDate: string;
+    tags: string[];
+    imageUrl: string;
+  }[];
 }
 
 function Card({ mock }: CardProps) {
@@ -54,7 +52,7 @@ function Card({ mock }: CardProps) {
               <S.tagDate>
                 <S.tagWrap>
                   {item.tags.map((tag, tagIndex) => (
-                    <Tag tag={tag} tagIndex={tagIndex} />
+                    <Tag tags={tag} tagIndex={tagIndex} />
                   ))}
                 </S.tagWrap>
                 <S.dateWrap>

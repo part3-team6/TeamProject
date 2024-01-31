@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
 export const DashboardContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: orange;
   margin: 0;
 `;
 
-export const DashboardMain = styled.div``;
+export const DashboardMain = styled.div`
+  height: 100%;
+  margin-left: 30rem;
+
+  & ul {
+    display: flex;
+  }
+`;

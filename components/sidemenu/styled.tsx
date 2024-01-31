@@ -9,6 +9,7 @@ export const sidemenu = styled.div`
   border-right: 0.1rem solid var(--gray-D9D9D9);
   position: absolute;
   top: 0;
+  background-color: var(--white-FFFFFF);
   @media all and (max-width: 1199px) {
     width: 16rem;
   }
