@@ -10,6 +10,7 @@ import ColorData from "@/components/modal/newDashboardColor";
 import InviteDash from "@/components/inviteDash";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
+import useUserStore from "@/store/user";
 
 interface newDashboard {
   cursorId?: number;
@@ -27,21 +28,30 @@ interface newDashboard {
 
 function Mydashboard() {
   const router = useRouter();
+  const { user } = useUserStore();
   const [createDashboardModal, setCreateDashboardModal] = useState(false);
   const [choiceColor, setChoiceColor] = useState("");
   const [values, setValues] = useState<string>("");
-  const [newDashboard, setNewDashboard] = useState<newDashboard | any>({});
+  const [newDashboard, setNewDashboard] = useState<newDashboard | any>(Object);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  // console.log(values);
-  // console.log(choiceColor);
   const { dashboards } = newDashboard;
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
+  // 대쉬보드 클릭 Id 값 따오기
+  // console.log(dashboards);
 
+  // 대쉬보드 총 페이지
+  const sizePages = 5;
+  const totalPages = Math.ceil(newDashboard.totalCount / sizePages);
   console.log(currentPage);
+
   // 페이지네이션 증가
   const handleNextPage = () => {
-    if (currentPage < newDashboard.totalCount) {
+    if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      myDashboard(currentPage + 1);
+      myDashboard(currentPage + 1, sizePages);
     }
   };
 
@@ -49,7 +59,7 @@ function Mydashboard() {
   const handlePreviousPage = () => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      myDashboard(currentPage - 1);
+      myDashboard(currentPage - 1, sizePages);
     }
   };
 
@@ -75,6 +85,9 @@ function Mydashboard() {
         title: values,
         color: choiceColor,
       });
+      if (res.status === 201) {
+        myDashboard(currentPage, sizePages);
+      }
       // router.push("/boardid");
     } catch (error: any) {
       console.error("대쉬보드 생성 오류.", error);
@@ -83,11 +96,12 @@ function Mydashboard() {
   };
 
   // 생성 혹은 초대 받은 대쉬보드 목록
-  const myDashboard = async (page: any) => {
+  const myDashboard = async (page: any, sizePages: any) => {
     try {
       const response = await axios.get(
-        `dashboards?navigationMethod=pagination&cursorId=1&page=${page}&size=5`,
+        `dashboards?navigationMethod=pagination&cursorId=1&page=${page}&size=${sizePages}`,
       );
+
       setNewDashboard(response.data);
     } catch (error: any) {
       console.error("대쉬보드 불러오기 오류", error);
@@ -111,7 +125,7 @@ function Mydashboard() {
 
   // 대쉬보드 생길때마다 혹은 페이지네이션 실행시 실행됨.
   useEffect(() => {
-    myDashboard(currentPage);
+    myDashboard(currentPage, sizePages);
   }, [setNewDashboard, setCurrentPage]);
 
   return (
@@ -178,7 +192,7 @@ function Mydashboard() {
             ))}
             <S.pageNationFlex>
               <S.NpagesN>
-                {newDashboard.totalCount}페이지중{currentPage * 5}
+                {totalPages}페이지중{currentPage}
               </S.NpagesN>
               <S.pageNation onClick={handlePreviousPage}>
                 <Image

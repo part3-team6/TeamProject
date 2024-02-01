@@ -51,6 +51,14 @@ export const background = styled.div`
   display: flex;
   /* background: var(--gray-FAFAFA); */
   background: skyblue;
+
+  @media (max-width: 1199px) {
+    margin-left: 16rem;
+  }
+
+  @media (max-width: 767px) {
+    margin-left: 6.7rem;
+  }
 `;
 
 export const dashboardGrid = styled.div`
@@ -58,14 +66,22 @@ export const dashboardGrid = styled.div`
   grid-template-columns: 24.7rem 24.7rem 24.7rem;
   gap: 1.3rem;
   margin-bottom: 4.4rem;
-  :hover {
+  & > *:not(:last-child):hover {
     background: rgba(0, 0, 0, 0.1);
+  }
+
+  @media (max-width: 1199px) {
+    grid-template-columns: 24.7rem 24.7rem;
+    gap: 1rem;
+  }
+  @media (max-width: 767px) {
+    grid-template-columns: 26rem;
   }
 `;
 
 export const Dashboard = styled.button`
   height: 7rem;
-  width: 24.7rem;
+  width: 100%;
   display: flex;
   gap: 1.2rem;
   justify-content: center;
@@ -73,6 +89,13 @@ export const Dashboard = styled.button`
   border-radius: 0.8rem;
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
+
+  @media (max-width: 1199px) {
+    height: 6.8rem;
+  }
+  @media (max-width: 767px) {
+    height: 5.8rem;
+  }
 `;
 
 export const DashboardText = styled.p`
@@ -80,7 +103,6 @@ export const DashboardText = styled.p`
   text-align: center;
   font-size: 1.6rem;
   font-weight: 600;
-  pointer-events: none;
 `;
 
 export const newDashBoardButton = styled.div`
@@ -104,15 +126,12 @@ export const dashboardColor = styled.div<{ backgroundColor: string }>`
   height: 0.8rem;
   background-color: ${(props) => props?.backgroundColor};
   border-radius: 50%;
-  cursor: pointer;
-  pointer-events: none;
 `;
 
 export const crown = styled.div`
   position: relative;
   width: 2rem;
   height: 1.6rem;
-  pointer-events: none;
 `;
 export const pageNationFlex = styled.div`
   align-items: center;
@@ -120,7 +139,6 @@ export const pageNationFlex = styled.div`
   /* gap: 1.2rem; */
   grid-column: -2;
   justify-self: end;
-  /* pointer-events: none; */
 `;
 
 export const pageNation = styled.button`
@@ -130,7 +148,6 @@ export const pageNation = styled.button`
   background: var(--white-FFFFFF);
   width: 4rem;
   height: 4rem;
-  cursor: pointer;
 
   :hover {
     background: rgba(0, 0, 0, 0.1);

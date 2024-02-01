@@ -1,9 +1,8 @@
 import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
-import mock from "./mock";
+import { mock, Mock } from "./mock";
 import NoDash from "./noDash";
-import debounce from "lodash/debounce";
 
 interface mockDataType {
   name: string;
@@ -15,14 +14,14 @@ function InviteDash() {
   const [values, setValues] = useState("");
   const [ismobile, setIsMobile] = useState(false);
   // const [isWidth, setIsWidth] = useState(NaN);
-  console.log(ismobile);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
-
+    // console.log(window.innerWidth);
     window.addEventListener("resize", () => {
       // 창의 너비가 변경될 때마다 isMobile 값을 업데이트
       setIsMobile(window.innerWidth <= 767);
+      // console.log(window.innerWidth);
     });
 
     return () => {
@@ -33,7 +32,9 @@ function InviteDash() {
     };
   }, [setIsMobile]);
 
-  return mock.length !== 0 ? (
+  // console.log(Mock.invitations.length);
+
+  return Mock.invitations.length !== 0 ? (
     <>
       <S.container>
         <S.title>초대받은 대쉬보드</S.title>
@@ -52,20 +53,20 @@ function InviteDash() {
           </S.searchIcon>
         </S.inputContainer>
         {ismobile ? (
-          mock?.map((data?: mockDataType, index?: number) => (
+          Mock?.invitations.map((data: any, index?: number) => (
             <S.section key={index}>
               <S.menuDiv>
                 <S.menu>
                   이름
-                  <S.text>{data?.name}</S.text>
+                  <S.text>{data?.inviter.nickname}</S.text>
                 </S.menu>
                 <S.menu>
                   초대자
-                  <S.text>{data?.inviter}</S.text>
+                  <S.text>{data?.dashboard.title}</S.text>
                 </S.menu>
                 <S.menu display={"none"}>수락 여부</S.menu>
               </S.menuDiv>
-              <S.colors backgroundColor={data?.color} display={"none"} />
+              {/* <S.colors backgroundColor={data?.color} display={"none"} /> */}
 
               <S.buttonGap>
                 <S.yesButton>수락</S.yesButton>
@@ -80,11 +81,11 @@ function InviteDash() {
               <S.menu>초대자</S.menu>
               <S.menu display={"none"}>수락 여부</S.menu>
             </S.menuDiv>
-            {mock?.map((data: mockDataType, index: number) => (
+            {Mock?.invitations.map((data: any, index: number) => (
               <S.section key={index}>
-                <S.colors backgroundColor={data.color} display={"none"} />
-                <S.text>{data.name}</S.text>
-                <S.text>{data.inviter}</S.text>
+                {/* <S.colors backgroundColor={data.color} display={"none"} /> */}
+                <S.text>{data.dashboard.title}</S.text>
+                <S.text>{data.inviter.nickname}</S.text>
                 <S.buttonGap>
                   <S.yesButton>수락</S.yesButton>
                   <S.noButton>거절</S.noButton>

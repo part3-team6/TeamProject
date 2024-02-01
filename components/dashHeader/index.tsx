@@ -25,6 +25,10 @@ function Header({ mock, title }: HeaderProps) {
   const { user } = useUserStore();
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -87,13 +91,17 @@ function Header({ mock, title }: HeaderProps) {
         <S.line></S.line>
         <S.myName>
           <S.headerCircle>
-            {!user?.profileImageUrl ? (
-              user?.nickname.slice(0, 1).toUpperCase()
+            {currentUser && !currentUser.profileImageUrl ? (
+              currentUser.nickname.slice(0, 1).toUpperCase()
             ) : (
-              <Image src={user?.profileImageUrl} alt="유저 프로필" fill />
+              <Image
+                src={currentUser?.profileImageUrl || ""}
+                alt="유저 프로필"
+                fill
+              />
             )}
           </S.headerCircle>
-          <span>{user?.nickname}</span>
+          <span>{currentUser?.nickname}</span>
         </S.myName>
       </S.headerData>
     </S.headerWrap>
