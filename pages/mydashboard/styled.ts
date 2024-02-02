@@ -46,12 +46,11 @@ export const deleteText = styled.p`
 /// 끝
 
 export const background = styled.div`
-  width: 100%;
   height: 100%;
   margin-left: 30rem;
   display: flex;
-  background: var(--gray-FAFAFA);
-  /* background: skyblue; */
+  /* background: var(--gray-FAFAFA); */
+  background: skyblue;
 
   @media (max-width: 1199px) {
     margin-left: 16rem;

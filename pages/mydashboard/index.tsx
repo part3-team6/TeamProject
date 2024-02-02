@@ -44,7 +44,7 @@ function Mydashboard() {
   const [newDashboard, setNewDashboard] = useState<newDashboard | any>(Object); // 대쉬보드 목록
   const [invited, setInvited] = useState<any>(null); // 초대 토글..? 이건 뭐드라..?
   const [currentPage, setCurrentPage] = useState<number>(1); // 페이지네이션
-  const [accepReject, setAccepReject] = useState(Boolean); // 초대 수락 거절 토글
+  const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
   const [currentUser, setCurrentUser] = useState<any>(null); // 유저 정보
 
   // 아 이거 유저 정보 가져오는거.
@@ -91,13 +91,15 @@ function Mydashboard() {
   };
 
   // 초대 수락 거절 토글
-  // const handleinviteToggle = () => {
-  //   if () {
-  //     setAccepReject(true)
-  //   } else if () {
-  //     setAccepReject(false)
-  //   }
-  // };
+  const handleinviteToggle = (data: string) => {
+    if (data === "accept") {
+      console.log("수락");
+      setInviteAccepted(true);
+    } else if (data === "reject") {
+      setInviteAccepted(false);
+      console.log("거절");
+    }
+  };
 
   // 새로운 대쉬보드 생성
   const createDashboard = async () => {
@@ -133,7 +135,8 @@ function Mydashboard() {
   const inviteList = async () => {
     try {
       const res = await axios.get(`invitations?size=5`);
-      setInvited(res);
+      setInvited(res.data);
+      console.log("이거봐:", invited);
     } catch (error) {
       console.error("초대목록 에러", error);
     }
@@ -146,7 +149,11 @@ function Mydashboard() {
   // 초대 수락 거절
   const inviteAcceptReject = async (invitationId: number) => {
     try {
-      const res = await axios.put(`invitations/${invitationId}`, accepReject);
+      const res = await axios.put(
+        `invitations/${invitationId}`,
+        inviteAccepted,
+      );
+      console.log(res.data);
     } catch (error: any) {
       console.error("초대 수락 거절 오류", error);
     }
@@ -172,7 +179,8 @@ function Mydashboard() {
   useEffect(() => {
     myDashboard(currentPage, sizePages);
     // inviteAcceptReject(invitationId)
-  }, [setNewDashboard, setCurrentPage]);
+    inviteList();
+  }, [setNewDashboard, setCurrentPage, setInvited]);
 
   return (
     <>
@@ -259,8 +267,8 @@ function Mydashboard() {
               </S.pageNation>
             </S.pageNationFlex>
           </S.dashboardGrid>
-
-          <InviteDash />
+          {/* Mock={invited}  */}
+          <InviteDash handleinviteToggle={handleinviteToggle} mock={invited} />
         </S.mainContainer>
       </S.background>
     </>
