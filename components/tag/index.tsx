@@ -1,15 +1,18 @@
 import * as S from "./styled";
 
 interface TagProps {
-  tags: string;
-  tagIndex: number;
+  tags: string[];
 }
 
-function Tag({ tags, tagIndex }: TagProps) {
+function Tag({ tags }: TagProps) {
   return (
-    <S.tag key={tagIndex} length={Math.ceil((tags.length % 4) + 1)}>
-      <span>{tags}</span>
-    </S.tag>
+    <div>
+      {tags.map((tag, tagIndex) => (
+        <S.tag key={tagIndex} length={Math.ceil((tags.length % 4) + 1)}>
+          <span>{tag}</span>
+        </S.tag>
+      ))}
+    </div>
   );
 }
 

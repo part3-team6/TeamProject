@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
+export const DashboardWrap = styled.div`
+  width: 100%;
+`;
+
 export const DashboardContainer = styled.div`
-  margin: 0;
+  width: calc(100% - 30rem);
+  margin-left: 30rem;
+  overflow: scroll;
 `;
 
 export const DashboardMain = styled.div`
-  height: 100%;
-  margin-left: 30rem;
-
   & ul {
     display: flex;
   }
