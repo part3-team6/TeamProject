@@ -10,18 +10,22 @@ interface mockDataType {
   color: string;
 }
 
+// 마무리하고 useEffect손 대보기 불필요한 렌더링 방지.
+// 다 만들고 로직 바꿔보던가 CSS 를 그리드 함 해보기.
+
 function InviteDash() {
   const [values, setValues] = useState("");
   const [ismobile, setIsMobile] = useState(false);
   // const [isWidth, setIsWidth] = useState(NaN);
+  // console.log(ismobile);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
-    // console.log(window.innerWidth);
+    console.log(window.innerWidth);
     window.addEventListener("resize", () => {
       // 창의 너비가 변경될 때마다 isMobile 값을 업데이트
       setIsMobile(window.innerWidth <= 767);
-      // console.log(window.innerWidth);
+      console.log(window.innerWidth);
     });
 
     return () => {

@@ -46,11 +46,12 @@ export const deleteText = styled.p`
 /// 끝
 
 export const background = styled.div`
+  width: 100%;
   height: 100%;
   margin-left: 30rem;
   display: flex;
-  /* background: var(--gray-FAFAFA); */
-  background: skyblue;
+  background: var(--gray-FAFAFA);
+  /* background: skyblue; */
 
   @media (max-width: 1199px) {
     margin-left: 16rem;
@@ -67,7 +68,7 @@ export const dashboardGrid = styled.div`
   gap: 1.3rem;
   margin-bottom: 4.4rem;
   & > *:not(:last-child):hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(150, 150, 150, 0.1);
   }
 
   @media (max-width: 1199px) {
