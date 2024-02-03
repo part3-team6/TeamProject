@@ -5,39 +5,18 @@ import useUserStore from "@/store/user";
 import Link from "next/link";
 
 interface Member {
-  id: number;
-  userId: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  isOwner: boolean;
-}
-
-interface Member {
-  id: number;
-  userId: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  isOwner: boolean;
+  id?: number;
+  userId?: number;
+  email?: string;
+  nickname?: string;
+  profileImageUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isOwner?: boolean;
 }
 
 interface HeaderProps {
   mock: {
-    members: {
-      id?: number;
-      userId?: number;
-      email?: string;
-      nickname: string;
-      profileImageUrl?: string;
-      createdAt?: string;
-      updatedAt?: string;
-      isOwner?: boolean;
-    }[];
     members: Member[];
     totalCount: number;
   };
@@ -80,7 +59,7 @@ function Header({ mock, title }: HeaderProps) {
     <S.headerWrap>
       <S.dashBoard>{title}</S.dashBoard>
       <S.headerData>
-        {title !== "계정관리" && (
+        {title !== "계정관리" && title !== "내 대시보드" && (
           <>
             <S.btn>
               <Image
