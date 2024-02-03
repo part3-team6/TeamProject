@@ -86,6 +86,7 @@ export const headerCircle = styled.div`
   border: 1px solid #fff;
   position: relative;
   z-index: 1;
+  overflow: hidden;
   @media all and (max-width: 767px) {
     width: 3.4rem;
     height: 3.4rem;
