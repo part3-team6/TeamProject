@@ -9,7 +9,7 @@ export const background = styled.div`
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.7);
-  height: 121.1rem;
+  height: 100%;
 `;
 
 export const container: any = styled.div<{ width: string; height: string }>`

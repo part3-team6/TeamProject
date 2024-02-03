@@ -11,6 +11,7 @@ import Input from "@/components/input";
 import { useRouter } from "next/router";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useToggle from "@/hooks/useToggle";
+import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Member {
   id: number;
@@ -23,6 +24,16 @@ interface Member {
   isOwner: boolean;
 }
 
+interface IFormInput {
+  nickname: string;
+  profileImageUrl: string;
+}
+interface PwdChange {
+  password: number;
+  newPassword: number;
+  newPasswordCheck: number;
+}
+
 function MyPage() {
   const { user, setUser } = useUserStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
@@ -30,24 +41,50 @@ function MyPage() {
   const [pwdWrong, setPwdWrong] = useState(false);
   const [modalText, setModalText] = useState("");
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
+
+  const { register: register1, handleSubmit: handleSubmit1 } =
+    useForm<IFormInput>();
+  const onSubmit1: SubmitHandler<IFormInput> = (data) => {
+    const postData = {
+      nickname: data.nickname,
+      profileImageUrl: profileValue.profileImageUrl,
+    };
+    handleChangeProfile(postData);
+  };
+
+  const {
+    register: register2,
+    handleSubmit: handleSubmit2,
+    watch: watch2,
+  } = useForm<PwdChange>();
+  const onSubmit2: SubmitHandler<PwdChange> = (data) => {
+    const pwdValue = {
+      password: data.password,
+      newPassword: data.newPassword,
+    };
+
+    if (data.newPasswordCheck !== data.newPassword) {
+      setPwdWrong(true);
+    } else {
+      setPwdWrong(false);
+      pwdChange(pwdValue);
+    }
+  };
+
   const [profileValue, setProfileValue] = useState({
     nickname: user.nickname,
     profileImageUrl: null,
   });
+
   const router = useRouter();
-  console.log(pwdWrong);
-  const [pwdValue, setPwdValue] = useState({
-    password: "",
-    newPassword: "",
-  });
-  console.log(pwdValue);
+
   // -- 이미지 / 닉네임 변경 시작
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
-      // if (response.data.profileImageUrl !== null) {
-      //   setPreviewUrl(response.data.profileImageUrl);
-      // }
+      if (response.data.profileImageUrl !== null) {
+        setPreviewUrl(response.data.profileImageUrl);
+      }
     } catch (error) {
       console.error(error);
     }
@@ -71,7 +108,10 @@ function MyPage() {
           "Content-Type": "multipart/form-data",
         },
       });
-      fetchProfileImage();
+      if (response.status === 201) {
+        fetchProfileImage();
+      }
+      console.log(response.status);
       return response.data;
     } catch (err) {
       console.error(err);
@@ -79,12 +119,13 @@ function MyPage() {
     }
   };
 
-  const handleChangeProfile = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
+  const handleChangeProfile = async (data: {
+    nickname: string;
+    profileImageUrl: null;
+  }) => {
     try {
-      const res = await axios.put(`users/me`, profileValue);
+      const res = await axios.put(`users/me`, data);
       setUser(res.data);
-      console.log(res.data);
       if (!res.data.profileImageUrl) {
         setPreviewUrl("/images/more.svg");
       } else {
@@ -92,15 +133,6 @@ function MyPage() {
       }
     } catch (err) {
       console.log(err);
-    }
-  };
-
-  const validateNick = (nickname: string) => {
-    if (nickname.length <= 10) {
-      setProfileValue((prev) => ({
-        ...prev,
-        nickname: nickname,
-      }));
     }
   };
 
@@ -120,19 +152,13 @@ function MyPage() {
     }
   };
 
-  const handleFocusOut = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.id === "닉네임") {
-      validateNick(e.target.value);
-    }
-  };
   // -- 이미지 / 닉네임 변경 끝
 
   // 비밀번호 변경 시작
-  const pwdChange = async (e: MouseEvent) => {
-    e.preventDefault();
-    if (!pwdWrong && pwdValue.password !== "" && pwdValue.newPassword !== "") {
+  const pwdChange = async (data: { password: any; newPassword: any }) => {
+    if (!pwdWrong && data.password !== "" && data.newPassword !== "") {
       try {
-        const res = await axios.put("/auth/password", pwdValue);
+        const res = await axios.put("/auth/password", data);
         console.log(res);
         setModalText("비밀번호가 변경 되었습니다");
         showPwdToggle();
@@ -147,35 +173,15 @@ function MyPage() {
     // showPwdToggle();
   };
 
-  const getPwd = (e: MouseEvent) => {
-    if (pwdValue.password === "") {
-      setPwdWrong(true);
-    }
-    setPwdValue((prev) => ({
-      ...prev,
-      password: e.target.value,
-    }));
-  };
-
-  const getNewPwd = (e: MouseEvent) => {
-    setPwdValue((prev) => ({
-      ...prev,
-      newPassword: e.target.value,
-    }));
-  };
-
-  const checkPwd = (e: MouseEvent) => {
-    if (pwdValue.newPassword !== e.target.value) {
-      setPwdWrong(true);
-    } else {
-      setPwdWrong(false);
-    }
-  };
-
   // 비밀번호 변경 끝
 
+  console.log(watch2("password"));
+  const aaa = (e) => {
+    console.log(123);
+  };
+
   return (
-    <>
+    <S.wrap>
       {showPwdError && (
         <ModalCheckIt
           text={modalText}
@@ -188,7 +194,7 @@ function MyPage() {
       <S.mypage>
         <S.back>{"<"} 뒤로가기</S.back>
 
-        <S.box onSubmit={handleChangeProfile}>
+        <S.box onSubmit={handleSubmit1(onSubmit1)}>
           <S.boxTitle>프로필</S.boxTitle>
           <S.inputBox>
             <S.boxImg>
@@ -203,8 +209,9 @@ function MyPage() {
               <S.changeImg>
                 <S.changeImginner htmlFor="file"></S.changeImginner>
                 <input
+                  {...register1("profileImageUrl")}
                   type="file"
-                  name="file"
+                  name="profileImageUrl"
                   id="file"
                   onChange={handleFileChange}
                 />
@@ -220,58 +227,52 @@ function MyPage() {
                     disabled="disabled"
                   />
                   <Input
+                    hookform={register1("nickname")}
                     title="닉네임"
                     placeholder={currentUser.nickname}
                     data="닉네임"
-                    handleBlur={handleFocusOut}
+                    name="nickname"
                   />
                 </>
               )}
             </S.inputs>
           </S.inputBox>
-          <S.submit
-            type="submit"
-            // onClick={handleChangeProfile}
-            value={"저장"}
-            pwdWrong={false}
-          />
+          <S.submit type="submit" value={"저장"} />
         </S.box>
 
-        <S.box onSubmit={pwdChange}>
+        <S.box onSubmit={handleSubmit2(onSubmit2)}>
           <S.boxTitle>비밀번호 변경</S.boxTitle>
           <S.inputBox>
             <S.inputs>
               <Input
+                hookform={register2("password")}
                 title="현재 비밀번호"
                 placeholder="현재 비밀번호 입력"
                 data="pwd"
-                handleBlur={getPwd}
+                name="password"
               />
               <Input
+                hookform={register2("newPassword")}
                 title="새 비밀번호"
                 placeholder="새 비밀번호 입력"
                 data="pwd"
-                handleBlur={getNewPwd}
-                handleChange={checkPwd}
+                name="newPassword"
               />
               <Input
+                hookform={register2("newPasswordCheck")}
                 title="새 비밀번호 확인"
                 placeholder="새 비밀번호 입력"
                 data="pwd"
-                handleChange={checkPwd}
                 wrong={pwdWrong}
+                name="newPasswordCheck"
+                handleBlur={aaa}
               />
             </S.inputs>
           </S.inputBox>
-          <S.submit
-            type="submit"
-            value="변경"
-            pwdWrong={pwdWrong}
-            // disabled={pwdWrong}
-          />
+          <S.submit type="submit" value="변경" />
         </S.box>
       </S.mypage>
-    </>
+    </S.wrap>
   );
 }
 

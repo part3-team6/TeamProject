@@ -1,17 +1,24 @@
 import styled from "styled-components";
 
+export const wrap = styled.div`
+  position: relative;
+`;
 export const mypage = styled.div`
+  width: calc(100% - 30rem);
+  /* height: calc(100vh - 7rem); */
+  min-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;
   margin-left: 30rem;
   padding: 2rem;
   background-color: #fafafa;
-  height: 100%;
   gap: 1.2rem;
   @media all and (max-width: 1199px) {
+    width: calc(100% - 16rem);
     margin-left: 16rem;
   }
   @media all and (max-width: 767px) {
+    width: calc(100% - 7rem);
     margin-left: 7rem;
   }
 `;
@@ -22,8 +29,8 @@ export const back = styled.div`
   margin-bottom: 1rem;
 `;
 export const box = styled.form`
-  width: 62rem;
-  min-height: 35.5rem;
+  width: 100%;
+  max-width: 62rem;
   padding: 3.2rem 2.8rem;
   border-radius: 8px;
   background: var(--white-FFFFFF);
@@ -33,12 +40,19 @@ export const boxTitle = styled.div`
   font-size: 2.4rem;
   font-weight: 700;
   margin-bottom: 3.2rem;
+  @media all and (max-width: 767px) {
+    font-size: 2rem;
+  }
 `;
 export const boxImg = styled.div`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
   border-radius: 6px;
+  @media all and (max-width: 767px) {
+    width: 10rem;
+    height: 10rem;
+  }
 `;
 export const changeImg = styled.div`
   width: 18.2rem;
@@ -56,6 +70,10 @@ export const changeImg = styled.div`
     overflow: hidden;
     border: 0;
   }
+  @media all and (max-width: 767px) {
+    width: 10rem;
+    height: 10rem;
+  }
 `;
 export const changeImginner = styled.label`
   width: 18.2rem;
@@ -65,6 +83,10 @@ export const changeImginner = styled.label`
   background-color: rgba(0, 0, 0, 0.3);
   border: none;
   display: none;
+  @media all and (max-width: 767px) {
+    width: 10rem;
+    height: 10rem;
+  }
 `;
 export const submit = styled.input`
   width: 8.4rem;
@@ -79,12 +101,15 @@ export const submit = styled.input`
   font-weight: 500;
   cursor: pointer;
   display: block;
-  opacity: ${(props) => (props.pwdWrong ? 0.5 : 1)};
+  border: none;
 `;
 
 export const inputBox = styled.div`
   display: flex;
   gap: 1.6rem;
+  @media all and (max-width: 767px) {
+    flex-direction: column;
+  }
 `;
 export const inputs = styled.div`
   display: flex;

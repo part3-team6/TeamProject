@@ -5,9 +5,9 @@ const useUserStore = create(
   persist(
     (set) => ({
       user: {
-        id: 638,
-        email: "pilltest3@codeit.com",
-        nickname: "필테스트3",
+        id: "id",
+        email: "email",
+        nickname: "닉네임",
         profileImageUrl: null,
         createdAt: "2024-01-28T17:49:09.482Z",
         updatedAt: "2024-01-28T17:49:09.482Z",
