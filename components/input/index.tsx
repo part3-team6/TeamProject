@@ -14,6 +14,7 @@ interface InputProps {
   hookform?: any;
   name?: string;
   disabled?: string;
+  defaultValue?: string;
 }
 function Input({
   data,
@@ -27,6 +28,7 @@ function Input({
   hookform,
   name,
   disabled,
+  defaultValue,
 }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
@@ -51,6 +53,7 @@ function Input({
             wrong={wrong}
             name={name}
             disabled={disabled}
+            defaultValue={defaultValue}
           ></S.input>
           {wrong && data === "이메일" && (
             <S.wrong>{data} 형식으로 작성해 주세요.</S.wrong>

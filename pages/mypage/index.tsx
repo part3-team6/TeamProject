@@ -230,6 +230,7 @@ function MyPage() {
                     hookform={register1("nickname")}
                     title="닉네임"
                     placeholder={currentUser.nickname}
+                    defaultValue={currentUser.nickname}
                     data="닉네임"
                     name="nickname"
                   />
