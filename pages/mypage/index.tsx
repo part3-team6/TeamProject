@@ -229,7 +229,7 @@ function MyPage() {
                   <Input
                     hookform={register1("nickname")}
                     title="닉네임"
-                    placeholder={currentUser.nickname}
+                    value={currentUser.nickname}
                     data="닉네임"
                     name="nickname"
                   />
