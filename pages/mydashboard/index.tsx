@@ -171,7 +171,7 @@ function Mydashboard() {
     // const [{ id }] = newDashboard.dashboards;
     if (newDashboard?.dashboards?.length) {
       // router.push(`mydashboard/${id}`);
-      router.push(`mydashboard/${id}`);
+      router.push(`boards/${id}`);
     }
   };
 

@@ -46,7 +46,7 @@ export const deleteText = styled.p`
 /// 끝
 
 export const background = styled.div`
-  height: 100%;
+  height: calc(100vh - 7rem);
   margin-left: 30rem;
   display: flex;
   /* background: var(--gray-FAFAFA); */
