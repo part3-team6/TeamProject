@@ -41,7 +41,7 @@ function Input({
           <S.label htmlFor={data}>{title}</S.label>
           <S.input
             {...hookform}
-            onBlur={handleBlur}
+            // onBlur={handleBlur}
             type={data === "이메일" ? "email" : "text"}
             id={data}
             placeholder={placeholder}
@@ -69,7 +69,7 @@ function Input({
               id={data + title}
               placeholder={placeholder}
               onChange={handleChange}
-              onBlur={handleBlur}
+              // onBlur={handleBlur}
               value={value}
               onFocus={test}
               wrong={wrong}
