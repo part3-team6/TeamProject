@@ -11,7 +11,7 @@ export const ListContainer = styled.div<ListProps>`
 
   padding: 2.6rem 0 0 0;
   border-radius: 8px;
-  background-color: var(--white);
+  background-color: var(--white-FFFFFF);
 
   @media (max-width: 767px) {
     width: 28.4rem;
@@ -220,11 +220,12 @@ export const DeleteButton = styled.div`
   width: 8.4rem;
   height: 3.2rem;
   border-radius: 4px;
-
   border: 1px #d9d9d9 solid;
+
   color: var(--violet-5534DA);
   font-size: 1.4rem;
   font-weight: 500;
+
   background: white;
   display: flex;
   align-items: center;
@@ -234,6 +235,10 @@ export const DeleteButton = styled.div`
     width: 5.2rem;
     height: 2.4rem;
     font-size: 1.2rem;
+  }
+
+  &:hover {
+    background-color: var(--gray-EEEEEE);
   }
 `;
 
