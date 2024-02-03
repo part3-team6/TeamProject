@@ -2,6 +2,18 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
 import useUserStore from "@/store/user";
+import Link from "next/link";
+
+interface Member {
+  id: number;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  isOwner: boolean;
+}
 
 interface Member {
   id: number;
@@ -36,11 +48,10 @@ function Header({ mock, title }: HeaderProps) {
   const { user } = useUserStore();
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<Member | null>(null);
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
-  const [currentUser, setCurrentUser] = useState<Member | null>(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -109,20 +120,22 @@ function Header({ mock, title }: HeaderProps) {
             <S.line></S.line>
           </>
         )}
-        <S.myName>
-          <S.headerCircle>
-            {currentUser && !currentUser.profileImageUrl ? (
-              currentUser.nickname.slice(0, 1).toUpperCase()
-            ) : (
-              <Image
-                src={currentUser?.profileImageUrl || ""}
-                alt="유저 프로필"
-                fill
-              />
-            )}
-          </S.headerCircle>
-          <span>{currentUser?.nickname}</span>
-        </S.myName>
+        <Link href={"/mypage"}>
+          <S.myName>
+            <S.headerCircle>
+              {currentUser && !currentUser.profileImageUrl ? (
+                currentUser.nickname.slice(0, 1).toUpperCase()
+              ) : (
+                <Image
+                  src={currentUser?.profileImageUrl || ""}
+                  alt="유저 프로필"
+                  fill
+                />
+              )}
+            </S.headerCircle>
+            <span>{currentUser?.nickname}</span>
+          </S.myName>
+        </Link>
       </S.headerData>
     </S.headerWrap>
   );

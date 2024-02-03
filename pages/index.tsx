@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const router = useRouter();
