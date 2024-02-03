@@ -16,7 +16,7 @@ export const headerWrap = styled.div`
     justify-content: flex-end;
   }
   @media all and (max-width: 767px) {
-    /* width: calc(100vw - 0.7rem); */
+    width: calc(100vw - 7rem);
     margin-left: 7rem;
   }
 `;

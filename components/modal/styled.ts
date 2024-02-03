@@ -3,7 +3,7 @@ import { styled } from "styled-components";
 // height값 나중에 모달 화면띄울때 보고 맞추기
 export const background = styled.div`
   width: 100%;
-  z-index: 1;
+  z-index: 999;
   position: absolute;
   display: flex;
   justify-content: center;

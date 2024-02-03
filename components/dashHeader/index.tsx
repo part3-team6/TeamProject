@@ -15,8 +15,29 @@ interface Member {
   isOwner: boolean;
 }
 
+interface Member {
+  id: number;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  isOwner: boolean;
+}
+
 interface HeaderProps {
   mock: {
+    members: {
+      id?: number;
+      userId?: number;
+      email?: string;
+      nickname: string;
+      profileImageUrl?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      isOwner?: boolean;
+    }[];
     members: Member[];
     totalCount: number;
   };
@@ -50,6 +71,10 @@ function Header({ mock, title }: HeaderProps) {
   const sliceMock = isTablet
     ? mock.members.slice(0, 2)
     : mock.members.slice(0, 5);
+
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
 
   return (
     <S.headerWrap>

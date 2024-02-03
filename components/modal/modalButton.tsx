@@ -3,10 +3,11 @@ import * as S from "./styled";
 
 interface ButtonProps {
   children: ReactNode;
+  submit: any;
 }
 
-function Button({ children }: ButtonProps) {
-  return <S.button>{children}</S.button>;
+function Button({ children, submit }: ButtonProps) {
+  return <S.button onClick={submit}>{children}</S.button>;
 }
 
 export default Button;

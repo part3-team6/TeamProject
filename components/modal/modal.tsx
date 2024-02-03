@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode, useState } from "react";
 import Button from "./modalButton";
 import * as S from "./styled";
 
@@ -9,10 +9,13 @@ interface ModalProps {
   children?: ReactNode;
   Placeholder: string;
   cancelButton: string;
+  cancel: MouseEventHandler;
+  value: (value: string) => void;
+  submit: any;
 }
 
 // 중복된 컬럼인지 아닌지 테스트용 나중 변경 요망.
-const test = {
+const test: any = {
   column: "test",
   column1: "test2",
 };
@@ -24,6 +27,9 @@ function Modal({
   children,
   Placeholder,
   cancelButton,
+  cancel,
+  value,
+  submit,
 }: ModalProps) {
   const [values, setValues] = useState("");
 
@@ -37,15 +43,15 @@ function Modal({
           </div>
           <S.input
             placeholder={Placeholder}
-            onChange={(e) => setValues(e.target.value)}
+            onChange={(e) => value(e.target.value)}
           ></S.input>
-          {title === "새 컬럼생성" && values === test.column && (
+          {title === "새 컬럼생성" && value === test.column && (
             <S.errText>중복된 컬럼 이름입니다.</S.errText>
           )}
           {children}
           <S.buttonFlex>
-            <S.cancelButton>{cancelButton}</S.cancelButton>
-            <Button>{submitButton}</Button>
+            <S.cancelButton onClick={cancel}>{cancelButton}</S.cancelButton>
+            <Button submit={submit}>{submitButton}</Button>
           </S.buttonFlex>
         </S.container>
       </S.background>

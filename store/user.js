@@ -5,12 +5,12 @@ const useUserStore = create(
   persist(
     (set) => ({
       user: {
-        id: "id",
-        email: "email",
-        nickname: "닉네임",
+        id: "",
+        email: "",
+        nickname: "",
         profileImageUrl: null,
-        createdAt: "2024-01-28T17:49:09.482Z",
-        updatedAt: "2024-01-28T17:49:09.482Z",
+        createdAt: "",
+        updatedAt: "",
       },
       setUser: (userInfo) => set({ user: userInfo }),
     }),
