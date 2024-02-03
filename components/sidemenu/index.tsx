@@ -40,7 +40,7 @@ function Sidemenu({ mock }: SidemenuProps) {
 
   return (
     <S.sidemenu>
-      <Link href={"/link"}>
+      <Link href={`/`}>
         <S.sideLogo>
           {isTablet ? (
             <Image src={"/images/logoNavMobile.svg"} alt="logo" fill />
@@ -58,9 +58,9 @@ function Sidemenu({ mock }: SidemenuProps) {
         </S.more>
       </S.subTitle>
 
-      {mock.dashboards.map((item, index) => (
+      {mock?.dashboards?.map((item, index) => (
         <S.sideList key={index}>
-          <Link href={"/link"}>
+          <Link href={`mydashboard/${item.id}`}>
             <S.colors style={{ backgroundColor: item.color }}></S.colors>
             <span>{item.title}</span>
             {item.createdByMe && (

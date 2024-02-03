@@ -16,6 +16,16 @@ interface Member {
 
 interface HeaderProps {
   mock: {
+    members: {
+      id?: number;
+      userId?: number;
+      email?: string;
+      nickname: string;
+      profileImageUrl?: string;
+      createdAt?: string;
+      updatedAt?: string;
+      isOwner?: boolean;
+    }[];
     members: Member[];
     totalCount: number;
   };
@@ -26,6 +36,10 @@ function Header({ mock, title }: HeaderProps) {
   const { user } = useUserStore();
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
 
   useEffect(() => {

@@ -1,23 +1,23 @@
 const ColorData = [
   {
     id: 1,
-    backgroundColor: "--green-7AC555",
+    backgroundColor: "#7AC555",
   },
   {
     id: 2,
-    backgroundColor: "--purple-760DDE",
+    backgroundColor: "#760DDE",
   },
   {
     id: 3,
-    backgroundColor: "--orange-FFA500",
+    backgroundColor: "#FFA500",
   },
   {
     id: 4,
-    backgroundColor: " --blue-76A6EA",
+    backgroundColor: "#76A5EA",
   },
   {
     id: 5,
-    backgroundColor: "--pink-E876EA",
+    backgroundColor: "#E876EA",
   },
 ];
 
