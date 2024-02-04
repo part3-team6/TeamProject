@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
-import { CardsProps, ColumnsProps } from "@/pages/dashboardForOne";
+import { CardProps, ColumnProps } from "@/pages/boards/[id]";
 
 function CardItem({
   column,
@@ -9,8 +9,8 @@ function CardItem({
   openCreateModal,
   openEditModal,
 }: {
-  column: ColumnsProps;
-  cards: CardsProps;
+  column: ColumnProps;
+  cards: CardProps[];
   openCreateModal: () => void;
   openEditModal: () => void;
 }) {
@@ -18,8 +18,9 @@ function CardItem({
     <S.cards>
       <S.cardsTitle>
         <S.title>
-          <S.titlePoint>{column.data[0].title}</S.titlePoint>
-          <S.cardLength>{cards.totalCount}</S.cardLength>
+          <S.titlePoint></S.titlePoint>
+          {column?.title}
+          <S.cardLength>{cards.length}</S.cardLength>
         </S.title>
         <S.cardsImg onClick={openEditModal}>
           <Image src={"/images/settings.svg"} alt="settings" fill />
@@ -32,33 +33,38 @@ function CardItem({
           </S.cardMoreImg>
         </S.cardMore>
       </S.card>
-      {cards.cards.map((item, index) => (
-        <S.card key={index}>
-          {item.imageUrl && (
-            <S.cardImg>
-              <Image src={item.imageUrl} alt="카드이미지" fill />
-            </S.cardImg>
-          )}
+      {cards &&
+        cards.map((item, index) => (
+          <S.card key={index}>
+            {item.imageUrl && (
+              <S.cardImg>
+                <Image src={item.imageUrl} alt="카드이미지" fill />
+              </S.cardImg>
+            )}
 
-          <S.text>
-            <S.cardTitle>{item.title}</S.cardTitle>
+            <S.text>
+              <S.cardTitle>{item.title || "No Title"}</S.cardTitle>
+              <div>{item.description}</div>
+              <S.tagDate>
+                <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
+                <S.dateWrap>
+                  <S.date>
+                    <S.dateImg>
+                      <Image
+                        src={"/images/calendarToday.svg"}
+                        alt="날짜"
+                        fill
+                      />
+                    </S.dateImg>
+                    <span>{item.dueDate}</span>
+                  </S.date>
 
-            <S.tagDate>
-              <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
-              <S.dateWrap>
-                <S.date>
-                  <S.dateImg>
-                    <Image src={"/images/calendarToday.svg"} alt="날짜" fill />
-                  </S.dateImg>
-                  <span>{item.dueDate}</span>
-                </S.date>
-
-                <S.colors>{item.assignee.porfileImageUrl}</S.colors>
-              </S.dateWrap>
-            </S.tagDate>
-          </S.text>
-        </S.card>
-      ))}
+                  <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
+                </S.dateWrap>
+              </S.tagDate>
+            </S.text>
+          </S.card>
+        ))}
     </S.cards>
   );
 }

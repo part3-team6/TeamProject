@@ -8,16 +8,19 @@ import { useEffect, useState } from "react";
 import EditModal from "@/components/todoModal/editTodoModal/editModal";
 import CardItem from "@/components/card";
 import axiosInstance from "@/lib/axios";
+import { useRouter } from "next/router";
 
 export interface ColumnsProps {
   result: string;
-  data: {
-    id: number;
-    title: string;
-    teamId: string;
-    createdAt: string;
-    updatedAt: string;
-  }[];
+  data: ColumnProps[];
+}
+
+export interface ColumnProps {
+  id: number;
+  title: string;
+  teamId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CardsProps {
@@ -45,11 +48,13 @@ export interface CardProps {
 }
 
 export default function DashboardForOne() {
-  const [columns, setColumns] = useState<ColumnsProps[]>([]);
-  const [cards, setCards] = useState<CardsProps[]>([]);
-  const [card, setCard] = useState<CardProps[]>([]);
+  const [columns, setColumns] = useState<ColumnsProps>();
+  const [cards, setCards] = useState<CardProps[]>([]);
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [isEditModalOpen, setisEditModalOpen] = useState(false);
+
+  const router = useRouter();
+  const { id } = router.query;
 
   const openCreateModal = () => {
     setisCreateModalOpen(true);
@@ -67,12 +72,14 @@ export default function DashboardForOne() {
     setisEditModalOpen(false);
   };
 
-  const addCard = (newCard: CardsProps) => {
-    setCards((prevCards) => [...prevCards, newCard]);
+  const addCard = (newCard: CardProps) => {
+    setCards((prevCard) => {
+      return [...prevCard, newCard];
+    });
   };
 
   const editCard = (newCard: CardProps) => {
-    setCard((prevCard) => {
+    setCards((prevCard) => {
       return prevCard.map((card) => {
         if (card.id === newCard.id) {
           return newCard;
@@ -84,28 +91,58 @@ export default function DashboardForOne() {
 
   const getColumns = async () => {
     try {
-      const response = await axiosInstance.get("/columns");
+      const response = await axiosInstance.get(`columns?dashboardId=${id}`);
       setColumns(response.data);
-      console.log("API 데이터:", response.data);
+      console.log("getColumns API 데이터:", response.data);
     } catch (error) {
-      console.log("API 호출 오류", error);
+      console.log("getColumns API 호출 오류", error);
     }
   };
 
-  const getCards = async () => {
+  const getCardsForColumn = async (columnId: number) => {
     try {
-      const response = await axiosInstance.get("/cards");
-      setCards(response.data);
-      console.log("API 데이터:", response.data);
+      const response = await axiosInstance.get(`cards?columnId=${columnId}`);
+      console.log("getCardsForColumn API 데이터:", response.data);
+      console.log(columnId);
+      return response.data;
     } catch (error) {
-      console.log("API 호출 오류", error);
+      console.log("getCardsForColumn API 호출 오류", error);
+      return [];
     }
   };
+
+  const getCardsForAllColumns = async () => {
+    const cardsForColumns = await Promise.all(
+      columns?.data?.map(async (column) => {
+        const cardsForColumn = await getCardsForColumn(column.id);
+        return cardsForColumn;
+      }) || [],
+    );
+    console.log("getCardsForAllColumns API 데이터:", cardsForColumns);
+    setCards(cardsForColumns);
+  };
+
+  // const getCards = async () => {
+  //   try {
+  //     const response = await axiosInstance.get(
+  //       `/cards?dashboardId=${id}&size=100`,
+  //     );
+  //     setCards(response.data);
+  //     console.log("API 데이터:", response.data);
+  //   } catch (error) {
+  //     console.log("API 호출 오류", error);
+  //   }
+  // };
 
   useEffect(() => {
     getColumns();
-    getCards();
-  }, []);
+  }, [id]);
+
+  useEffect(() => {
+    if (columns?.data && columns.data.length > 0) {
+      getCardsForAllColumns();
+    }
+  }, [columns]);
 
   return (
     <S.DashboardWrap>
@@ -113,11 +150,11 @@ export default function DashboardForOne() {
       <Sidemenu mock={mockSidemenu} />
       <S.DashboardContainer>
         <S.DashboardMain>
-          {columns.map((column, index) => (
+          {columns?.data?.map((column, index) => (
             <S.Column key={index}>
               <CardItem
                 column={column}
-                cards={cards[index]}
+                cards={cards}
                 openCreateModal={openCreateModal}
                 openEditModal={openEditModal}
               />
