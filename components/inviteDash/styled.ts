@@ -2,8 +2,9 @@ import { styled } from "styled-components";
 
 export const container = styled.div`
   border-radius: 0.8rem;
-  width: 102.2rem;
+  width: 100%;
   flex-shrink: 0;
+  background: var(--white-FFFFFF);
 
   @media (max-width: 1199px) {
     width: 50.4rem;
@@ -70,7 +71,7 @@ export const inputContainer = styled.div`
 `;
 
 export const input = styled.input`
-  width: 96.6rem;
+  width: 100%;
   height: 4rem;
   flex-shrink: 0;
   border-radius: 0.6rem;
@@ -194,18 +195,19 @@ export const noButton = styled.button`
 
 export const section = styled.section`
   display: grid;
-  grid-template-columns: 2rem 28.5rem 33.5rem 1fr;
+  grid-template-columns: 15rem 22rem 1fr;
   align-items: center;
   border-bottom: 1px solid var(--black-333236);
   height: 7rem;
-  padding-left: 3.6rem;
+  padding-left: 6.4rem;
 
   &:last-child {
     border-bottom: 0;
   }
 
   @media (max-width: 1199px) {
-    grid-template-columns: 1.4rem 12rem 15rem 1fr;
+    padding-left: 2.8rem;
+    grid-template-columns: 14rem 15.5rem 1fr;
   }
 
   @media (max-width: 767px) {

@@ -2,16 +2,17 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
 import useUserStore from "@/store/user";
+import Link from "next/link";
 
 interface Member {
-  id: number;
-  userId: number;
-  email: string;
-  nickname: string;
-  profileImageUrl: string;
-  createdAt: string;
-  updatedAt: string;
-  isOwner: boolean;
+  id?: number;
+  userId?: number;
+  email?: string;
+  nickname?: string;
+  profileImageUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isOwner?: boolean;
 }
 
 interface HeaderProps {
@@ -27,6 +28,9 @@ function Header({ mock, title }: HeaderProps) {
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -55,7 +59,7 @@ function Header({ mock, title }: HeaderProps) {
     <S.headerWrap>
       <S.dashBoard>{title}</S.dashBoard>
       <S.headerData>
-        {title !== "계정관리" && (
+        {title !== "계정관리" && title !== "내 대시보드" && (
           <>
             <S.btn>
               <Image
@@ -95,20 +99,22 @@ function Header({ mock, title }: HeaderProps) {
             <S.line></S.line>
           </>
         )}
-        <S.myName>
-          <S.headerCircle>
-            {currentUser && !currentUser.profileImageUrl ? (
-              currentUser.nickname.slice(0, 1).toUpperCase()
-            ) : (
-              <Image
-                src={currentUser?.profileImageUrl || ""}
-                alt="유저 프로필"
-                fill
-              />
-            )}
-          </S.headerCircle>
-          <span>{currentUser?.nickname}</span>
-        </S.myName>
+        <Link href={"/mypage"}>
+          <S.myName>
+            <S.headerCircle>
+              {currentUser && !currentUser.profileImageUrl ? (
+                currentUser.nickname.slice(0, 1).toUpperCase()
+              ) : (
+                <Image
+                  src={currentUser?.profileImageUrl || ""}
+                  alt="유저 프로필"
+                  fill
+                />
+              )}
+            </S.headerCircle>
+            <span>{currentUser?.nickname}</span>
+          </S.myName>
+        </Link>
       </S.headerData>
     </S.headerWrap>
   );

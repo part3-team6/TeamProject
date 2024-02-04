@@ -4,7 +4,14 @@ import { persist } from "zustand/middleware";
 const useUserStore = create(
   persist(
     (set) => ({
-      user: null,
+      user: {
+        id: "",
+        email: "",
+        nickname: "",
+        profileImageUrl: null,
+        createdAt: "",
+        updatedAt: "",
+      },
       setUser: (userInfo) => set({ user: userInfo }),
     }),
     {

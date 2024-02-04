@@ -8,12 +8,12 @@ import { useEffect, useState } from "react";
 import useUserStore from "@/store/user";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useToggle from "@/hooks/useToggle";
-// import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-// interface IFormInput {
-//   email: string;
-//   password: string;
-// }
+interface IFormInput {
+  email: string;
+  password: string;
+}
 
 function SignIn() {
   const { user, setUser } = useUserStore();
@@ -21,13 +21,15 @@ function SignIn() {
   const [passwordError, setPasswordError] = useState(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
-  // const { register, handleSubmit } = useForm<IFormInput>();
-  // const onSubmit: SubmitHandler<IFormInput> = (data) => console.log(data);
-
-  const [value, setValue] = useState({
-    email: "",
-    password: "",
-  });
+  const { register, handleSubmit } = useForm<IFormInput>();
+  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+    const loginData = {
+      email: data.email,
+      password: data.password,
+    };
+    console.log(data);
+    login(loginData);
+  };
 
   const router = useRouter();
   useEffect(() => {
@@ -37,47 +39,17 @@ function SignIn() {
     }
   }, []);
 
-  const validateEmail = (email: string) => {
-    const isValidEmail = /\S+@\S+\.\S+/.test(email);
-    setEmailError(!isValidEmail); // 이메일이 유효하지 않을 때 true 설정
-
-    setValue((prev) => ({
-      ...prev,
-      email: email,
-    }));
-  };
-
-  const validatePassword = (password: string) => {
-    const isPasswordValid = password.length >= 8;
-    setPasswordError(!isPasswordValid);
-
-    setValue((prev) => ({
-      ...prev,
-      password: password,
-    }));
-  };
-
-  const handleFocusOut = (e: React.FocusEvent<HTMLInputElement>) => {
-    if (e.target.id === "이메일") {
-      validateEmail(e.target.value);
-    } else if (e.target.id === "pwd비밀번호") {
-      validatePassword(e.target.value);
-    }
-  };
-
-  async function login(e: React.FocusEvent<HTMLInputElement>) {
-    e.preventDefault();
-
+  async function login(data) {
     try {
-      const res = await axios.post("auth/login", value);
+      const res = await axios.post("auth/login", data);
       localStorage.setItem("login", res.data.accessToken);
 
       await setUserData();
       router.push("/");
     } catch (error) {
-      setEmailError(true);
+      // setEmailError(true);
       setPasswordError(true);
-      if (value.email !== "" && value.password !== "") {
+      if (data.email !== "" && data.password !== "") {
         showPwdToggle();
       }
       console.error("로그인 실패:", error);
@@ -113,27 +85,28 @@ function SignIn() {
           </S.logoWrap>
           {/* onSubmit={login} */}
           {/* onChange={handleSubmit(onSubmit)} */}
-          <S.loginForm onSubmit={login}>
+          <S.loginForm onSubmit={handleSubmit(onSubmit)}>
             <Input
-              // hookform={register("email")}
+              hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}
               title="이메일"
               placeholder="이메일을 입력해 주세요"
               data="이메일"
               wrong={emailError}
-              handleBlur={handleFocusOut}
+              name="email"
+              // handleBlur={handleFocusOut}
             />
             <Input
-              // hookform={register("password")}
+              hookform={register("password")}
               title="비밀번호"
               placeholder="비밀번호를 입력해 주세요"
               data="pwd"
               wrong={passwordError}
-              handleBlur={handleFocusOut}
+              name="password"
+              // handleBlur={handleFocusOut}
             />
 
             <S.submit type="submit" value="로그인" />
           </S.loginForm>
-
           <S.signup>
             회원이 아니신가요?
             <span>

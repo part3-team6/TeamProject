@@ -18,9 +18,11 @@ interface Member {
 
 interface MapData {
   members: Member[];
+  totalCount: number;
 }
 
 interface MapData2 {
+  totalCount: number;
   invitations: {
     id: number;
     inviter: {
@@ -44,15 +46,33 @@ interface MapData2 {
   }[];
 }
 
-function List({ props }: { props: string }) {
+function List({
+  props,
+  memberListData,
+  emailListData,
+  handleKickUser,
+  handleCancelEmail,
+}: {
+  props: string;
+  memberListData: MapData;
+  emailListData: MapData2;
+  handleKickUser: (targetId: number) => Promise<void>;
+  handleCancelEmail: (targetId: number) => Promise<void>;
+}) {
   //프롭스로 member나 invite를 내려줘 한번에 변경 가능
   const [listType, setListType] = useState<string>(props);
   const [windowWidth, setWindowWidth] = useState<number>(1700);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [curruntPage, setCurruntPage] = useState<number>(1);
-  const [mapData, setMapData] = useState<MapData>({ members: [] });
-  const [mapData2, setMapData2] = useState<MapData2>({ invitations: [] });
+  const [mapData, setMapData] = useState<MapData>({
+    members: [],
+    totalCount: 0,
+  });
+  const [mapData2, setMapData2] = useState<MapData2>({
+    invitations: [],
+    totalCount: 0,
+  });
   const [invitedEmail, setInvitedEmail] = useState<any>([]);
 
   const handleNextPage = () => {
@@ -72,22 +92,26 @@ function List({ props }: { props: string }) {
 
     let calculatedTotalPage = 1;
 
-    const emailList = mocData2.invitations.filter(
+    const emailList = emailListData?.invitations.filter(
       (i) => i.inviteAccepted === false,
     );
 
     if (type === "member") {
-      calculatedTotalPage = Math.ceil(mocData.totalCount / 4);
+      if (memberListData?.totalCount !== 0) {
+        calculatedTotalPage = Math.ceil(memberListData?.totalCount / 4);
+      }
     } else {
-      calculatedTotalPage = Math.ceil(emailList.length / 5);
+      if (emailList?.length !== 0) {
+        calculatedTotalPage = Math.ceil(emailList?.length / 5);
+      }
     }
 
     setListType(type);
     setTotalPage(calculatedTotalPage);
-  }, []);
+  }, [memberListData, emailListData]);
 
   useEffect(() => {
-    const emailList = mocData2.invitations.filter(
+    const emailList = emailListData?.invitations.filter(
       (i) => i.inviteAccepted === false,
     );
 
@@ -95,14 +119,14 @@ function List({ props }: { props: string }) {
 
     if (listType === "member") {
       let data: any = { members: "" };
-      data.members = mocData.members.slice(
+      data.members = memberListData?.members.slice(
         (curruntPage - 1) * 4,
         (curruntPage - 1) * 4 + 4,
       );
       setMapData(data);
     } else if (listType === "invite") {
       let data2: any = { invitations: "" };
-      data2.invitations = emailList.slice(
+      data2.invitations = emailList?.slice(
         (curruntPage - 1) * 5,
         (curruntPage - 1) * 5 + 5,
       );
@@ -136,7 +160,7 @@ function List({ props }: { props: string }) {
         </S.TitleName>
         <S.Pagenation>
           <S.PageCount>
-            {totalPage} 페이지 중 {curruntPage}
+            {totalPage ? totalPage : ""} 페이지 중 {curruntPage}
           </S.PageCount>
           <S.PagenationButtonContainer>
             <S.PagenationButtonLeft>
@@ -193,29 +217,36 @@ function List({ props }: { props: string }) {
       </S.SortContainer>
       {listType === "member" ? (
         <S.MemberList>
-          {mapData.members.map((item, index) => (
+          {memberListData?.members.map((item, index) => (
             <Member
               key={`${index}-member`}
               profileImageUrl={item.profileImageUrl}
               nickname={item.nickname}
               isOwner={item.isOwner}
+              id={item.id}
+              handleKickUser={handleKickUser}
             />
           ))}
         </S.MemberList>
       ) : listType === "invite" ? (
-        mocData2.totalCount === 0 ? (
+        emailListData?.totalCount === 0 ? (
           ""
         ) : (
           <S.MemberList>
-            {mapData2.invitations.map((item, index) => (
-              <Email key={`${index}-email`} email={item.invitee.email} />
+            {emailListData?.invitations.map((item, index) => (
+              <Email
+                key={`${index}-email`}
+                email={item.invitee.email}
+                id={item.id}
+                handleCancelEmail={handleCancelEmail}
+              />
             ))}
           </S.MemberList>
         )
       ) : (
         ""
       )}
-      {mocData2.totalCount === 0 ? (
+      {emailListData?.totalCount === 0 && listType === "invite" ? (
         <S.NoEmailImgContainer>
           <Image
             alt="초대없음 이미지"
