@@ -32,6 +32,17 @@ export default function MyDashboard() {
     }
   };
 
+  const getDashboardData = async (link: string) => {
+    try {
+      const response = await axios.get(link);
+      return response;
+    } catch (e: any) {
+      if (e.response.status === 404) {
+        router.push("/404");
+      }
+    }
+  };
+
   const putData = async (link: string, data: any) => {
     try {
       const response = await axios.put(link, data);
@@ -55,6 +66,10 @@ export default function MyDashboard() {
     });
     const dashboardResponse = await getData(`dashboards/${id}`);
     setDashboardData(dashboardResponse.data);
+    const sidemenuResponse = await getData(
+      "dashboards?navigationMethod=infiniteScroll",
+    );
+    setSidemenuData(sidemenuResponse.data);
   };
 
   const handleKickUser = async (targetId: number) => {
@@ -70,12 +85,19 @@ export default function MyDashboard() {
   };
 
   const handleDeleteDashboard = async () => {
-    await deleteData(`dashboards/${id}`);
+    const ok = confirm("삭제하시겠습니까?");
+    if (ok) {
+      await deleteData(`dashboards/${id}`);
+      router.push("/mydashboard");
+    }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const dashboardResponse = await getDashboardData(`dashboards/${id}`); //`dashboards/${id}2652`
+        setDashboardData(dashboardResponse.data);
+
         const sidemenuResponse = await getData(
           "dashboards?navigationMethod=infiniteScroll",
         );
@@ -86,9 +108,6 @@ export default function MyDashboard() {
 
         const emailListResponse = await getData(`dashboards/${id}/invitations`); //`dashboards/${id}/invitations`
         setEmailListData(emailListResponse.data);
-
-        const dashboardResponse = await getData(`dashboards/${id}`); //`dashboards/${id}2652`
-        setDashboardData(dashboardResponse.data);
       } catch (error) {
         console.error(error);
       }
