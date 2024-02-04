@@ -11,7 +11,7 @@ export const DashboardContainer = styled.div`
 `;
 
 export const DashboardMain = styled.div`
-  & ul {
-    display: flex;
-  }
+  display: flex;
 `;
+
+export const Column = styled.div``;

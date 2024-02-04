@@ -1,24 +1,27 @@
 import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
-import { map } from "lodash";
+import { CardsProps, ColumnsProps } from "@/pages/dashboardForOne";
 
-interface CardProps {
-  cards: any[];
-  openCreateModal: (newCard: any) => void;
-  addCard: (newCard: any) => void;
-}
-
-function Card({ cards, openCreateModal, addCard }: CardProps) {
+function CardItem({
+  column,
+  cards,
+  openCreateModal,
+  openEditModal,
+}: {
+  column: ColumnsProps;
+  cards: CardsProps;
+  openCreateModal: () => void;
+  openEditModal: () => void;
+}) {
   return (
     <S.cards>
       <S.cardsTitle>
         <S.title>
-          <S.titlePoint></S.titlePoint>
-          On Progress
-          <S.cardLength>{cards.length}</S.cardLength>
+          <S.titlePoint>{column.data[0].title}</S.titlePoint>
+          <S.cardLength>{cards.totalCount}</S.cardLength>
         </S.title>
-        <S.cardsImg>
+        <S.cardsImg onClick={openEditModal}>
           <Image src={"/images/settings.svg"} alt="settings" fill />
         </S.cardsImg>
       </S.cardsTitle>
@@ -29,7 +32,7 @@ function Card({ cards, openCreateModal, addCard }: CardProps) {
           </S.cardMoreImg>
         </S.cardMore>
       </S.card>
-      {cards.map((item, index) => (
+      {cards.cards.map((item, index) => (
         <S.card key={index}>
           {item.imageUrl && (
             <S.cardImg>
@@ -50,7 +53,7 @@ function Card({ cards, openCreateModal, addCard }: CardProps) {
                   <span>{item.dueDate}</span>
                 </S.date>
 
-                <S.colors>B</S.colors>
+                <S.colors>{item.assignee.porfileImageUrl}</S.colors>
               </S.dateWrap>
             </S.tagDate>
           </S.text>
@@ -60,4 +63,4 @@ function Card({ cards, openCreateModal, addCard }: CardProps) {
   );
 }
 
-export default Card;
+export default CardItem;
