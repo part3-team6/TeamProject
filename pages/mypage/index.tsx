@@ -191,6 +191,8 @@ function MyPage() {
 
           setPreviewUrl(imageUrl.profileImageUrl);
           router.push("/mypage");
+
+          setProfileBtn(false);
         }
       }
     }
