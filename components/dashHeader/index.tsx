@@ -2,7 +2,6 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useRef, useState } from "react";
 import useUserStore from "@/store/user";
-import Link from "next/link";
 import DropDown from "../dropDown";
 import useToggle from "@/hooks/useToggle";
 
@@ -58,11 +57,11 @@ function Header({ mock, title }: HeaderProps) {
     setCurrentUser(user);
   }, [user]);
 
-  const dropdownRef = useRef();
-  const myNameRef = useRef();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const myNameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: { target: any }) {
+    function handleClickOutside(event: MouseEvent) {
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&

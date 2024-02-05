@@ -27,7 +27,6 @@ function SignIn() {
       email: data.email,
       password: data.password,
     };
-    console.log(data);
     login(loginData);
   };
 
@@ -47,7 +46,6 @@ function SignIn() {
       await setUserData();
       router.push("/boards");
     } catch (error) {
-      // setEmailError(true);
       setPasswordError(true);
       if (data.email !== "" && data.password !== "") {
         showPwdToggle();
@@ -55,6 +53,7 @@ function SignIn() {
       console.error("로그인 실패:", error);
     }
   }
+
   const setUserData = async () => {
     try {
       const respons = await axios.get("users/me");
@@ -83,8 +82,7 @@ function SignIn() {
             </S.logo>
             <p>오늘도 만나서 반가워요!</p>
           </S.logoWrap>
-          {/* onSubmit={login} */}
-          {/* onChange={handleSubmit(onSubmit)} */}
+
           <S.loginForm onSubmit={handleSubmit(onSubmit)}>
             <Input
               hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}

@@ -98,11 +98,12 @@ export const imgEdit = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
 `;
-export const submit = styled.input`
+export const submit = styled.input<{ null: boolean }>`
   width: 8.4rem;
   height: 3.2rem;
   border-radius: 4px;
-  background: var(--violet-5534DA);
+  background: ${(props) =>
+    props.null ? "var(--gray-9FA6B2)" : "var(--violet-5534DA)"};
   margin: 3.2rem 0 0 auto;
   color: var(--white-FFFFFF);
   text-align: center;
