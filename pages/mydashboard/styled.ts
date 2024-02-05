@@ -49,8 +49,8 @@ export const background = styled.div`
   height: calc(100vh - 7rem);
   margin-left: 30rem;
   display: flex;
-  /* background: var(--gray-FAFAFA); */
-  background: skyblue;
+  background: var(--gray-FAFAFA);
+  /* background: skyblue; */
 
   @media (max-width: 1199px) {
     margin-left: 16rem;

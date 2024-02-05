@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const headerWrap = styled.div`
-  width: calc(100vw - 30rem);
+  /* width: calc(100vw - 30rem); */
   height: 7rem;
   border-bottom: 1px solid var(--gray-D9D9D9);
   display: flex;
@@ -11,7 +11,7 @@ export const headerWrap = styled.div`
   margin-left: 30rem;
   font-size: 1.6rem;
   @media all and (max-width: 1199px) {
-    width: calc(100vw - 16rem);
+    /* width: calc(100vw - 16rem); */
     margin-left: 16rem;
     justify-content: flex-end;
   }
@@ -86,6 +86,7 @@ export const headerCircle = styled.div`
   border: 1px solid #fff;
   position: relative;
   z-index: 1;
+  overflow: hidden;
   @media all and (max-width: 767px) {
     width: 3.4rem;
     height: 3.4rem;

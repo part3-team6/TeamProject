@@ -2,20 +2,22 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
 import useUserStore from "@/store/user";
+import Link from "next/link";
+
+interface Member {
+  id?: number;
+  userId?: number;
+  email?: string;
+  nickname?: string;
+  profileImageUrl?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  isOwner?: boolean;
+}
 
 interface HeaderProps {
   mock: {
-    members: {
-      id?: number;
-      userId?: number;
-      email?: string;
-      nickname: string;
-      profileImageUrl?: string;
-      createdAt?: string;
-      updatedAt?: string;
-      isOwner?: boolean;
-    }[];
-
+    members: Member[];
     totalCount: number;
   };
   title: string;
@@ -25,7 +27,7 @@ function Header({ mock, title }: HeaderProps) {
   const { user } = useUserStore();
   const [member, setMember] = useState(true);
   const [isTablet, setIsTablet] = useState(true);
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<Member | null>(null);
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
@@ -49,60 +51,70 @@ function Header({ mock, title }: HeaderProps) {
     ? mock.members.slice(0, 2)
     : mock.members.slice(0, 5);
 
+  useEffect(() => {
+    setCurrentUser(user);
+  }, [user]);
+
   return (
     <S.headerWrap>
       <S.dashBoard>{title}</S.dashBoard>
       <S.headerData>
-        <S.btn>
-          <Image
-            src="/images/settings.svg"
-            alt="settings"
-            width={20}
-            height={20}
-          />
-          <span>관리</span>
-        </S.btn>
-        <S.btn>
-          <Image
-            src="/images/chip+white.svg"
-            alt="settings"
-            width={20}
-            height={20}
-          />
-          <span>초대하기</span>
-        </S.btn>
-        <S.member>
-          {member &&
-            sliceMock.slice(0, 4).map((item, index) => (
-              <S.headerCircle
-                key={index}
-                style={{ backgroundImage: item.profileImageUrl }}
-              >
-                {item.nickname.slice(0, 1).toUpperCase()}
-              </S.headerCircle>
-            ))}
-          {sliceMock ? (
-            <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
-          ) : (
-            <S.headerCircle>+{mock.totalCount - 4}</S.headerCircle>
-          )}
-        </S.member>
-
-        <S.line></S.line>
-        <S.myName>
-          <S.headerCircle>
-            {currentUser && !currentUser.profileImageUrl ? (
-              currentUser.nickname.slice(0, 1).toUpperCase()
-            ) : (
+        {title !== "계정관리" && title !== "내 대시보드" && (
+          <>
+            <S.btn>
               <Image
-                src={currentUser?.profileImageUrl || ""}
-                alt="유저 프로필"
-                fill
+                src="/images/settings.svg"
+                alt="settings"
+                width={20}
+                height={20}
               />
-            )}
-          </S.headerCircle>
-          <span>{currentUser?.nickname}</span>
-        </S.myName>
+              <span>관리</span>
+            </S.btn>
+            <S.btn>
+              <Image
+                src="/images/chip+white.svg"
+                alt="settings"
+                width={20}
+                height={20}
+              />
+              <span>초대하기</span>
+            </S.btn>
+            <S.member>
+              {member &&
+                sliceMock.slice(0, 4).map((item, index) => (
+                  <S.headerCircle
+                    key={index}
+                    style={{ backgroundImage: item.profileImageUrl }}
+                  >
+                    {item.nickname.slice(0, 1).toUpperCase()}
+                  </S.headerCircle>
+                ))}
+              {sliceMock ? (
+                <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
+              ) : (
+                <S.headerCircle>+{mock.totalCount - 4}</S.headerCircle>
+              )}
+            </S.member>
+
+            <S.line></S.line>
+          </>
+        )}
+        <Link href={"/mypage"}>
+          <S.myName>
+            <S.headerCircle>
+              {currentUser && !currentUser.profileImageUrl ? (
+                currentUser.nickname.slice(0, 1).toUpperCase()
+              ) : (
+                <Image
+                  src={currentUser?.profileImageUrl || ""}
+                  alt="유저 프로필"
+                  fill
+                />
+              )}
+            </S.headerCircle>
+            <span>{currentUser?.nickname}</span>
+          </S.myName>
+        </Link>
       </S.headerData>
     </S.headerWrap>
   );
