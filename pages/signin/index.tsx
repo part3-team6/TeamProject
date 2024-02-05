@@ -39,13 +39,13 @@ function SignIn() {
     }
   }, []);
 
-  async function login(data) {
+  async function login(data: { email: string; password: string }) {
     try {
       const res = await axios.post("auth/login", data);
       localStorage.setItem("login", res.data.accessToken);
 
       await setUserData();
-      router.push("/");
+      router.push("/boards");
     } catch (error) {
       // setEmailError(true);
       setPasswordError(true);

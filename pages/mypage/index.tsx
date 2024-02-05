@@ -42,6 +42,7 @@ function MyPage() {
   const [modalText, setModalText] = useState("");
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
+  // profile
   const { register: register1, handleSubmit: handleSubmit1 } =
     useForm<IFormInput>();
   const onSubmit1: SubmitHandler<IFormInput> = (data) => {
@@ -52,10 +53,11 @@ function MyPage() {
     handleChangeProfile(postData);
   };
 
+  // pwd
   const {
     register: register2,
     handleSubmit: handleSubmit2,
-    watch: watch2,
+    watch,
   } = useForm<PwdChange>();
   const onSubmit2: SubmitHandler<PwdChange> = (data) => {
     const pwdValue = {
@@ -82,7 +84,10 @@ function MyPage() {
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
-      if (response.data.profileImageUrl !== null) {
+      if (
+        response.data.profileImageUrl !== null &&
+        response.data.profileImageUrl !== previewUrl
+      ) {
         setPreviewUrl(response.data.profileImageUrl);
       }
     } catch (error) {
@@ -111,7 +116,6 @@ function MyPage() {
       if (response.status === 201) {
         fetchProfileImage();
       }
-      console.log(response.status);
       return response.data;
     } catch (err) {
       console.error(err);
@@ -175,11 +179,20 @@ function MyPage() {
 
   // 비밀번호 변경 끝
 
-  console.log(watch2("password"));
-  const aaa = (e) => {
-    console.log(123);
-  };
+  const handleNewPasswordBlur = () => {
+    const newPassword = String(watch("newPassword"));
+    const newPasswordCheck = String(watch("newPasswordCheck"));
 
+    if (
+      newPassword !== newPasswordCheck &&
+      newPassword !== "" &&
+      newPasswordCheck !== ""
+    ) {
+      setPwdWrong(true);
+    } else {
+      setPwdWrong(false);
+    }
+  };
   return (
     <S.wrap>
       {showPwdError && (
@@ -192,7 +205,7 @@ function MyPage() {
       <Header mock={mocks[0]} title="계정관리"></Header>
       <Sidemenu mock={mock}></Sidemenu>
       <S.mypage>
-        <S.back>{"<"} 뒤로가기</S.back>
+        <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
 
         <S.box onSubmit={handleSubmit1(onSubmit1)}>
           <S.boxTitle>프로필</S.boxTitle>
@@ -207,7 +220,12 @@ function MyPage() {
                 blurDataURL={"/images/more.svg"}
               />
               <S.changeImg>
-                <S.changeImginner htmlFor="file"></S.changeImginner>
+                <S.changeImginner htmlFor="file">
+                  <S.imgEdit>
+                    <Image src={"/images/imgEdit.svg"} alt="이미지 변경" fill />
+                  </S.imgEdit>
+                </S.changeImginner>
+
                 <input
                   {...register1("profileImageUrl")}
                   type="file"
@@ -258,6 +276,7 @@ function MyPage() {
                 placeholder="새 비밀번호 입력"
                 data="pwd"
                 name="newPassword"
+                handleBlur={handleNewPasswordBlur}
               />
               <Input
                 hookform={register2("newPasswordCheck")}
@@ -266,7 +285,7 @@ function MyPage() {
                 data="pwd"
                 wrong={pwdWrong}
                 name="newPasswordCheck"
-                handleBlur={aaa}
+                handleBlur={handleNewPasswordBlur}
               />
             </S.inputs>
           </S.inputBox>

@@ -27,6 +27,7 @@ export const back = styled.div`
   font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 1rem;
+  cursor: pointer;
 `;
 export const box = styled.form`
   width: 100%;
@@ -49,6 +50,8 @@ export const boxImg = styled.div`
   height: 18.2rem;
   position: relative;
   border-radius: 6px;
+  overflow: hidden;
+  display: table;
   @media all and (max-width: 767px) {
     width: 10rem;
     height: 10rem;
@@ -58,7 +61,6 @@ export const changeImg = styled.div`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
-  border-radius: 6px;
   &:hover label {
     display: block;
   }
@@ -79,14 +81,22 @@ export const changeImginner = styled.label`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
-  border-radius: 6px;
   background-color: rgba(0, 0, 0, 0.3);
   border: none;
   display: none;
+  cursor: pointer;
   @media all and (max-width: 767px) {
     width: 10rem;
     height: 10rem;
   }
+`;
+export const imgEdit = styled.div`
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 export const submit = styled.input`
   width: 8.4rem;

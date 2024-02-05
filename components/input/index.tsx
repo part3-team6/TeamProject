@@ -43,11 +43,11 @@ function Input({
           <S.label htmlFor={data}>{title}</S.label>
           <S.input
             {...hookform}
-            // onBlur={handleBlur}
+            onBlur={handleBlur}
             type={data === "이메일" ? "email" : "text"}
             id={data}
             placeholder={placeholder}
-            onChange={handleChange}
+            // onChange={handleChange}
             value={value}
             onFocus={test}
             wrong={wrong}
@@ -71,8 +71,8 @@ function Input({
               type={pwd ? "password" : "text"}
               id={data + title}
               placeholder={placeholder}
-              onChange={handleChange}
-              // onBlur={handleBlur}
+              onBlur={handleBlur}
+              // onChange={handleChange}
               value={value}
               onFocus={test}
               wrong={wrong}
