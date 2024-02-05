@@ -18,6 +18,13 @@ export const drop = styled.div`
   }
 `;
 
+export const btn = styled.div`
+  border-top: 1px solid black;
+  display: flex;
+  & div:first-child {
+    border-right: 1px solid black;
+  }
+`;
 export const btns = styled.div`
   padding: 2rem 5rem;
   flex: 1;
@@ -28,5 +35,14 @@ export const btns = styled.div`
   }
   @media all and (max-width: 767px) {
     padding: 1.5rem 3rem;
+  }
+`;
+
+export const myWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  & div {
+    padding: 1rem;
   }
 `;

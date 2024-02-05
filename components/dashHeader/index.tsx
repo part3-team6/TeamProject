@@ -59,10 +59,16 @@ function Header({ mock, title }: HeaderProps) {
   }, [user]);
 
   const dropdownRef = useRef();
+  const myNameRef = useRef();
 
   useEffect(() => {
     function handleClickOutside(event: { target: any }) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        myNameRef.current &&
+        !myNameRef.current.contains(event.target)
+      ) {
         setShowMymenu(false);
       }
     }
@@ -120,7 +126,7 @@ function Header({ mock, title }: HeaderProps) {
             </>
           )}
 
-          <S.myName onClick={showMymenuToggle}>
+          <S.myName onClick={showMymenuToggle} ref={myNameRef}>
             <S.headerCircle>
               {currentUser && !currentUser.profileImageUrl ? (
                 currentUser.nickname.slice(0, 1).toUpperCase()
