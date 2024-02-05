@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import * as S from "./styled";
 import Image from "next/image";
+
+import * as S from "./styled";
 
 interface InputProps {
   title?: string;

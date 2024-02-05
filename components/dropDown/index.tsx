@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
-import * as S from "./styled";
 import React, { forwardRef } from "react";
+import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
+import * as S from "./styled";
 
 const DropDown: React.ForwardRefRenderFunction<HTMLDivElement, {}> = (
   props,

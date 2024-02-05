@@ -1,14 +1,17 @@
 import Image from "next/image";
-import * as S from "./styled";
 import Link from "next/link";
-import Input from "@/components/input";
-import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useUserStore from "@/store/user";
-import ModalCheckIt from "@/components/modal/modalCheckIt";
-import useToggle from "@/hooks/useToggle";
 import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "@/lib/axios";
+
+import Input from "@/components/input";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
+
+import useUserStore from "@/store/user";
+import useToggle from "@/hooks/useToggle";
+
+import * as S from "./styled";
 
 interface IFormInput {
   email: string;
