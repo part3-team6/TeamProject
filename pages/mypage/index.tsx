@@ -222,8 +222,8 @@ function MyPage() {
   // 비밀번호 변경 끝
 
   const handleNewPasswordBlur = () => {
-    const newPassword = String(pwd1);
-    const newPasswordCheck = String(pwd2);
+    const newPassword = pwd1;
+    const newPasswordCheck = pwd2;
 
     if (
       newPassword !== newPasswordCheck &&
@@ -284,7 +284,7 @@ function MyPage() {
                     title="이메일"
                     placeholder={currentUser.email}
                     data="이메일"
-                    disabled="disabled"
+                    disabled={true}
                   />
                   <Input
                     hookform={register1("nickname")}

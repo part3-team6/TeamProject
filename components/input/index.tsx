@@ -14,7 +14,7 @@ interface InputProps {
   test?: () => void;
   hookform?: any;
   name?: string;
-  disabled?: string;
+  disabled?: boolean;
   defaultValue?: string;
 }
 function Input({
