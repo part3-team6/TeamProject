@@ -4,6 +4,9 @@ import { useEffect, useRef, useState } from "react";
 import useUserStore from "@/store/user";
 import DropDown from "../dropDown";
 import useToggle from "@/hooks/useToggle";
+import Link from "next/link";
+import useEditStore from "@/store/edit";
+import { useRouter } from "next/router";
 
 interface Member {
   id?: number;
@@ -30,6 +33,15 @@ function Header({ mock, title }: HeaderProps) {
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
+  const { setInviteModalState } = useEditStore(); //주스탄드에서 초대모달창 상태관리
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const handleOpenInviteModal = () => {
+    setInviteModalState(true);
+  };
+
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
@@ -50,8 +62,8 @@ function Header({ mock, title }: HeaderProps) {
   }, []);
 
   const sliceMock = isTablet
-    ? mock.members.slice(0, 2)
-    : mock.members.slice(0, 5);
+    ? mock?.members.slice(0, 2)
+    : mock?.members.slice(0, 5);
 
   useEffect(() => {
     setCurrentUser(user);
@@ -86,16 +98,18 @@ function Header({ mock, title }: HeaderProps) {
         <S.headerData>
           {title !== "계정관리" && title !== "내 대시보드" && (
             <>
-              <S.btn>
-                <Image
-                  src="/images/settings.svg"
-                  alt="settings"
-                  width={20}
-                  height={20}
-                />
-                <span>관리</span>
-              </S.btn>
-              <S.btn>
+              <Link href={`/boards/${id}/edit`}>
+                <S.btn>
+                  <Image
+                    src="/images/settings.svg"
+                    alt="settings"
+                    width={20}
+                    height={20}
+                  />
+                  <span>관리</span>
+                </S.btn>
+              </Link>
+              <S.btn onClick={handleOpenInviteModal}>
                 <Image
                   src="/images/chip+white.svg"
                   alt="settings"
@@ -106,7 +120,7 @@ function Header({ mock, title }: HeaderProps) {
               </S.btn>
               <S.member>
                 {member &&
-                  sliceMock.slice(0, 4).map((item, index) => (
+                  sliceMock?.slice(0, 4).map((item, index) => (
                     <S.headerCircle
                       key={index}
                       style={{ backgroundImage: item.profileImageUrl }}
@@ -117,7 +131,7 @@ function Header({ mock, title }: HeaderProps) {
                 {sliceMock ? (
                   <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
                 ) : (
-                  <S.headerCircle>+{mock.totalCount - 4}</S.headerCircle>
+                  <S.headerCircle>+{mock?.totalCount - 4}</S.headerCircle>
                 )}
               </S.member>
 

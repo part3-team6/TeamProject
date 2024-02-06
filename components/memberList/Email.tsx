@@ -11,7 +11,10 @@ function Email({
   handleCancelEmail: (targetId: number) => Promise<void>;
 }) {
   const handleClick = () => {
-    handleCancelEmail(id);
+    const ok = confirm("취소하시겠습니까?");
+    if (ok) {
+      handleCancelEmail(id);
+    }
   };
   return (
     <S.MemberOfDashboard>
