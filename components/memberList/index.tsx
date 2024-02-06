@@ -4,6 +4,7 @@ import Image from "next/image";
 import Member from "./Member";
 import Email from "./Email";
 import { mocData, mocData2 } from "./moc";
+import useEditStore from "@/store/edit";
 
 interface Member {
   id: number;
@@ -54,8 +55,8 @@ function List({
   handleCancelEmail,
 }: {
   props: string;
-  memberListData: MapData;
-  emailListData: MapData2;
+  memberListData?: MapData;
+  emailListData?: MapData2;
   handleKickUser: (targetId: number) => Promise<void>;
   handleCancelEmail: (targetId: number) => Promise<void>;
 }) {
@@ -65,6 +66,7 @@ function List({
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [curruntPage, setCurruntPage] = useState<number>(1);
+  const [invitedEmail, setInvitedEmail] = useState<any>([]);
   const [mapData, setMapData] = useState<MapData>({
     members: [],
     totalCount: 0,
@@ -73,7 +75,11 @@ function List({
     invitations: [],
     totalCount: 0,
   });
-  const [invitedEmail, setInvitedEmail] = useState<any>([]);
+  const { inviteModalState, setInviteModalState } = useEditStore();
+
+  const handleSetInviteModalStateTrue = () => {
+    setInviteModalState(true);
+  };
 
   const handleNextPage = () => {
     if (curruntPage < totalPage) {
@@ -91,10 +97,12 @@ function List({
     const type = props;
 
     let calculatedTotalPage = 1;
+    console.log(emailListData);
 
     const emailList = emailListData?.invitations.filter(
-      (i) => i.inviteAccepted === false,
+      (i) => i.inviteAccepted === null,
     );
+    console.log("email", emailList);
 
     if (type === "member") {
       if (memberListData?.totalCount !== 0) {
@@ -112,7 +120,7 @@ function List({
 
   useEffect(() => {
     const emailList = emailListData?.invitations.filter(
-      (i) => i.inviteAccepted === false,
+      (i) => i.inviteAccepted === null,
     );
 
     setInvitedEmail(emailList);
@@ -131,8 +139,9 @@ function List({
         (curruntPage - 1) * 5 + 5,
       );
       setMapData2(data2);
+      console.log("data2", data2);
     }
-  }, [curruntPage]);
+  }, [curruntPage, memberListData, emailListData]);
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
@@ -181,7 +190,7 @@ function List({
           {isMobile ? (
             ""
           ) : listType === "invite" ? (
-            <S.InviteButton>
+            <S.InviteButton onClick={handleSetInviteModalStateTrue}>
               <S.InviteButtonContainer>
                 <Image alt="초대버튼의 +이미지" src="/images/addBox.svg" fill />
               </S.InviteButtonContainer>
@@ -202,7 +211,7 @@ function List({
         </S.Sort>
         {isMobile ? (
           listType === "invite" ? (
-            <S.InviteButton>
+            <S.InviteButton onClick={handleSetInviteModalStateTrue}>
               <S.InviteButtonContainer>
                 <Image alt="초대버튼의 +이미지" src="/images/addBox.svg" fill />
               </S.InviteButtonContainer>
@@ -224,6 +233,7 @@ function List({
               nickname={item.nickname}
               isOwner={item.isOwner}
               id={item.id}
+              userId={item.userId}
               handleKickUser={handleKickUser}
             />
           ))}
@@ -233,7 +243,7 @@ function List({
           ""
         ) : (
           <S.MemberList>
-            {emailListData?.invitations.map((item, index) => (
+            {mapData2?.invitations?.map((item, index) => (
               <Email
                 key={`${index}-email`}
                 email={item.invitee.email}

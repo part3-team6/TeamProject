@@ -86,6 +86,9 @@ export const PagenationButtonLeft = styled.div`
     width: 3.6rem;
     height: 3.6rem;
   }
+  &:hover {
+    background-color: var(--gray-EEEEEE);
+  }
 `;
 export const PagenationButtonRight = styled.div`
   width: 4rem;
@@ -99,6 +102,9 @@ export const PagenationButtonRight = styled.div`
   @media (max-width: 767px) {
     width: 3.6rem;
     height: 3.6rem;
+  }
+  &:hover {
+    background-color: var(--gray-EEEEEE);
   }
 `;
 
@@ -115,16 +121,21 @@ export const PagenationButtonImgContainer = styled.div`
   }
 `;
 
-export const InviteButton = styled.div`
+export const InviteButton = styled.button`
   width: 10.5rem;
   height: 3.2rem;
   background: var(--violet-5534DA);
   border-radius: 0.4rem;
+  border: 0px;
 
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.8rem;
+
+  &:active {
+    background: #332081;
+  }
 
   @media (max-width: 767px) {
     width: 8.6rem;
@@ -238,7 +249,7 @@ export const DeleteButton = styled.div`
   }
 
   &:hover {
-    background-color: var(--gray-EEEEEE);
+    background-color: "#36208f";
   }
 `;
 
