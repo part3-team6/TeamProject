@@ -28,11 +28,6 @@ export default function Test() {
   const clickclick = () => {
     getFd();
   };
-  const clickclickclick = () => {
-    localStorage.removeItem("login");
-    localStorage.removeItem("user-store");
-    router.push("/signin");
-  };
 
   return (
     <>
@@ -41,12 +36,6 @@ export default function Test() {
       </button>
       <button style={{ width: "200px", height: "200px" }} onClick={clickclick}>
         내 정보 보기
-      </button>
-      <button
-        style={{ width: "200px", height: "200px" }}
-        onClick={clickclickclick}
-      >
-        로그아웃
       </button>
     </>
   );

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import * as S from "./styled";
 import Image from "next/image";
+
+import * as S from "./styled";
 
 interface InputProps {
   title?: string;
@@ -13,7 +14,7 @@ interface InputProps {
   test?: () => void;
   hookform?: any;
   name?: string;
-  disabled?: string;
+  disabled?: boolean;
   defaultValue?: string;
 }
 function Input({
@@ -43,11 +44,11 @@ function Input({
           <S.label htmlFor={data}>{title}</S.label>
           <S.input
             {...hookform}
-            // onBlur={handleBlur}
+            onBlur={handleBlur}
             type={data === "이메일" ? "email" : "text"}
             id={data}
             placeholder={placeholder}
-            onChange={handleChange}
+            // onChange={handleChange}
             value={value}
             onFocus={test}
             wrong={wrong}
@@ -71,8 +72,8 @@ function Input({
               type={pwd ? "password" : "text"}
               id={data + title}
               placeholder={placeholder}
-              onChange={handleChange}
-              // onBlur={handleBlur}
+              onBlur={handleBlur}
+              // onChange={handleChange}
               value={value}
               onFocus={test}
               wrong={wrong}
