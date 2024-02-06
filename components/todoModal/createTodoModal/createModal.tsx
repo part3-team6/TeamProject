@@ -10,9 +10,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 
-interface ModalInterface {}
+interface CreateModalProps {
+  closeCreateModal: () => void;
+  addCard: (newCard: any) => void;
+}
 
-function CreateModal({}: ModalInterface) {
+function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
   const router = useRouter();
   const { id } = router.query;
   console.log(id);
@@ -65,6 +68,14 @@ function CreateModal({}: ModalInterface) {
   const handleManagerDropDownClick = () => {
     setManagerDropDown(!managerDropDown);
   };
+
+  function handleCreateCard(e: any) {
+    if (e.key === "Enter") e.preventDefault();
+
+    const newCard = {};
+    addCard(newCard);
+    closeCreateModal();
+  }
 
   // 대시보드 멤버 목록 조회
   async function fetchMembers() {
