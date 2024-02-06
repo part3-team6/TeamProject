@@ -2,7 +2,7 @@ import { MouseEventHandler, ReactNode, useState } from "react";
 import Button from "./modalButton";
 import * as S from "./styled";
 
-interface ModalProps {
+export interface ModalProps {
   title: string;
   name: string;
   submitButton?: string;
