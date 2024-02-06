@@ -33,10 +33,16 @@ function Modal({
 }: ModalProps) {
   const [values, setValues] = useState("");
 
+  const handleStopPropagation = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    e.stopPropagation();
+  };
+
   return (
     <>
       <S.background>
-        <S.container>
+        <S.container onClick={handleStopPropagation}>
           <div>
             <S.title>{title}</S.title>
             <S.name>{name}</S.name>

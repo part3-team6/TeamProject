@@ -67,6 +67,8 @@ function EditName({
           setChecked(2);
           break;
       }
+      setInputValue(data?.title);
+      console.log(12);
     }
   }, [data]);
 
@@ -109,6 +111,7 @@ function EditName({
   useEffect(() => {
     setIsEmpty(/^\s*$/.test(inputValue));
     setInputState(inputValue);
+    console.log("isemt", isEmpty);
   }, [inputValue]);
 
   // console.log(data);

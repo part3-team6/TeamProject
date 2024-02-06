@@ -282,3 +282,75 @@ export const dropDownWrapper = styled.div`
     height: 11.8rem;
   }
 `;
+
+export const nickNameContainer = styled.div`
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+  align-items: center;
+`;
+
+export const statusContainer = styled.div`
+  display: flex;
+  justify-content: left;
+  gap: 1rem;
+  align-items: center;
+`;
+
+export const circle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.8rem; // 원하는 크기로 조절하세요
+  height: 1.8rem; // 원하는 크기로 조절하세요
+  border-radius: 50%; // 원형으로 만들기
+  background-color: #f0f0f0; // 원하는 배경 색상으로 설정
+  color: #333; // 글자 색상 설정
+  font-size: 1.5rem; // 글자 크기 설정
+  margin: 0.5rem; // 원형 주변의 여백 설정
+  border: 1px solid #d9d9d9; // 테두리 색상 설정
+  margin-left: 3rem;
+`;
+
+export const nickName = styled.p`
+  color: yellow;
+`;
+
+export const DatePick = styled.input`
+  top: -3rem;
+
+  width: 42.5rem;
+  height: 4.8rem;
+
+  @media (max-width: 767px) {
+    width: 28rem;
+    height: 4rem;
+  }
+`;
+
+export const TagContainer = styled.div`
+  display: flex;
+  height: 4.8rem;
+  flex-wrap: wrap;
+  align-items: center;
+  background: var(--white-FFFFFF);
+  border: 1px solid var(--gray-D9D9D9);
+  border-radius: 6px;
+  padding-left: 1.6rem;
+`;
+
+export const Tag = styled.span`
+  display: inline-flex;
+  align-items: center;
+  margin: 0.4rem;
+  background: var(--light-gray);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
+`;
+
+export const TagInput = styled.input`
+  flex: 1;
+  border: none;
+  outline: none;
+`;

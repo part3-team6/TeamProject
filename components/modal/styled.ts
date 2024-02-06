@@ -45,7 +45,8 @@ export const button = styled.button`
   gap: 1rem;
   flex-shrink: 0;
   border-radius: 8px;
-  background: var(--violet-5534DA);
+  background: ${(props) =>
+    props.disabled ? "var(--violet-8-percent)" : "var(--violet-5534DA)"};
   color: var(--white-FFFFFF);
   text-align: center;
   /* font-family: Pretendard; */

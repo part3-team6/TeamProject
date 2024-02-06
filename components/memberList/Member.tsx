@@ -5,17 +5,22 @@ function Member({
   profileImageUrl,
   nickname,
   isOwner,
+  userId,
   id,
   handleKickUser,
 }: {
   profileImageUrl: string | null;
   nickname: string;
   isOwner: boolean;
+  userId: number;
   id: number;
   handleKickUser: (targetId: number) => Promise<void>;
 }) {
   const handleClick = () => {
-    handleKickUser(id);
+    const ok = confirm("퇴장시키시겠습니까?");
+    if (ok) {
+      handleKickUser(id);
+    }
   };
 
   return (

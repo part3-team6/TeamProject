@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const sidemenu = styled.div`
   width: 30rem;
   height: 100%;
+  overflow: scroll;
   display: flex;
   flex-direction: column;
   padding: 2rem 2.4rem;
@@ -11,6 +12,7 @@ export const sidemenu = styled.div`
   top: 0;
   @media all and (max-width: 1199px) {
     width: 16rem;
+    padding: 2rem 1rem 0 2.4rem;
   }
   @media all and (max-width: 767px) {
     width: 6.7rem;
@@ -56,6 +58,7 @@ export const sideList = styled.div`
   color: var(--gray-787486);
   font-size: 1.8rem;
   font-weight: 500;
+  padding-bottom: 1.5rem;
   cursor: pointer;
   & a {
     display: flex;
@@ -89,3 +92,48 @@ export const crown = styled.div`
     display: none;
   }
 `;
+
+// newDashboardColor (children) 부분
+interface colorEllipseInnerProps {
+  backgroundColor: string;
+  choiceColor: string;
+}
+
+export const colorEllipseInner = styled.div<colorEllipseInnerProps>`
+  position: relative;
+  & img {
+    display: ${(props) =>
+      props.choiceColor === props.backgroundColor ? "block" : "none"};
+  }
+`;
+
+export const EllipseUl = styled.ul`
+  position: relative;
+  display: flex;
+  gap: 1rem;
+  margin-top: 2.8rem;
+  transition: transform 1s ease-in-out;
+  :hover {
+    transform: scale(1.2);
+  }
+`;
+
+export const colorEllipse = styled.li<{ backgroundColor: string }>`
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: ${(props) => props?.backgroundColor || "#7AC555"};
+  border-radius: 50%;
+  cursor: pointer;
+`;
+
+export const deleteText = styled.p`
+  color: var(--gray-9FA6B2);
+  /* font-family: Pretendard; */
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration-line: underline;
+`;
+
+/// 끝
