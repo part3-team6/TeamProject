@@ -1,34 +1,42 @@
-import { useEffect, useState } from "react";
-import Header from "@/components/dashHeader";
-import mock from "@/components/dashHeader/mock";
-import * as S from "./styled";
-import Sidemenu from "@/components/sidemenu";
+import { useEffect, useRef, useState } from "react";
 import axios from "@/lib/axios";
-import List from "@/components/memberList";
-import EditName from "@/components/editName";
+import * as S from "./styled";
 import { useRouter } from "next/router";
-import { useStore } from "zustand";
-import useEditStore from "@/store/edit";
 import Image from "next/image";
 import Link from "next/link";
+import Header from "@/components/dashHeader";
+import mock from "@/components/dashHeader/mock";
+import Sidemenu from "@/components/sidemenu";
+import List from "@/components/memberList";
+import EditName from "@/components/editName";
+import useEditStore from "@/store/edit";
+import Modal from "@/components/modal/modal";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
 
-export default function MyDashboard() {
+export default function Edit() {
   const [headerData, setHeaderData] = useState<any>();
   const [sidemenuData, setSidemenuData] = useState<any>();
   const [memberListData, setMemberListData] = useState<any>();
   const [emailListData, setEmailListData] = useState<any>();
   const [dashboardData, setDashboardData] = useState<any>();
-  const { inputState, colorState } = useEditStore();
+  const [inviteEmailInput, setInviteEmailInput] = useState<string>("");
+  const [canIInvite, setCanIInvite] = useState<boolean>(false);
+  const [errorModal, setErrorModal] = useState<boolean>(false);
+  const [errorModal2, setErrorModal2] = useState<boolean>(false);
+  const { inputState, colorState, inviteModalState, setInviteModalState } =
+    useEditStore();
 
   const router = useRouter();
   const { id } = router.query;
+
+  const modalRef = useRef();
 
   const getData = async (link: string) => {
     try {
       const response = await axios.get(link);
       return response;
     } catch (e) {
-      throw Error(`에러 ${e} 발생`);
+      throw Error(`겟 에러 ${e} 발생`);
     }
   };
 
@@ -40,6 +48,7 @@ export default function MyDashboard() {
       if (e.response.status === 404) {
         router.push("/404");
       }
+      throw Error(`겟 에러 ${e} 발생`);
     }
   };
 
@@ -47,7 +56,7 @@ export default function MyDashboard() {
     try {
       const response = await axios.put(link, data);
     } catch (e) {
-      throw Error(`에러 ${e} 발생`);
+      throw Error(`풋 에러 ${e} 발생`);
     }
   };
 
@@ -55,7 +64,21 @@ export default function MyDashboard() {
     try {
       const response = await axios.delete(link);
     } catch (e) {
-      throw Error(`에러 ${e} 발생`);
+      throw Error(`딜리트 에러 ${e} 발생`);
+    }
+  };
+
+  const postData = async (link: string, data: any) => {
+    try {
+      const response = await axios.post(link, data);
+    } catch (e: any) {
+      if (e.response.status === 409) {
+        await setErrorModal(true);
+        setInviteModalState(false);
+      } else if (e.response.status === 404) {
+        await setErrorModal2(true);
+        setInviteModalState(false);
+      }
     }
   };
 
@@ -73,7 +96,7 @@ export default function MyDashboard() {
   };
 
   const handleKickUser = async (targetId: number) => {
-    await deleteData(`${id}/members/${targetId}`);
+    await deleteData(`/members/${targetId}`);
     const memberListResponse = await getData(`members?dashboardId=${id}`);
     setMemberListData(memberListResponse.data);
   };
@@ -92,11 +115,36 @@ export default function MyDashboard() {
     }
   };
 
+  const handleSetInviteModalStateFalse = () => {
+    setInviteModalState(false);
+    setErrorModal(false);
+    setErrorModal2(false);
+  };
+
+  const handleInviteEmail = async () => {
+    const isItExist = emailListData?.invitations.some(
+      (invitation: any) => invitation.invitee.email === inviteEmailInput,
+    );
+    if (canIInvite) {
+      if (!isItExist) {
+        await postData(`dashboards/${id}/invitations`, {
+          email: inviteEmailInput,
+        });
+        const emailListResponse = await getData(`dashboards/${id}/invitations`);
+        setEmailListData(emailListResponse.data);
+        setInviteModalState(false);
+      } else {
+        await setErrorModal(true);
+        setInviteModalState(false);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dashboardResponse = await getDashboardData(`dashboards/${id}`); //`dashboards/${id}2652`
-        setDashboardData(dashboardResponse.data);
+        const dashboardResponse = await getDashboardData(`dashboards/${id}`);
+        setDashboardData(dashboardResponse?.data);
 
         const sidemenuResponse = await getData(
           "dashboards?navigationMethod=infiniteScroll",
@@ -113,8 +161,16 @@ export default function MyDashboard() {
       }
     };
     // console.log("id", id);
+
     fetchData();
   }, [id]);
+
+  useEffect(() => {
+    //이메일인지 검사하고 맞으면 true값 반환
+    const reg =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+    setCanIInvite(reg.test(inviteEmailInput));
+  }, [inviteEmailInput]);
 
   // console.log("side", sidemenuData);
   // console.log("member", memberListData);
@@ -165,6 +221,44 @@ export default function MyDashboard() {
           </S.DashboardSettings>
         </S.MainContainer>
       </S.DashboardContainer>
+      {inviteModalState ? (
+        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
+          <Modal
+            title="초대하기"
+            name="이메일"
+            Placeholder="이메일"
+            cancelButton="취소"
+            submitButton="초대"
+            cancel={handleSetInviteModalStateFalse}
+            submit={handleInviteEmail}
+            value={setInviteEmailInput}
+          />
+        </S.ModalContainer>
+      ) : (
+        ""
+      )}
+      {errorModal ? (
+        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
+          <ModalCheckIt
+            text={"이미 초대된 회원입니다."}
+            submitButton={"확인"}
+            wrong={handleSetInviteModalStateFalse}
+          />
+        </S.ModalContainer>
+      ) : (
+        ""
+      )}
+      {errorModal2 ? (
+        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
+          <ModalCheckIt
+            text={"존재하지 않는 회원입니다."}
+            submitButton={"확인"}
+            wrong={handleSetInviteModalStateFalse}
+          />
+        </S.ModalContainer>
+      ) : (
+        ""
+      )}
     </S.Background>
   );
 }
