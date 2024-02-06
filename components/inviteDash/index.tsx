@@ -19,6 +19,7 @@ function InviteDash({ mock }: any) {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
 
   const handleInputChange = (event: any) => {
     setSearchTerm(event.target.value);

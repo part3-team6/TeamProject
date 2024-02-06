@@ -11,7 +11,7 @@ import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
 
-// 자동 시간순으로 정렬 해주는것 같음.
+// 자동 시간순, 내꺼 -> 초대받은 순
 // 남은작업 초대받은거 시간순 정렬
 
 // 절반완료
@@ -25,6 +25,7 @@ import useUserStore from "@/store/user";
 
 // 미완
 // 모달창 외부클릭
+
 // 해결
 // 사이드바 +버튼 눌렸을때 새로운 대쉬보드 만드는 모달창 나오게끔 설정
 
@@ -281,13 +282,13 @@ function Mydashboard() {
           </S.EllipseUl>
         </Modal>
       )}
-      <Header title="내 대시보드" mock={Mock} />
-
       <Sidemenu
         mock={infiniteScroll}
         sideBarDashboard={sideBarDashboard}
         myDashboard={() => myDashboard(currentPage, sizePages)}
       />
+      <Header title="내 대시보드" mock={Mock} />
+
       <S.background>
         <S.mainContainer>
           <S.dashboardGrid>
@@ -316,7 +317,7 @@ function Mydashboard() {
             ))}
             <S.pageNationFlex>
               <S.NpagesN>
-                {totalPages}페이지중{currentPage}
+                {totalPages} 페이지중 {currentPage}
               </S.NpagesN>
               <S.pageNation onClick={handlePreviousPage}>
                 <Image
