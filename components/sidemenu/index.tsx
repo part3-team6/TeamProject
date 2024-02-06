@@ -95,7 +95,6 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
       window.removeEventListener("resize", handleTabletResize);
     };
   }, []);
-  console.log(mock);
 
   const truncateText = (text: string, maxLength: number) => {
     if (text.length > maxLength) {
