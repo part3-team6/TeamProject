@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
@@ -10,12 +10,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 
-interface ModalInterface {}
-
-function CreateModal({}: ModalInterface) {
-  const router = useRouter();
-  const { id } = router.query;
-  console.log(id);
+function CreateModal() {
+  // const router = useRouter();
+  // const { id } = router.query;
+  // console.log(id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -28,6 +26,8 @@ function CreateModal({}: ModalInterface) {
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
   const [image, setImage] = useState("");
   const [imagePreview, setImagePreview] = useState<string>("");
+
+  const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
 
   // 태그 추가 함수
   const addTag = (e: React.KeyboardEvent) => {
@@ -58,6 +58,14 @@ function CreateModal({}: ModalInterface) {
     } else {
       setImage(null);
       setImagePreview("");
+    }
+  };
+
+  // 이미지 입력 요소를 클릭하는 함수
+  const triggerImageInputClick = () => {
+    // ref를 통해 image input 요소에 접근하여 클릭 이벤트를 발생시킴
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
     }
   };
 
@@ -101,33 +109,33 @@ function CreateModal({}: ModalInterface) {
 
   // 폼 제출로 POST 요청 보내기
   const handleSubmit = async (e: React.FormEvent) => {
-    //   e.preventDefault();
-    //   // FormData 객체 생성
-    //   const formData = new FormData();
-    //   // 기본 필드 추가
-    //   formData.append("title", title);
-    //   formData.append("description", description);
-    //   formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
-    //   formData.append("deadline", deadline ? deadline.toISOString() : ""); // 마감일을 ISO 문자열로 변환
-    //   // 선택된 멤버의 닉네임 추가
-    //   if (memberList[selectedMemberIndex]) {
-    //     formData.append("manager", memberList[selectedMemberIndex].nickname);
-    //   }
-    //   // 이미지 파일이 있다면 추가
-    //   if (image) {
-    //     formData.append("image", image);
-    //   }
-    //   try {
-    //     const response = await axios.post(`/dashboard/${id}`, formData, {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     });
-    //     console.log(response.data);
-    //     // 성공 처리 로직
-    //   } catch (error) {
-    //     console.error("할 일 생성 오류:", error);
-    //   }
+    // e.preventDefault();
+    // // FormData 객체 생성
+    // const formData = new FormData();
+    // // 기본 필드 추가
+    // formData.append("title", title);
+    // formData.append("description", description);
+    // formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
+    // formData.append("deadline", deadline ? deadline.toString() : ""); // 문자열로 변환
+    // // 선택된 멤버의 닉네임 추가
+    // if (memberList[selectedMemberIndex]) {
+    //   formData.append("manager", memberList[selectedMemberIndex].nickname);
+    // }
+    // // 이미지 파일이 있다면 추가
+    // if (image) {
+    //   formData.append("image", image);
+    // }
+    // try {
+    //   const response = await axios.post(`/dashboard/${id}`, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   console.log(response.data);
+    //   // 성공 처리 로직
+    // } catch (error) {
+    //   console.error("할 일 생성 오류:", error);
+    // }
   };
 
   return (
@@ -216,9 +224,7 @@ function CreateModal({}: ModalInterface) {
             </S.TagContainer>
 
             <S.inputTitle>이미지</S.inputTitle>
-            <S.ImageContainer
-              onClick={() => document.getElementById("imageInput").click()}
-            >
+            <S.ImageContainer onClick={triggerImageInputClick}>
               {imagePreview ? (
                 <Image
                   src={imagePreview}
@@ -236,6 +242,7 @@ function CreateModal({}: ModalInterface) {
                 />
               )}
               <input
+                ref={imageInputRef}
                 id="imageInput"
                 type="file"
                 style={{ display: "none" }}
