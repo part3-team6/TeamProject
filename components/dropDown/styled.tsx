@@ -9,7 +9,7 @@ export const drop = styled.div`
   top: 6rem;
   right: 1rem;
   font-size: 2rem;
-  border: 1px solid black;
+  border: 1px solid var(--gray-9FA6B2);
   border-radius: 8px;
   background-color: #fff;
   overflow: hidden;
@@ -19,10 +19,10 @@ export const drop = styled.div`
 `;
 
 export const btn = styled.div`
-  border-top: 1px solid black;
+  border-top: 1px solid var(--gray-9FA6B2);
   display: flex;
   & div:first-child {
-    border-right: 1px solid black;
+    border-right: 1px solid var(--gray-9FA6B2);
   }
 `;
 export const btns = styled.div`
