@@ -162,7 +162,7 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
 
         {sideList?.dashboards?.map((item, index) => (
           <S.sideList key={index}>
-            <Link href={`boards/${item.id}`}>
+            <Link href={`/boards/${item.id}`}>
               <S.colors style={{ backgroundColor: item.color }}></S.colors>
               {!tablet ? (
                 <span>{item.title}</span>

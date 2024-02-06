@@ -140,6 +140,13 @@ export default function Edit() {
     }
   };
 
+  const handleSideMenuUpdate = async () => {
+    const sidemenuResponse = await getData(
+      "dashboards?navigationMethod=infiniteScroll",
+    );
+    setSidemenuData(sidemenuResponse.data);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -180,7 +187,7 @@ export default function Edit() {
 
   return (
     <S.Background>
-      <Sidemenu mock={sidemenuData} />
+      <Sidemenu mock={sidemenuData} myDashboard={handleSideMenuUpdate} />
       <Header mock={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>
