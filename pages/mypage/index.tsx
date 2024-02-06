@@ -1,17 +1,20 @@
-import useUserStore from "@/store/user";
-import * as S from "./styled";
-import axios from "@/lib/axios";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useForm, SubmitHandler } from "react-hook-form";
+import Image from "next/image";
+
+import useUserStore from "@/store/user";
+import useToggle from "@/hooks/useToggle";
+import axios from "@/lib/axios";
+
 import Sidemenu from "@/components/sidemenu";
+import Header from "@/components/dashHeader";
+import Input from "@/components/input";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
+import * as S from "./styled";
+
 import mock from "@/components/sidemenu/mock";
 import mocks from "@/components/dashHeader/mock";
-import Header from "@/components/dashHeader";
-import Image from "next/image";
-import Input from "@/components/input";
-import { useRouter } from "next/router";
-import ModalCheckIt from "@/components/modal/modalCheckIt";
-import useToggle from "@/hooks/useToggle";
-import { useForm, SubmitHandler } from "react-hook-form";
 
 interface Member {
   id: number;
@@ -28,6 +31,7 @@ interface IFormInput {
   nickname: string;
   profileImageUrl: string;
 }
+
 interface PwdChange {
   password: number;
   newPassword: number;
@@ -40,10 +44,16 @@ function MyPage() {
   const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
   const [pwdWrong, setPwdWrong] = useState(false);
   const [modalText, setModalText] = useState("");
+  const [profileBtn, setProfileBtn] = useState(false);
+  const [pwdBtn, setPwdBtn] = useState(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
-  const { register: register1, handleSubmit: handleSubmit1 } =
-    useForm<IFormInput>();
+  // profile
+  const {
+    register: register1,
+    handleSubmit: handleSubmit1,
+    watch: watch1,
+  } = useForm<IFormInput>();
   const onSubmit1: SubmitHandler<IFormInput> = (data) => {
     const postData = {
       nickname: data.nickname,
@@ -52,6 +62,7 @@ function MyPage() {
     handleChangeProfile(postData);
   };
 
+  // pwd
   const {
     register: register2,
     handleSubmit: handleSubmit2,
@@ -76,14 +87,44 @@ function MyPage() {
     profileImageUrl: null,
   });
 
+  // watch 사용
+  const profile1 = watch1("nickname");
+  const profile2 = watch1("profileImageUrl");
+  const pwd1 = String(watch2("newPassword"));
+  const pwd2 = String(watch2("newPasswordCheck"));
+  const pwd3 = String(watch2("password"));
+  // watch 사용
+
+  useEffect(() => {
+    if (profile1 === user.nickname || profile2 === user.profileImageUrl) {
+      setProfileBtn(true);
+    } else {
+      setProfileBtn(false);
+    }
+  }, [profile1, profile2]);
+  useEffect(() => {
+    if (pwd1.length === 0 || pwd2.length === 0 || pwd3.length === 0) {
+      setPwdBtn(true);
+    } else {
+      setPwdBtn(false);
+    }
+  }, [pwd1, pwd2, pwd3]);
+
   const router = useRouter();
 
   // -- 이미지 / 닉네임 변경 시작
   const fetchProfileImage = async () => {
     try {
       const response = await axios.get("users/me");
-      if (response.data.profileImageUrl !== null) {
+      if (
+        response.data.profileImageUrl !== null &&
+        response.data.profileImageUrl !== previewUrl
+      ) {
         setPreviewUrl(response.data.profileImageUrl);
+        setProfileValue((prev) => ({
+          ...prev,
+          profileImageUrl: response.data.profileImageUrl,
+        }));
       }
     } catch (error) {
       console.error(error);
@@ -111,7 +152,6 @@ function MyPage() {
       if (response.status === 201) {
         fetchProfileImage();
       }
-      console.log(response.status);
       return response.data;
     } catch (err) {
       console.error(err);
@@ -136,18 +176,24 @@ function MyPage() {
     }
   };
 
-  const handleFileChange = async (event: { target: { files: any[] } }) => {
-    const file = event.target.files[0];
-    if (file && file.type.startsWith("image/")) {
-      const imageUrl = await uploadImage(file);
-      if (imageUrl) {
-        setProfileValue((prev) => ({
-          ...prev,
-          profileImageUrl: imageUrl.profileImageUrl,
-        }));
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith("image/")) {
+        const imageUrl = await uploadImage(file);
+        if (imageUrl) {
+          setProfileValue((prev) => ({
+            ...prev,
+            profileImageUrl: imageUrl.profileImageUrl,
+          }));
 
-        setPreviewUrl(imageUrl.profileImageUrl);
-        router.push("/mypage");
+          setPreviewUrl(imageUrl.profileImageUrl);
+          router.push("/mypage");
+
+          setProfileBtn(false);
+        }
       }
     }
   };
@@ -159,27 +205,36 @@ function MyPage() {
     if (!pwdWrong && data.password !== "" && data.newPassword !== "") {
       try {
         const res = await axios.put("/auth/password", data);
-        console.log(res);
-        setModalText("비밀번호가 변경 되었습니다");
-        showPwdToggle();
+
+        if (res.status === 201) {
+          setModalText("비밀번호가 변경 되었습니다");
+          showPwdToggle();
+        }
+
         router.push("/mypage");
       } catch (err) {
-        console.log(err);
         setModalText(err.response.data.message);
         showPwdToggle();
       }
     }
-    // setModalText("값이 전부 비어있습니다.");
-    // showPwdToggle();
   };
 
   // 비밀번호 변경 끝
 
-  console.log(watch2("password"));
-  const aaa = (e) => {
-    console.log(123);
-  };
+  const handleNewPasswordBlur = () => {
+    const newPassword = pwd1;
+    const newPasswordCheck = pwd2;
 
+    if (
+      newPassword !== newPasswordCheck &&
+      newPassword !== "" &&
+      newPasswordCheck !== ""
+    ) {
+      setPwdWrong(true);
+    } else {
+      setPwdWrong(false);
+    }
+  };
   return (
     <S.wrap>
       {showPwdError && (
@@ -192,7 +247,7 @@ function MyPage() {
       <Header mock={mocks[0]} title="계정관리"></Header>
       <Sidemenu mock={mock}></Sidemenu>
       <S.mypage>
-        <S.back>{"<"} 뒤로가기</S.back>
+        <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
 
         <S.box onSubmit={handleSubmit1(onSubmit1)}>
           <S.boxTitle>프로필</S.boxTitle>
@@ -207,7 +262,12 @@ function MyPage() {
                 blurDataURL={"/images/more.svg"}
               />
               <S.changeImg>
-                <S.changeImginner htmlFor="file"></S.changeImginner>
+                <S.changeImginner htmlFor="file">
+                  <S.imgEdit>
+                    <Image src={"/images/imgEdit.svg"} alt="이미지 변경" fill />
+                  </S.imgEdit>
+                </S.changeImginner>
+
                 <input
                   {...register1("profileImageUrl")}
                   type="file"
@@ -224,7 +284,7 @@ function MyPage() {
                     title="이메일"
                     placeholder={currentUser.email}
                     data="이메일"
-                    disabled="disabled"
+                    disabled={true}
                   />
                   <Input
                     hookform={register1("nickname")}
@@ -238,7 +298,12 @@ function MyPage() {
               )}
             </S.inputs>
           </S.inputBox>
-          <S.submit type="submit" value={"저장"} />
+          <S.submit
+            type="submit"
+            value={"저장"}
+            null={profileBtn}
+            disabled={profileBtn ? true : false}
+          />
         </S.box>
 
         <S.box onSubmit={handleSubmit2(onSubmit2)}>
@@ -258,6 +323,7 @@ function MyPage() {
                 placeholder="새 비밀번호 입력"
                 data="pwd"
                 name="newPassword"
+                handleBlur={handleNewPasswordBlur}
               />
               <Input
                 hookform={register2("newPasswordCheck")}
@@ -266,11 +332,16 @@ function MyPage() {
                 data="pwd"
                 wrong={pwdWrong}
                 name="newPasswordCheck"
-                handleBlur={aaa}
+                handleBlur={handleNewPasswordBlur}
               />
             </S.inputs>
           </S.inputBox>
-          <S.submit type="submit" value="변경" />
+          <S.submit
+            type="submit"
+            value="변경"
+            null={pwdBtn}
+            disabled={pwdBtn ? true : false}
+          />
         </S.box>
       </S.mypage>
     </S.wrap>

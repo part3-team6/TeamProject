@@ -2,6 +2,8 @@ import Head from "next/head";
 import axios from "@/lib/axios";
 import useUserStore from "@/store/user";
 import { useRouter } from "next/router";
+import CreateModal from "@/components/todoModal/createTodoModal/createModal";
+import EditModal from "@/components/todoModal/editTodoModal/editModal";
 
 export default function Test() {
   const router = useRouter();
@@ -28,11 +30,6 @@ export default function Test() {
   const clickclick = () => {
     getFd();
   };
-  const clickclickclick = () => {
-    localStorage.removeItem("login");
-    localStorage.removeItem("user-store");
-    router.push("/signin");
-  };
 
   return (
     <>
@@ -48,6 +45,8 @@ export default function Test() {
       >
         로그아웃
       </button>
+      <CreateModal></CreateModal>
+      {/* <EditModal></EditModal> */}
     </>
   );
 }

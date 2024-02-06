@@ -6,11 +6,17 @@ export const form = styled.form`
   gap: 3rem;
 `;
 
-export const container = styled.div`
+export const signupback = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+`;
+export const container = styled.div`
+  width: 100%;
+  max-width: 52rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export const logo = styled.div`

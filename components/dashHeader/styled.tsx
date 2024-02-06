@@ -96,6 +96,7 @@ export const myName = styled.div`
   display: flex;
   align-items: center;
   gap: 0.9rem;
+  cursor: pointer;
   @media all and (max-width: 767px) {
     & span {
       display: none;

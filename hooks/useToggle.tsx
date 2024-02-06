@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, Dispatch, SetStateAction } from "react";
 
-function useToggle(initialState = false) {
-  const [state, setState] = useState(initialState);
+function useToggle(
+  initialState = false,
+): [boolean, Dispatch<SetStateAction<boolean>>, () => void] {
+  const [state, setState] = useState<boolean>(initialState);
 
-  const toggle = () => setState((prev) => !prev);
+  const toggle = (): void => setState((prev) => !prev);
   return [state, setState, toggle];
 }
 
