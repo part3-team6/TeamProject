@@ -22,8 +22,8 @@ interface SidemenuProps {
     totalCount: number;
     dashboards: Dashboard[];
   };
-  sideBarDashboard: () => void;
-  myDashboard: any;
+  sideBarDashboard?: () => void;
+  myDashboard?: any;
 }
 
 function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
@@ -32,6 +32,14 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
   const [createDashboardModal, setCreateDashboardModal] = useState(false); // 모달창 토글
   const [choiceColor, setChoiceColor] = useState(""); // 모달창 컬러 선택 스테이트
+  const [sideList, setSideList] = useState<{
+    cursorId: number;
+    totalCount: number;
+    dashboards: Dashboard[];
+  } | null>();
+  useEffect(() => {
+    setSideList(mock);
+  }, [mock]);
 
   const handleModalCancel = () => {
     setCreateDashboardModal(false);
@@ -153,7 +161,7 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
           </S.more>
         </S.subTitle>
 
-        {mock?.dashboards?.map((item, index) => (
+        {sideList?.dashboards?.map((item, index) => (
           <S.sideList key={index}>
             <Link href={`boards/${item.id}`}>
               <S.colors style={{ backgroundColor: item.color }}></S.colors>

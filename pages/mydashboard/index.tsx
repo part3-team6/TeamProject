@@ -10,6 +10,7 @@ import InviteDash from "@/components/inviteDash";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
+import useSideStore from "@/store/side";
 
 // 자동 시간순, 내꺼 -> 초대받은 순
 // 남은작업 초대받은거 시간순 정렬
@@ -52,6 +53,7 @@ function Mydashboard() {
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
   const [newDashboard, setNewDashboard] = useState<newDashboard | any>(Object); // 대쉬보드 페이지네이션 목록
   const [infiniteScroll, setInfiniteScroll] = useState(Object); // 대쉬보드 무한스크롤 목록 // 사이드바
+  const { side, setSide } = useSideStore();
   const [invited, setInvited] = useState<any>(null); // 초대 토글..? 이건 뭐드라..?
   const [currentPage, setCurrentPage] = useState<number>(1); // 페이지네이션
   // const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
@@ -163,6 +165,7 @@ function Mydashboard() {
         `dashboards?navigationMethod=pagination&cursorId=1&page=1&size=100`,
       );
       setInfiniteScroll(res.data);
+      setSide(res.data);
     } catch (error) {
       console.error("사이드바 대쉬보드 불러오기 오류", error);
     }
@@ -283,7 +286,7 @@ function Mydashboard() {
         </Modal>
       )}
       <Sidemenu
-        mock={infiniteScroll}
+        mock={side}
         sideBarDashboard={sideBarDashboard}
         myDashboard={() => myDashboard(currentPage, sizePages)}
       />

@@ -4,6 +4,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
 import useUserStore from "@/store/user";
+import useSideStore from "@/store/side";
 import useToggle from "@/hooks/useToggle";
 import axios from "@/lib/axios";
 
@@ -40,6 +41,7 @@ interface PwdChange {
 
 function MyPage() {
   const { user, setUser } = useUserStore();
+  const { side } = useSideStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
   const [pwdWrong, setPwdWrong] = useState(false);
@@ -245,7 +247,7 @@ function MyPage() {
         />
       )}
       <Header mock={mocks[0]} title="계정관리"></Header>
-      <Sidemenu mock={mock}></Sidemenu>
+      <Sidemenu mock={side}></Sidemenu>
       <S.mypage>
         <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
 

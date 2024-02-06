@@ -20,7 +20,7 @@ interface Member {
 }
 
 interface HeaderProps {
-  mock: {
+  mock?: {
     members: Member[];
     totalCount: number;
   };
