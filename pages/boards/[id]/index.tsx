@@ -54,6 +54,7 @@ export default function boardsById() {
   const [cards, setCards] = useState<CardProps[]>([]);
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [isEditModalOpen, setisEditModalOpen] = useState(false);
+  const [isEditColumnOpen, setisEditColumnOpen] = useState(false);
   const [isCreateColumnOpen, setisCreateColumnOpen] = useState(false);
 
   const [inputValue, setInputValue] = useState<string>("");
@@ -62,12 +63,20 @@ export default function boardsById() {
   const { id } = router.query;
 
   // Column 모달
-  const onCreateColumnModal = () => {
+  const openCreateColumnModal = () => {
     setisCreateColumnOpen(true);
   };
 
-  const onCreateColumnModalClose = () => {
+  const closeCreateColumnModal = () => {
     setisCreateColumnOpen(false);
+  };
+
+  const openEditColumnModal = () => {
+    setisEditColumnOpen(true);
+  };
+
+  const closeEditColumnModal = () => {
+    setisEditColumnOpen(false);
   };
 
   const handleInputChange = (newValue: string) => {
@@ -149,6 +158,8 @@ export default function boardsById() {
     }
   };
 
+  const editColumn = async () => {};
+
   const getCardsForColumn = async (columnId: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
@@ -208,11 +219,11 @@ export default function boardsById() {
                 column={column}
                 cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
                 openCreateModal={openCreateModal}
-                openEditModal={openEditModal}
+                openEditModal={openEditColumnModal}
               />
             </S.Column>
           ))}
-          <S.ColumnButton onClick={onCreateColumnModal}>
+          <S.ColumnButton onClick={openCreateColumnModal}>
             새로운 컬럼 추가하기
             <div>
               <Image src={"/images/chip+.svg"} alt="plus" fill />
@@ -223,11 +234,23 @@ export default function boardsById() {
       {isCreateModalOpen && (
         <CreateModal closeCreateModal={closeCreateModal} addCard={addCard} />
       )}
-      {isEditModalOpen && (
-        <EditModal closeEditModal={closeEditModal} editCard={editCard} />
+      {isEditColumnOpen && (
+        <S.EditColumnModal>
+          <Modal
+            title="컬럼 관리"
+            name="이름"
+            submitButton="변경"
+            children="삭제하기"
+            Placeholder=""
+            cancelButton="취소"
+            cancel={closeEditColumnModal}
+            value={handleInputChange}
+            submit={editColumn}
+          />
+        </S.EditColumnModal>
       )}
       {isCreateColumnOpen && (
-        <S.ColumnModal>
+        <S.CreateColumnModal>
           <Modal
             title="새 컬럼 생성"
             name="이름"
@@ -235,11 +258,11 @@ export default function boardsById() {
             children={null}
             Placeholder="새로운 프로젝트"
             cancelButton="취소"
-            cancel={onCreateColumnModalClose}
+            cancel={closeCreateColumnModal}
             value={handleInputChange}
             submit={addColumn}
           />
-        </S.ColumnModal>
+        </S.CreateColumnModal>
       )}
     </S.DashboardWrap>
   );

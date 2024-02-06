@@ -74,7 +74,15 @@ export const ColumnButton = styled.button`
   }
 `;
 
-export const ColumnModal = styled.div`
+export const EditColumnModal = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  z-index: 2;
+`;
+
+export const CreateColumnModal = styled.div`
   width: 100vw;
   height: 100vh;
   position: absolute;
