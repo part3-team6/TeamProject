@@ -12,7 +12,7 @@ function CardItem({
   column: ColumnProps;
   cards: CardProps[];
   openCreateModal: () => void;
-  openEditModal: () => void;
+  openEditModal: (columnId: number) => void;
 }) {
   return (
     <S.cards>
@@ -22,7 +22,7 @@ function CardItem({
           {column?.title}
           <S.cardLength>{cards.length}</S.cardLength>
         </S.title>
-        <S.cardsImg onClick={openEditModal}>
+        <S.cardsImg onClick={() => openEditModal(column.id)}>
           <Image src={"/images/settings.svg"} alt="settings" fill />
         </S.cardsImg>
       </S.cardsTitle>

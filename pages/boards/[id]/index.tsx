@@ -52,53 +52,57 @@ export interface CardProps {
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
-  const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setisEditModalOpen] = useState(false);
-  const [isEditColumnOpen, setisEditColumnOpen] = useState(false);
-  const [isCreateColumnOpen, setisCreateColumnOpen] = useState(false);
+  const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
+  const [isEditCardOpen, setIsEditCardOpen] = useState(false);
+  const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
+  const [isCreateColumnOpen, setIsCreateColumnOpen] = useState(false);
 
   const [inputValue, setInputValue] = useState<string>("");
+  const [editedColumnId, setEditedColumnId] = useState<number>(0);
 
   const router = useRouter();
   const { id } = router.query;
 
-  // Column 모달
+  // Column Create 모달
   const openCreateColumnModal = () => {
-    setisCreateColumnOpen(true);
+    setIsCreateColumnOpen(true);
   };
 
   const closeCreateColumnModal = () => {
-    setisCreateColumnOpen(false);
+    setIsCreateColumnOpen(false);
   };
 
-  const openEditColumnModal = () => {
-    setisEditColumnOpen(true);
+  // Column Edit 모달
+  const openEditColumnModal = (columnId: number) => {
+    setIsEditColumnOpen(true);
+    setEditedColumnId(columnId);
   };
 
   const closeEditColumnModal = () => {
-    setisEditColumnOpen(false);
+    setIsEditColumnOpen(false);
   };
 
+  // Column의 Input 값 변화
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
   };
 
-  // Create 모달
+  // Card Create 모달
   const openCreateModal = () => {
-    setisCreateModalOpen(true);
+    setIsCreateCardOpen(true);
   };
 
   const closeCreateModal = () => {
-    setisCreateModalOpen(false);
+    setIsCreateCardOpen(false);
   };
 
-  // Edit 모달
+  // Card Edit 모달
   const openEditModal = () => {
-    setisEditModalOpen(true);
+    setIsEditCardOpen(true);
   };
 
   const closeEditModal = () => {
-    setisEditModalOpen(false);
+    setIsEditCardOpen(false);
   };
 
   const addCard = (newCard: CardProps) => {
@@ -150,7 +154,7 @@ export default function boardsById() {
             data: [...prevColumn.data, response.data],
           };
         });
-        setisCreateColumnOpen(false);
+        setIsCreateColumnOpen(false);
       }
       console.log("addColumn", response.data);
     } catch (error) {
@@ -158,7 +162,37 @@ export default function boardsById() {
     }
   };
 
-  const editColumn = async () => {};
+  const editColumn = async () => {
+    try {
+      const response = await axiosInstance.put(`columns/${editedColumnId}`, {
+        title: inputValue,
+      });
+
+      if (response.status === 200) {
+        setColumns((prevColumns: ColumnsProps | undefined) => {
+          if (!prevColumns) {
+            return prevColumns; // 만약 이전 컬럼이 없다면 그대로 반환
+          }
+
+          const updatedColumns = prevColumns.data.map((col) => {
+            if (col.id === editedColumnId) {
+              return { ...col, title: inputValue }; // 수정된 컬럼만 제목 업데이트
+            }
+            return col;
+          });
+
+          return {
+            result: prevColumns.result,
+            data: updatedColumns,
+          };
+        });
+
+        setIsEditColumnOpen(false);
+      }
+    } catch (error) {
+      console.log("editColumn API 호출 오류", error);
+    }
+  };
 
   const getCardsForColumn = async (columnId: number) => {
     try {
@@ -231,10 +265,13 @@ export default function boardsById() {
           </S.ColumnButton>
         </S.DashboardMain>
       </S.DashboardContainer>
-      {isCreateModalOpen && (
+      {isCreateCardOpen && ( // card 생성 버튼 눌렀을때
         <CreateModal closeCreateModal={closeCreateModal} addCard={addCard} />
       )}
-      {isEditColumnOpen && (
+      {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때
+        <EditModal closeEditModal={closeEditModal} editCard={editCard} />
+      )}
+      {isEditColumnOpen && ( // column 설정 눌렀을때
         <S.EditColumnModal>
           <Modal
             title="컬럼 관리"
@@ -249,7 +286,7 @@ export default function boardsById() {
           />
         </S.EditColumnModal>
       )}
-      {isCreateColumnOpen && (
+      {isCreateColumnOpen && ( // column 생성 버튼 눌렀을 때
         <S.CreateColumnModal>
           <Modal
             title="새 컬럼 생성"
