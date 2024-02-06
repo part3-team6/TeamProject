@@ -5,10 +5,10 @@ interface TagProps {
   tagIndex: number;
 }
 
-function Tag({ tag, tagIndex }: TagProps) {
+function Tag({ tags, tagIndex }: TagProps) {
   return (
-    <S.tag key={tagIndex} length={Math.ceil((tag.length % 4) + 1)}>
-      <span>{tag}</span>
+    <S.tag key={tagIndex} length={Math.ceil((tags.length % 4) + 1)}>
+      <span>{tags}</span>
     </S.tag>
   );
 }

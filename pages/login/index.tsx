@@ -2,6 +2,8 @@ import Head from "next/head";
 import axios from "@/lib/axios";
 import useUserStore from "@/store/user";
 import { useRouter } from "next/router";
+import CreateModal from "@/components/todoModal/createTodoModal/createModal";
+import EditModal from "@/components/todoModal/editTodoModal/editModal";
 
 export default function Test() {
   const router = useRouter();
@@ -37,6 +39,14 @@ export default function Test() {
       <button style={{ width: "200px", height: "200px" }} onClick={clickclick}>
         내 정보 보기
       </button>
+      <button
+        style={{ width: "200px", height: "200px" }}
+        onClick={clickclickclick}
+      >
+        로그아웃
+      </button>
+      <CreateModal></CreateModal>
+      {/* <EditModal></EditModal> */}
     </>
   );
 }
