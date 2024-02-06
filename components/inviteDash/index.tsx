@@ -1,8 +1,8 @@
 import Image from "next/image";
 import * as S from "./styled";
 import { useEffect, useState } from "react";
-import { Mock } from "./mock";
 import NoDash from "./noDash";
+import axios from "@/lib/axios";
 
 // interface mockDataType {
 //   name: string;
@@ -14,10 +14,42 @@ import NoDash from "./noDash";
 // 마무리하고 useEffect손 대보기 불필요한 렌더링 방지.
 // 다 만들고 로직 바꿔보던가 CSS 를 그리드 함 해보기.
 
-function InviteDash({ handleinviteToggle, mock }: any) {
-  const [values, setValues] = useState("");
+function InviteDash({ mock }: any) {
   const [ismobile, setIsMobile] = useState(false);
+
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
+
+  const handleInputChange = (event: any) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearch = () => {
+    const results = mock?.invitarions.filter((item: any) =>
+      item.toLowerCase().includes(searchTerm.toLowerCase()),
+    );
+    setSearchResults(results);
+  };
   // console.log(ismobile);
+
+  const handleinviteToggle = async (action: string, invitationId: number) => {
+    try {
+      let response;
+      if (action === "accept") {
+        response = await axios.put(`invitations/${invitationId}`, {
+          inviteAccepted: true,
+          // setInviteAccepted(true);
+        });
+      } else if (action === "reject") {
+        response = await axios.put(`invitations/${invitationId}`, {
+          inviteAccepted: false,
+        });
+      }
+    } catch (error) {
+      console.error("초대 수락 거절 오류", error);
+    }
+  };
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
@@ -34,6 +66,10 @@ function InviteDash({ handleinviteToggle, mock }: any) {
     };
   }, [setIsMobile]);
 
+  // mock?.invitations.map((data: { id: any }) => {
+  //   console.log(data.id);
+  // });
+
   return mock?.invitations?.length !== 0 ? (
     // return Mock?.invitations === undefined ? (
     <>
@@ -42,9 +78,10 @@ function InviteDash({ handleinviteToggle, mock }: any) {
         <S.inputContainer>
           <S.input
             placeholder="검색"
-            onChange={(e) => setValues(e.target.value)}
+            onChange={handleInputChange}
+            value={searchTerm}
           />
-          <S.searchIcon>
+          <S.searchIcon onClick={handleSearch}>
             <Image
               src={"images/search.svg"}
               alt="검색 돋보기"
@@ -55,7 +92,7 @@ function InviteDash({ handleinviteToggle, mock }: any) {
         </S.inputContainer>
         {ismobile ? (
           mock?.invitations.map((data: any, index?: number) => (
-            <S.section key={index}>
+            <S.section key={data.id}>
               <S.menuDiv>
                 <S.menu>
                   이름
@@ -71,13 +108,13 @@ function InviteDash({ handleinviteToggle, mock }: any) {
               <S.buttonGap>
                 <S.yesButton
                   data-action="accept"
-                  onClick={() => handleinviteToggle("accept")}
+                  onClick={() => handleinviteToggle("accept", data.id)}
                 >
                   수락
                 </S.yesButton>
                 <S.noButton
                   data-action="reject"
-                  onClick={() => handleinviteToggle("reject")}
+                  onClick={() => handleinviteToggle("reject", data.id)}
                 >
                   거절
                 </S.noButton>
@@ -92,19 +129,19 @@ function InviteDash({ handleinviteToggle, mock }: any) {
               <S.menu display={"none"}>수락 여부</S.menu>
             </S.menuDiv>
             {mock?.invitations.map((data: any, index: number) => (
-              <S.section key={index}>
+              <S.section key={data.id}>
                 <S.text>{data.dashboard.title}</S.text>
                 <S.text>{data.inviter.nickname}</S.text>
                 <S.buttonGap>
                   <S.yesButton
                     data-action="accept"
-                    onClick={() => handleinviteToggle("accept")}
+                    onClick={() => handleinviteToggle("accept", data.id)}
                   >
                     수락
                   </S.yesButton>
                   <S.noButton
                     data-action="reject"
-                    onClick={() => handleinviteToggle("reject")}
+                    onClick={() => handleinviteToggle("reject", data.id)}
                   >
                     거절
                   </S.noButton>
