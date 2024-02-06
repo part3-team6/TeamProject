@@ -1,7 +1,6 @@
 import Header from "@/components/dashHeader";
 import Mock from "./mock";
 import Sidemenu from "@/components/sidemenu";
-import mock from "@/components/sidemenu/mock";
 import * as S from "./styled";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -12,13 +11,23 @@ import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
 
-// https://sp-taskify-api.vercel.app/1-7/invitations?size=5
-// 이게 초대목록 보여주는거임
-// 내가받은초대목록조회
-//
+// 자동 시간순, 내꺼 -> 초대받은 순
+// 남은작업 초대받은거 시간순 정렬
 
-// 초대 수락 거절 버튼은
-// 초대 응답에 바디에 실어서 true면 수락 false 면 거절
+// 절반완료
+// input창 검색기능
+
+// 이 건 내 문제 아닌 것 같은데
+// 초대2개이상 받으면 뜨는 이슈 해결
+
+// 해결
+// 사이드바 태블릿사이즈 만들기
+
+// 미완
+// 모달창 외부클릭
+
+// 해결
+// 사이드바 +버튼 눌렸을때 새로운 대쉬보드 만드는 모달창 나오게끔 설정
 
 // 대쉬보드 클릭시 드가는게 대시보드 조회
 interface newDashboard {
@@ -41,19 +50,17 @@ function Mydashboard() {
   const [createDashboardModal, setCreateDashboardModal] = useState(false); // 모달창 토글
   const [choiceColor, setChoiceColor] = useState(""); // 모달창 컬러 선택 스테이트
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
-  const [newDashboard, setNewDashboard] = useState<newDashboard | any>(Object); // 대쉬보드 목록
+  const [newDashboard, setNewDashboard] = useState<newDashboard | any>(Object); // 대쉬보드 페이지네이션 목록
+  const [infiniteScroll, setInfiniteScroll] = useState(Object); // 대쉬보드 무한스크롤 목록 // 사이드바
   const [invited, setInvited] = useState<any>(null); // 초대 토글..? 이건 뭐드라..?
   const [currentPage, setCurrentPage] = useState<number>(1); // 페이지네이션
-  const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
+  // const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
   const [currentUser, setCurrentUser] = useState<any>(null); // 유저 정보
 
   // 아 이거 유저 정보 가져오는거.
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
-
-  // console.log(dashboards);
-  // const { dashboards } = newDashboard;
 
   // 대쉬보드 총 페이지
   const sizePages = 5;
@@ -91,15 +98,45 @@ function Mydashboard() {
   };
 
   // 초대 수락 거절 토글
-  const handleinviteToggle = (data: string) => {
-    if (data === "accept") {
-      console.log("수락");
-      setInviteAccepted(true);
-    } else if (data === "reject") {
-      setInviteAccepted(false);
-      console.log("거절");
-    }
-  };
+
+  // const handleinviteToggle = async (action: string, invitationId: number) => {
+  //   try {
+  //     let response;
+  //     if (action === "accept") {
+  //       response = await axios.put(`invitations/${invitationId}`, {
+  //         inviteAccepted: true,
+  //         // setInviteAccepted(true);
+  //       });
+  //     } else if (action === "reject") {
+  //       response = await axios.put(`invitations/${invitationId}`, {
+  //         inviteAccepted: false,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("초대 수락 거절 오류", error);
+  //   }
+  // };
+
+  // const handleinviteToggle = async (data: string, invitationId: number) => {
+  //   // const inviteAcceptReject = async (invitationId: number) => {
+  //   try {
+  //     const res = await axios.put(
+  //       `invitations/${invitationId}`,
+  //       inviteAccepted,
+  //     );
+  //     console.log(res.data);
+  //   } catch (error: any) {
+  //     console.error("초대 수락 거절 오류", error);
+  //   }
+  //   // };
+  //   if (data === "accept") {
+  //     console.log("수락");
+  //     setInviteAccepted(true);
+  //   } else if (data === "reject") {
+  //     setInviteAccepted(false);
+  //     console.log("거절");
+  //   }
+  // };
 
   // 새로운 대쉬보드 생성
   const createDashboard = async () => {
@@ -110,6 +147,7 @@ function Mydashboard() {
       });
       if (res.status === 201) {
         myDashboard(currentPage, sizePages);
+        sideBarDashboard();
       }
       // router.push("/boardid");
     } catch (error: any) {
@@ -118,13 +156,40 @@ function Mydashboard() {
     setCreateDashboardModal(false);
   };
 
+  // 사이드바 대쉬보드
+  const sideBarDashboard = async () => {
+    try {
+      const res = await axios.get(
+        `dashboards?navigationMethod=pagination&cursorId=1&page=1&size=100`,
+      );
+      setInfiniteScroll(res.data);
+    } catch (error) {
+      console.error("사이드바 대쉬보드 불러오기 오류", error);
+    }
+  };
+
+  // https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&cursorId=1&page=1&size=10
+
   // 생성 혹은 초대 받은 대쉬보드 목록
   const myDashboard = async (page: any, sizePages: any) => {
     try {
       const res = await axios.get(
         `dashboards?navigationMethod=pagination&cursorId=1&page=${page}&size=${sizePages}`,
       );
-      console.log(res.data);
+      // const sortedData = res.data.dashboards.sort((a, b) => {
+      //   return new Date(a.createdAt) - new Date(b.createdAt);
+      // });
+      // console.log(sortedData);
+
+      //       const sortedData = res.data.dashboards.sort((a: any, b: any) => {
+      //         return new Date(a.createdAt) - new Date(b.createdAt);
+      //       });
+      // console.log()
+      //       setNewDashboard({
+      //         ...res.data,
+      //         dashboards: sortedData,
+      //       });
+      console.log("이거 확인 해야함", res.data);
       setNewDashboard(res.data);
     } catch (error: any) {
       console.error("대쉬보드 불러오기 오류", error);
@@ -136,28 +201,25 @@ function Mydashboard() {
     try {
       const res = await axios.get(`invitations?size=5`);
       setInvited(res.data);
-      console.log("이거봐:", invited);
+      console.log("이거봐:", res.data);
+      // console.log("이거봐:", res.data.invitations.dashboard.id);
     } catch (error) {
       console.error("초대목록 에러", error);
     }
   };
 
-  // "invitations": [
-  //   {
-  //     "id": 0,
-
   // 초대 수락 거절
-  const inviteAcceptReject = async (invitationId: number) => {
-    try {
-      const res = await axios.put(
-        `invitations/${invitationId}`,
-        inviteAccepted,
-      );
-      console.log(res.data);
-    } catch (error: any) {
-      console.error("초대 수락 거절 오류", error);
-    }
-  };
+  // const inviteAcceptReject = async (invitationId: number) => {
+  //   try {
+  //     const res = await axios.put(
+  //       `invitations/${invitationId}`,
+  //       inviteAccepted,
+  //     );
+  //     console.log(res.data);
+  //   } catch (error: any) {
+  //     console.error("초대 수락 거절 오류", error);
+  //   }
+  // };
 
   // 초대하기 id 값 따오기
   // const test = () => {
@@ -171,14 +233,15 @@ function Mydashboard() {
     // const [{ id }] = newDashboard.dashboards;
     if (newDashboard?.dashboards?.length) {
       // router.push(`mydashboard/${id}`);
-      router.push(`mydashboard/${id}`);
+      router.push(`boards/${id}`);
     }
   };
 
   // 대쉬보드 생길때마다 혹은 페이지네이션 실행시 실행됨.
   useEffect(() => {
     myDashboard(currentPage, sizePages);
-    // inviteAcceptReject(invitationId)
+    // inviteAcceptReject(id);
+    sideBarDashboard();
     inviteList();
   }, [setNewDashboard, setCurrentPage, setInvited]);
 
@@ -219,9 +282,13 @@ function Mydashboard() {
           </S.EllipseUl>
         </Modal>
       )}
+      <Sidemenu
+        mock={infiniteScroll}
+        sideBarDashboard={sideBarDashboard}
+        myDashboard={() => myDashboard(currentPage, sizePages)}
+      />
       <Header title="내 대시보드" mock={Mock} />
 
-      <Sidemenu mock={newDashboard} />
       <S.background>
         <S.mainContainer>
           <S.dashboardGrid>
@@ -231,10 +298,11 @@ function Mydashboard() {
                 <Image src={"/images/chip+.svg"} alt="+버튼" fill />
               </S.newDashBoardButton>
             </S.Dashboard>
-            {newDashboard?.dashboards?.map((data: any) => (
+            {newDashboard?.dashboards?.map((data: any, index: number) => (
               <S.Dashboard
                 onClick={() => handleThisDashboard(data.id)}
-                key={data.id}
+                // key={data.id}
+                key={index}
               >
                 <S.dashboardColor
                   backgroundColor={data.color}
@@ -249,7 +317,7 @@ function Mydashboard() {
             ))}
             <S.pageNationFlex>
               <S.NpagesN>
-                {totalPages}페이지중{currentPage}
+                {totalPages} 페이지중 {currentPage}
               </S.NpagesN>
               <S.pageNation onClick={handlePreviousPage}>
                 <Image
@@ -268,7 +336,7 @@ function Mydashboard() {
             </S.pageNationFlex>
           </S.dashboardGrid>
           {/* Mock={invited}  */}
-          <InviteDash handleinviteToggle={handleinviteToggle} mock={invited} />
+          <InviteDash mock={invited} />
         </S.mainContainer>
       </S.background>
     </>

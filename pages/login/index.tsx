@@ -30,11 +30,6 @@ export default function Test() {
   const clickclick = () => {
     getFd();
   };
-  const clickclickclick = () => {
-    localStorage.removeItem("login");
-    localStorage.removeItem("user-store");
-    router.push("/signin");
-  };
 
   return (
     <>

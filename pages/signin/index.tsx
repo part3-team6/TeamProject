@@ -1,14 +1,17 @@
 import Image from "next/image";
-import * as S from "./styled";
 import Link from "next/link";
-import Input from "@/components/input";
-import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import useUserStore from "@/store/user";
-import ModalCheckIt from "@/components/modal/modalCheckIt";
-import useToggle from "@/hooks/useToggle";
 import { useForm, SubmitHandler } from "react-hook-form";
+import axios from "@/lib/axios";
+
+import Input from "@/components/input";
+import ModalCheckIt from "@/components/modal/modalCheckIt";
+
+import useUserStore from "@/store/user";
+import useToggle from "@/hooks/useToggle";
+
+import * as S from "./styled";
 
 interface IFormInput {
   email: string;
@@ -27,7 +30,6 @@ function SignIn() {
       email: data.email,
       password: data.password,
     };
-    console.log(data);
     login(loginData);
   };
 
@@ -39,15 +41,14 @@ function SignIn() {
     }
   }, []);
 
-  async function login(data) {
+  async function login(data: { email: string; password: string }) {
     try {
       const res = await axios.post("auth/login", data);
       localStorage.setItem("login", res.data.accessToken);
 
       await setUserData();
-      router.push("/");
+      router.push("/boards");
     } catch (error) {
-      // setEmailError(true);
       setPasswordError(true);
       if (data.email !== "" && data.password !== "") {
         showPwdToggle();
@@ -55,6 +56,7 @@ function SignIn() {
       console.error("로그인 실패:", error);
     }
   }
+
   const setUserData = async () => {
     try {
       const respons = await axios.get("users/me");
@@ -83,8 +85,7 @@ function SignIn() {
             </S.logo>
             <p>오늘도 만나서 반가워요!</p>
           </S.logoWrap>
-          {/* onSubmit={login} */}
-          {/* onChange={handleSubmit(onSubmit)} */}
+
           <S.loginForm onSubmit={handleSubmit(onSubmit)}>
             <Input
               hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}

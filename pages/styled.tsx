@@ -104,7 +104,7 @@ export const pointWrap = styled.div`
     max-width: 66.4rem;
     height: 97.2rem;
     align-items: center;
-    &:nth-child(3) {
+    &:nth-child(2) {
       flex-direction: column-reverse;
     }
   }
