@@ -11,9 +11,12 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 
-interface ModalInterface {}
+interface EditModalProps {
+  closeEditModal: () => void;
+  editCard: (newCard: any) => void;
+}
 
-function EditModal({}: ModalInterface) {
+function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
   console.log(id);
@@ -163,6 +166,14 @@ function EditModal({}: ModalInterface) {
     } catch (error) {
       console.error("할 일 생성 오류:", error);
     }
+  };
+
+  const handleEditCard = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+
+    const newCard = {};
+    editCard(newCard);
+    closeEditModal();
   };
 
   return (
