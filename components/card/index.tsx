@@ -26,6 +26,7 @@ function CardItem({
           <Image src={"/images/settings.svg"} alt="settings" fill />
         </S.cardsImg>
       </S.cardsTitle>
+
       <S.card onClick={openCreateModal}>
         <S.cardMore>
           <S.cardMoreImg>
@@ -33,6 +34,7 @@ function CardItem({
           </S.cardMoreImg>
         </S.cardMore>
       </S.card>
+
       {cards &&
         cards.map((item, index) => (
           <S.card key={index}>
@@ -43,7 +45,7 @@ function CardItem({
             )}
 
             <S.text>
-              <S.cardTitle>{item.title || "No Title"}</S.cardTitle>
+              <S.cardTitle>{item.title}</S.cardTitle>
               <div>{item.description}</div>
               <S.tagDate>
                 <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>

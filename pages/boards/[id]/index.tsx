@@ -9,6 +9,8 @@ import EditModal from "@/components/todoModal/editTodoModal/editModal";
 import CardItem from "@/components/card";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
+import Modal from "@/components/modal/modal";
+import Image from "next/image";
 
 export interface ColumnsProps {
   result: string;
@@ -47,15 +49,32 @@ export interface CardProps {
   updatedAt: string;
 }
 
-export default function DashboardForOne() {
+export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
   const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
   const [isEditModalOpen, setisEditModalOpen] = useState(false);
+  const [isCreateColumnOpen, setisCreateColumnOpen] = useState(false);
+
+  const [inputValue, setInputValue] = useState<string>("");
 
   const router = useRouter();
   const { id } = router.query;
 
+  // Column 모달
+  const onCreateColumnModal = () => {
+    setisCreateColumnOpen(true);
+  };
+
+  const onCreateColumnModalClose = () => {
+    setisCreateColumnOpen(false);
+  };
+
+  const handleInputChange = (newValue: string) => {
+    setInputValue(newValue);
+  };
+
+  // Create 모달
   const openCreateModal = () => {
     setisCreateModalOpen(true);
   };
@@ -64,6 +83,7 @@ export default function DashboardForOne() {
     setisCreateModalOpen(false);
   };
 
+  // Edit 모달
   const openEditModal = () => {
     setisEditModalOpen(true);
   };
@@ -93,17 +113,46 @@ export default function DashboardForOne() {
     try {
       const response = await axiosInstance.get(`columns?dashboardId=${id}`);
       setColumns(response.data);
-      console.log("getColumns API 데이터:", response.data);
+      console.log("getColumns", response.data);
     } catch (error) {
       console.log("getColumns API 호출 오류", error);
+    }
+  };
+
+  const addColumn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const response = await axiosInstance.post("columns", {
+        title: inputValue,
+        dashboardId: Number(id), // 대시보드 ID
+      });
+
+      if (response.status === 201) {
+        setColumns((prevColumn: ColumnsProps | undefined) => {
+          if (!prevColumn) {
+            return {
+              result: "",
+              data: [response.data],
+            };
+          }
+          return {
+            result: prevColumn.result,
+            data: [...prevColumn.data, response.data],
+          };
+        });
+        setisCreateColumnOpen(false);
+      }
+      console.log("addColumn", response.data);
+    } catch (error) {
+      console.log("addColumn API 호출 오류", error);
     }
   };
 
   const getCardsForColumn = async (columnId: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
-      console.log("getCardsForColumn API 데이터:", response.data);
-      console.log(columnId);
+      console.log("response1", response.data);
       return response.data;
     } catch (error) {
       console.log("getCardsForColumn API 호출 오류", error);
@@ -114,11 +163,11 @@ export default function DashboardForOne() {
   const getCardsForAllColumns = async () => {
     const cardsForColumns = await Promise.all(
       columns?.data?.map(async (column) => {
-        const cardsForColumn = await getCardsForColumn(column.id);
+        const cardsForColumn = await getCardsForColumn(Number(column.id));
+        console.log("cardsForColumn", cardsForColumn);
         return cardsForColumn;
       }) || [],
     );
-    console.log("getCardsForAllColumns API 데이터:", cardsForColumns);
     setCards(cardsForColumns);
   };
 
@@ -135,14 +184,17 @@ export default function DashboardForOne() {
   // };
 
   useEffect(() => {
-    getColumns();
-  }, [id]);
-
-  useEffect(() => {
     if (columns?.data && columns.data.length > 0) {
       getCardsForAllColumns();
     }
   }, [columns]);
+
+  useEffect(() => {
+    if (id) {
+      getColumns();
+    }
+    console.log("useEffect 호출 - id:", id);
+  }, [id, isCreateColumnOpen]);
 
   return (
     <S.DashboardWrap>
@@ -154,12 +206,18 @@ export default function DashboardForOne() {
             <S.Column key={index}>
               <CardItem
                 column={column}
-                cards={cards}
+                cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
                 openCreateModal={openCreateModal}
                 openEditModal={openEditModal}
               />
             </S.Column>
           ))}
+          <S.ColumnButton onClick={onCreateColumnModal}>
+            새로운 컬럼 추가하기
+            <div>
+              <Image src={"/images/chip+.svg"} alt="plus" fill />
+            </div>
+          </S.ColumnButton>
         </S.DashboardMain>
       </S.DashboardContainer>
       {isCreateModalOpen && (
@@ -167,6 +225,21 @@ export default function DashboardForOne() {
       )}
       {isEditModalOpen && (
         <EditModal closeEditModal={closeEditModal} editCard={editCard} />
+      )}
+      {isCreateColumnOpen && (
+        <S.ColumnModal>
+          <Modal
+            title="새 컬럼 생성"
+            name="이름"
+            submitButton="생성"
+            children={null}
+            Placeholder="새로운 프로젝트"
+            cancelButton="취소"
+            cancel={onCreateColumnModalClose}
+            value={handleInputChange}
+            submit={addColumn}
+          />
+        </S.ColumnModal>
       )}
     </S.DashboardWrap>
   );
