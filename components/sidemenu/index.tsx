@@ -24,7 +24,7 @@ interface SidemenuProps {
   //   dashboards: Dashboard[];
   // };
   myDashboard?: () => void;
-  id: number;
+  id?: number;
 }
 
 function Sidemenu({ myDashboard, id }: SidemenuProps) {
@@ -50,6 +50,12 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
 
   const handleNewDashboardClick = () => {
     setCreateDashboardModal(true);
+  };
+
+  const handleModalEsc = (event: KeyboardEvent) => {
+    if (event?.key === "Escape") {
+      setCreateDashboardModal(false);
+    }
   };
 
   // 사이드바 대쉬보드
@@ -123,8 +129,16 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       return text;
     }
   };
-  console.log(id);
-  console.log(sideList);
+  // console.log(id);
+  // console.log(sideList);
+
+  useEffect(() => {
+    // ColorData 배열에서 랜덤한 인덱스 선택
+    const randomIndex = Math.floor(Math.random() * ColorData.length);
+    // 선택된 인덱스의 색상을 가져와서 상태로 설정
+    const randomColor = ColorData[randomIndex].backgroundColor;
+    setChoiceColor(randomColor);
+  }, [createDashboardModal]);
   return (
     <>
       {createDashboardModal && (
@@ -137,6 +151,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
           cancel={handleModalCancel}
           value={setValues}
           submit={createDashboard}
+          handleModalEsc={handleModalEsc}
         >
           <S.EllipseUl>
             {ColorData.map((color) => (

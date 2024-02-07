@@ -1,4 +1,4 @@
-import { MouseEventHandler, ReactNode, useState } from "react";
+import { MouseEventHandler, ReactNode, useEffect, useState } from "react";
 import Button from "./modalButton";
 import * as S from "./styled";
 
@@ -12,10 +12,9 @@ export interface ModalProps {
   cancel: MouseEventHandler;
   value: (value: string) => void;
   submit: any;
-  handleModalEsc: any;
+  handleModalEsc: (e: KeyboardEvent) => void;
 }
 
-// 중복된 컬럼인지 아닌지 테스트용 나중 변경 요망.
 const test: any = {
   column: "test",
   column1: "test2",
@@ -33,7 +32,19 @@ function Modal({
   submit,
   handleModalEsc,
 }: ModalProps) {
-  const [values, setValues] = useState("");
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleModalEsc(event);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleModalEsc]);
 
   const handleStopPropagation = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -44,7 +55,7 @@ function Modal({
   return (
     <>
       <S.background>
-        <S.container onClick={handleStopPropagation} onKeyDown={handleModalEsc}>
+        <S.container onClick={handleStopPropagation}>
           <div>
             <S.title>{title}</S.title>
             <S.name>{name}</S.name>

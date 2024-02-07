@@ -11,9 +11,6 @@ import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
 import useSideStore from "@/store/side";
 
-// 절반완료
-// input창 검색기능
-
 // 대쉬보드 클릭시 드가는게 대시보드 조회
 interface newDashboard {
   cursorId?: number;
@@ -84,7 +81,7 @@ function Mydashboard() {
   };
 
   const handleModalEsc = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event?.key === "Escape") {
       setCreateDashboardModal(false);
     }
   };
@@ -153,7 +150,7 @@ function Mydashboard() {
       const res = await axios.get(
         `dashboards?navigationMethod=pagination&cursorId=1&page=1&size=100`,
       );
-      setInfiniteScroll(res.data);
+      // setInfiniteScroll(res.data);
       setSide(res.data);
     } catch (error) {
       console.error("사이드바 대쉬보드 불러오기 오류", error);
@@ -197,7 +194,15 @@ function Mydashboard() {
     myDashboard(currentPage, sizePages);
     sideBarDashboard();
     inviteList();
-  }, [setNewDashboard, setCurrentPage, setInvited, setInviteAccepted]);
+  }, [setNewDashboard, setCurrentPage]);
+
+  useEffect(() => {
+    // ColorData 배열에서 랜덤한 인덱스 선택
+    const randomIndex = Math.floor(Math.random() * ColorData.length);
+    // 선택된 인덱스의 색상을 가져와서 상태로 설정
+    const randomColor = ColorData[randomIndex].backgroundColor;
+    setChoiceColor(randomColor);
+  }, [createDashboardModal]);
 
   return (
     <>
@@ -285,11 +290,7 @@ function Mydashboard() {
               </S.pageNation>
             </S.pageNationFlex>
           </S.dashboardGrid>
-          <InviteDash
-            mock={invited}
-            // setInviteAccepted={setInviteAccepted}
-            // inviteAccepted={inviteAccepted}
-          />
+          <InviteDash mock={invited} />
         </S.mainContainer>
       </S.background>
     </>
