@@ -90,7 +90,7 @@ export default function Edit() {
     const dashboardResponse = await getData(`dashboards/${id}`);
     setDashboardData(dashboardResponse.data);
     const sidemenuResponse = await getData(
-      "dashboards?navigationMethod=infiniteScroll",
+      "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
     setSidemenuData(sidemenuResponse.data);
   };
@@ -140,6 +140,13 @@ export default function Edit() {
     }
   };
 
+  const handleSideMenuUpdate = async () => {
+    const sidemenuResponse = await getData(
+      "dashboards?navigationMethod=infiniteScroll",
+    );
+    setSidemenuData(sidemenuResponse.data);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -147,7 +154,7 @@ export default function Edit() {
         setDashboardData(dashboardResponse?.data);
 
         const sidemenuResponse = await getData(
-          "dashboards?navigationMethod=infiniteScroll",
+          "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
         );
         setSidemenuData(sidemenuResponse.data);
 
@@ -172,7 +179,7 @@ export default function Edit() {
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
-  // console.log("side", sidemenuData);
+  console.log("side", sidemenuData);
   // console.log("member", memberListData);
   // console.log("Email", emailListData);
   // console.log("dashboardData", dashboardData);
@@ -180,7 +187,7 @@ export default function Edit() {
 
   return (
     <S.Background>
-      <Sidemenu mock={sidemenuData} />
+      <Sidemenu mock={sidemenuData} myDashboard={handleSideMenuUpdate} />
       <Header mock={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>

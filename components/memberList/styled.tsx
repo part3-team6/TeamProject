@@ -249,7 +249,10 @@ export const DeleteButton = styled.div`
   }
 
   &:hover {
-    background-color: "#36208f";
+    background: var(--gray-FAFAFA);
+  }
+  &:active {
+    background: var(--gray-EEEEEE);
   }
 `;
 
