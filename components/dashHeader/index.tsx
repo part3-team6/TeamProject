@@ -76,8 +76,6 @@ function Header({ member, title }: HeaderProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const myNameRef = useRef<HTMLDivElement>(null);
 
-  console.log(mock?.totalCount);
-
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -137,24 +135,11 @@ function Header({ member, title }: HeaderProps) {
                     >
                       {item.nickname.slice(0, 1).toUpperCase()}
                     </S.headerCircle>
-<<<<<<< Updated upstream
                   ),
                 )}
 
                 {totalMember > 0 && (
                   <S.headerCircle>+{totalMember}</S.headerCircle>
-=======
-                  ))}
-                {sliceMock && mock?.totalCount > 3 ? (
-                  <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
-                ) : (
-                  // <div>ss</div>
-                  // <S.headerCircle>+{mock?.totalCount - 4}</S.headerCircle>
-                  ""
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
                 )}
               </S.member>
 
