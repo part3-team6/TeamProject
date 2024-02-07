@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
@@ -8,7 +9,7 @@ import DropDownModal from "../dropDownModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
-import { useRouter } from "next/router";
+
 import Button from "@/components/modal/modalButton";
 
 interface createModalProps {
@@ -85,7 +86,6 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       const response = await axios.get(
         `members?page=1&size=20&dashboardId=${id}`,
       );
-      console.log(response);
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
         id: member.id,
@@ -93,7 +93,6 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
-      console.log(memberList);
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
@@ -121,10 +120,10 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <S.inputTitle>담당자</S.inputTitle>
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput
-                placeholder="이름을 입력해 주세요"
+                placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                 value={selectedManager}
                 onChange={(e) => setSelectedManager(e.target.value)}
-              ></S.managerInput>
+              />
               {managerDropDown && (
                 <DropDownModal
                   members={memberList || []}
@@ -169,7 +168,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
               </S.calenderWrapper>
             </S.calenderContainer>
             <DatePicker
-              placeholderText={"날짜를 입력해 주세요"}
+              placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
               onChange={(date: Date | null) => {
                 setDeadline(date);
