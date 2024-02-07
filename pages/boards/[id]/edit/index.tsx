@@ -90,7 +90,7 @@ export default function Edit() {
     const dashboardResponse = await getData(`dashboards/${id}`);
     setDashboardData(dashboardResponse.data);
     const sidemenuResponse = await getData(
-      "dashboards?navigationMethod=infiniteScroll",
+      "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
     setSidemenuData(sidemenuResponse.data);
   };
@@ -154,7 +154,7 @@ export default function Edit() {
         setDashboardData(dashboardResponse?.data);
 
         const sidemenuResponse = await getData(
-          "dashboards?navigationMethod=infiniteScroll",
+          "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
         );
         setSidemenuData(sidemenuResponse.data);
 
@@ -179,7 +179,7 @@ export default function Edit() {
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
-  // console.log("side", sidemenuData);
+  console.log("side", sidemenuData);
   // console.log("member", memberListData);
   // console.log("Email", emailListData);
   // console.log("dashboardData", dashboardData);
