@@ -98,13 +98,32 @@ export const imgEdit = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
 `;
+export const btnBox = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 export const submit = styled.input<{ null: boolean }>`
   width: 8.4rem;
   height: 3.2rem;
   border-radius: 4px;
   background: ${(props) =>
     props.null ? "var(--gray-9FA6B2)" : "var(--violet-5534DA)"};
-  margin: 3.2rem 0 0 auto;
+  margin-top: 3.2rem;
+  color: var(--white-FFFFFF);
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 3.2rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: block;
+  border: none;
+`;
+export const deleteImg = styled.div`
+  width: 8.4rem;
+  height: 3.2rem;
+  border-radius: 4px;
+  background: var(--violet-5534DA);
+  margin-top: 3.2rem;
   color: var(--white-FFFFFF);
   text-align: center;
   font-size: 1.4rem;
