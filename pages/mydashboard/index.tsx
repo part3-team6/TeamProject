@@ -12,23 +12,8 @@ import { useRouter } from "next/router";
 import useUserStore from "@/store/user";
 import useSideStore from "@/store/side";
 
-// 자동 시간순, 내꺼 -> 초대받은 순
-// 남은작업 초대받은거 시간순 정렬
-
 // 절반완료
 // input창 검색기능
-
-// 이 건 내 문제 아닌 것 같은데
-// 초대2개이상 받으면 뜨는 이슈 해결
-
-// 해결
-// 사이드바 태블릿사이즈 만들기
-
-// 미완
-// 모달창 외부클릭
-
-// 해결
-// 사이드바 +버튼 눌렸을때 새로운 대쉬보드 만드는 모달창 나오게끔 설정
 
 // 대쉬보드 클릭시 드가는게 대시보드 조회
 interface newDashboard {
@@ -285,11 +270,7 @@ function Mydashboard() {
           </S.EllipseUl>
         </Modal>
       )}
-      <Sidemenu
-        mock={side}
-        sideBarDashboard={sideBarDashboard}
-        myDashboard={() => myDashboard(currentPage, sizePages)}
-      />
+      <Sidemenu myDashboard={() => myDashboard(currentPage, sizePages)} />
       <Header title="내 대시보드" mock={Mock} />
 
       <S.background>

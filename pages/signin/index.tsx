@@ -37,7 +37,7 @@ function SignIn() {
   useEffect(() => {
     const LS = localStorage.getItem("login");
     if (LS !== null) {
-      router.push(`/boards`);
+      router.push(`/mydashboard`);
     }
   }, []);
 
@@ -47,7 +47,7 @@ function SignIn() {
       localStorage.setItem("login", res.data.accessToken);
 
       await setUserData();
-      router.push("/boards");
+      router.push("/mydashboard");
     } catch (error) {
       setPasswordError(true);
       if (data.email !== "" && data.password !== "") {

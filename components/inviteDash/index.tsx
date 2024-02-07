@@ -3,35 +3,28 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 import NoDash from "./noDash";
 import axios from "@/lib/axios";
-
-// interface mockDataType {
-//   name: string;
-//   inviter: string;
-//   color: string;
-//   handleinviteToggle: any;
-// }
-
-// 마무리하고 useEffect손 대보기 불필요한 렌더링 방지.
-// 다 만들고 로직 바꿔보던가 CSS 를 그리드 함 해보기.
+import Search from "./search";
 
 function InviteDash({ mock }: any) {
   const [ismobile, setIsMobile] = useState(false);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [inviteAccepted, setInviteAccepted] = useState(Boolean); // 초대 수락 거절 토글
+  const [inviteAccepted, setInviteAccepted] = useState(Boolean);
 
-  const handleInputChange = (event: any) => {
-    setSearchTerm(event.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
   };
+  console.log(searchResults);
 
   const handleSearch = () => {
-    const results = mock?.invitarions.filter((item: any) =>
-      item.toLowerCase().includes(searchTerm.toLowerCase()),
-    );
+    const results = mock?.invitations?.filter((item: any) => {
+      const inviterDashboard = item.dashboard?.title.toLowerCase();
+      return (
+        inviterDashboard && inviterDashboard.includes(searchTerm.toLowerCase())
+      );
+    });
     setSearchResults(results);
   };
-  // console.log(ismobile);
 
   const handleinviteToggle = async (action: string, invitationId: number) => {
     try {
@@ -39,7 +32,6 @@ function InviteDash({ mock }: any) {
       if (action === "accept") {
         response = await axios.put(`invitations/${invitationId}`, {
           inviteAccepted: true,
-          // setInviteAccepted(true);
         });
       } else if (action === "reject") {
         response = await axios.put(`invitations/${invitationId}`, {
@@ -53,85 +45,52 @@ function InviteDash({ mock }: any) {
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
-    window.addEventListener("resize", () => {
-      // 창의 너비가 변경될 때마다 isMobile 값을 업데이트
+    const handleResize = () => {
       setIsMobile(window.innerWidth <= 767);
-    });
-
-    return () => {
-      window.removeEventListener("resize", () => {
-        // 컴포넌트가 언마운트될 때 이벤트 리스너 제거
-        setIsMobile(window.innerWidth <= 767);
-      });
     };
-  }, [setIsMobile]);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
-  // mock?.invitations.map((data: { id: any }) => {
-  //   console.log(data.id);
-  // });
+  useEffect(() => {
+    handleSearch();
+    handleinviteToggle();
+  }, [searchTerm]);
 
-  return mock?.invitations?.length !== 0 ? (
-    // return Mock?.invitations === undefined ? (
-    <>
-      <S.container>
-        <S.title>초대받은 대쉬보드</S.title>
-        <S.inputContainer>
-          <S.input
-            placeholder="검색"
-            onChange={handleInputChange}
-            value={searchTerm}
+  return (
+    <S.container>
+      <S.title>초대받은 대쉬보드</S.title>
+      <S.inputContainer>
+        <S.input
+          type="text"
+          placeholder="검색"
+          onChange={handleInputChange}
+          value={searchTerm}
+        />
+        <S.searchIcon onClick={handleSearch}>
+          <Image
+            src={"images/search.svg"}
+            alt="검색 돋보기"
+            width={24}
+            height={24}
           />
-          <S.searchIcon onClick={handleSearch}>
-            <Image
-              src={"images/search.svg"}
-              alt="검색 돋보기"
-              width={24}
-              height={24}
-            />
-          </S.searchIcon>
-        </S.inputContainer>
-        {ismobile ? (
-          mock?.invitations.map((data: any, index?: number) => (
-            <S.section key={data.id}>
-              <S.menuDiv>
-                <S.menu>
-                  이름
-                  <S.text>{data?.inviter.nickname}</S.text>
-                </S.menu>
-                <S.menu>
-                  초대자
-                  <S.text>{data?.dashboard.title}</S.text>
-                </S.menu>
-                <S.menu display={"none"}>수락 여부</S.menu>
-              </S.menuDiv>
-
-              <S.buttonGap>
-                <S.yesButton
-                  data-action="accept"
-                  onClick={() => handleinviteToggle("accept", data.id)}
-                >
-                  수락
-                </S.yesButton>
-                <S.noButton
-                  data-action="reject"
-                  onClick={() => handleinviteToggle("reject", data.id)}
-                >
-                  거절
-                </S.noButton>
-              </S.buttonGap>
-            </S.section>
-          ))
-        ) : (
-          <>
-            <S.menuDiv>
-              <S.menu>이름</S.menu>
-              <S.menu>초대자</S.menu>
-              <S.menu display={"none"}>수락 여부</S.menu>
-            </S.menuDiv>
-            {mock?.invitations.map((data: any, index: number) => (
+        </S.searchIcon>
+      </S.inputContainer>
+      {ismobile ? (
+        <>
+          {searchTerm && searchResults?.length > 0 ? (
+            searchResults.map((data: any) => (
               <S.section key={data.id}>
-                <S.text>{data.dashboard.title}</S.text>
-                <S.text>{data.inviter.nickname}</S.text>
+                <S.menuDiv>
+                  <S.menu>이ㅗㅗㅗ름</S.menu>
+                  <S.text>{data.dashboard.title}</S.text>
+                </S.menuDiv>
+                <S.menuDiv>
+                  <S.menu>초대자</S.menu>
+                  <S.text>{data.inviter.nickname}</S.text>
+                </S.menuDiv>
                 <S.buttonGap>
                   <S.yesButton
                     data-action="accept"
@@ -147,13 +106,91 @@ function InviteDash({ mock }: any) {
                   </S.noButton>
                 </S.buttonGap>
               </S.section>
-            ))}
-          </>
-        )}
-      </S.container>
-    </>
-  ) : (
-    <NoDash />
+            ))
+          ) : !searchTerm ? (
+            mock?.invitations.map((data: any, index?: number) => (
+              <S.section key={index}>
+                <S.menuDiv>
+                  <S.menu>이름</S.menu>
+                  <S.text>{data.dashboard.title}</S.text>
+                </S.menuDiv>
+                <S.menuDiv>
+                  <S.menu>초대자</S.menu>
+                  <S.text>{data.inviter.nickname}</S.text>
+                </S.menuDiv>
+                <S.menu display={"none"}>수락 여부</S.menu>
+
+                <S.buttonGap>
+                  <S.yesButton
+                    data-action="accept"
+                    onClick={() => handleinviteToggle("accept", data.id)}
+                  >
+                    수락
+                  </S.yesButton>
+                  <S.noButton
+                    data-action="reject"
+                    onClick={() => handleinviteToggle("reject", data.id)}
+                  >
+                    거절
+                  </S.noButton>
+                </S.buttonGap>
+              </S.section>
+            ))
+          ) : (
+            <NoDash />
+          )}
+        </>
+      ) : (
+        <>
+          <S.menuDiv>
+            <S.menu>이름</S.menu>
+            <S.menu>초대자</S.menu>
+            <S.menu display={"none"}>수락 여부</S.menu>
+          </S.menuDiv>
+          {searchTerm && searchResults?.length > 0
+            ? searchResults.map((data: any, index: number) => (
+                <S.section key={index}>
+                  <S.text>{data.dashboard.title}</S.text>
+                  <S.text>{data.inviter.nickname}</S.text>
+                  <S.buttonGap>
+                    <S.yesButton
+                      data-action="accept"
+                      onClick={() => handleinviteToggle("accept", data.id)}
+                    >
+                      수락
+                    </S.yesButton>
+                    <S.noButton
+                      data-action="reject"
+                      onClick={() => handleinviteToggle("reject", data.id)}
+                    >
+                      거절
+                    </S.noButton>
+                  </S.buttonGap>
+                </S.section>
+              ))
+            : mock?.invitations.map((data: any, index: number) => (
+                <S.section key={index}>
+                  <S.text>{data.dashboard.title}</S.text>
+                  <S.text>{data.inviter.nickname}</S.text>
+                  <S.buttonGap>
+                    <S.yesButton
+                      data-action="accept"
+                      onClick={() => handleinviteToggle("accept", data.id)}
+                    >
+                      수락
+                    </S.yesButton>
+                    <S.noButton
+                      data-action="reject"
+                      onClick={() => handleinviteToggle("reject", data.id)}
+                    >
+                      거절
+                    </S.noButton>
+                  </S.buttonGap>
+                </S.section>
+              ))}
+        </>
+      )}
+    </S.container>
   );
 }
 

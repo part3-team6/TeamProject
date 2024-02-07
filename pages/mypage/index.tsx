@@ -14,7 +14,6 @@ import Input from "@/components/input";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 import * as S from "./styled";
 
-import mock from "@/components/sidemenu/mock";
 import mocks from "@/components/dashHeader/mock";
 
 interface Member {
@@ -85,7 +84,6 @@ function MyPage() {
   };
 
   const [profileValue, setProfileValue] = useState({
-    nickname: user.nickname,
     profileImageUrl: null,
   });
 
@@ -104,6 +102,7 @@ function MyPage() {
       setProfileBtn(false);
     }
   }, [profile1, profile2]);
+
   useEffect(() => {
     if (pwd1.length === 0 || pwd2.length === 0 || pwd3.length === 0) {
       setPwdBtn(true);
@@ -200,6 +199,20 @@ function MyPage() {
     }
   };
 
+  const handleDeleteImg = () => {
+    setProfileValue((prev) => ({
+      ...prev,
+      profileImageUrl: null,
+    }));
+    setPreviewUrl("/images/more.svg");
+  };
+
+  useEffect(() => {
+    if (profileValue.profileImageUrl === null) {
+      setProfileBtn(false);
+    }
+  }, [profileValue.profileImageUrl]);
+
   // -- 이미지 / 닉네임 변경 끝
 
   // 비밀번호 변경 시작
@@ -247,7 +260,7 @@ function MyPage() {
         />
       )}
       <Header mock={mocks[0]} title="계정관리"></Header>
-      <Sidemenu mock={side}></Sidemenu>
+      <Sidemenu></Sidemenu>
       <S.mypage>
         <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
 
@@ -300,12 +313,15 @@ function MyPage() {
               )}
             </S.inputs>
           </S.inputBox>
-          <S.submit
-            type="submit"
-            value={"저장"}
-            null={profileBtn}
-            disabled={profileBtn ? true : false}
-          />
+          <S.btnBox>
+            <S.deleteImg onClick={handleDeleteImg}>이미지 삭제</S.deleteImg>
+            <S.submit
+              type="submit"
+              value={"저장"}
+              null={profileBtn}
+              disabled={profileBtn ? true : false}
+            />
+          </S.btnBox>
         </S.box>
 
         <S.box onSubmit={handleSubmit2(onSubmit2)}>
