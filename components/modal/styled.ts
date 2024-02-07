@@ -5,6 +5,7 @@ export const background = styled.div`
   width: 100%;
   z-index: 999;
   position: absolute;
+  top: 0;
   display: flex;
   justify-content: center;
   align-items: center;

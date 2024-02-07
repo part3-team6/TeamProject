@@ -13,7 +13,7 @@ export default function Home() {
   useEffect(() => {
     const LS = localStorage.getItem("login");
     if (LS !== null) {
-      router.push(`/boards`);
+      router.push(`/mydashboard`);
     }
   }, []);
   return (
