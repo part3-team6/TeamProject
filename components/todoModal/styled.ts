@@ -1,11 +1,35 @@
+import { date } from "./../card/styled";
+import { background } from "./../modal/styled";
+import { inputContainer } from "./../inviteDash/styled";
 import styled from "styled-components";
+
+export const input = styled.input`
+  width: 45rem;
+  height: 4.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray-D9D9D9);
+  background: var(--white-FFFFFF);
+  padding-left: 1.6rem;
+
+  @media (max-width: 767px) {
+    width: 28.7rem;
+    height: 4.2rem;
+    flex-shrink: 0;
+  }
+`;
 
 export const layer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(76, 76, 76, 0.7);
-  height: 100rem;
+  width: 100vw;
+  height: 100vh;
+  overflow: scroll;
+  position: absolute;
+  padding-top: 10rem;
+  top: 0;
+  z-index: 2;
 `;
 
 export const container = styled.div`
@@ -73,6 +97,28 @@ export const arrowDropWrapper = styled.div`
 
 export const calenderContainer = styled.div`
   position: relative;
+  & input {
+    padding-left: 3rem;
+  }
+  & input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+  }
+  input[type="date"]::before {
+    content: attr(placeholder);
+    width: 100%;
+    height: 100%;
+  }
+
+  input[type="date"]:valid::before {
+    display: none;
+  }
 `;
 
 export const calenderWrapper = styled.div`
@@ -129,21 +175,6 @@ export const descriptionInput = styled.textarea`
     height: 8.4rem;
     flex-shrink: 0;
     padding: 1.5rem 3rem 6.2rem 1.6rem;
-  }
-`;
-
-export const input = styled.input`
-  width: 45rem;
-  height: 4.8rem;
-  border-radius: 6px;
-  border: 1px solid var(--gray-D9D9D9);
-  background: var(--white-FFFFFF);
-  padding-left: 1.6rem;
-
-  @media (max-width: 767px) {
-    width: 28.7rem;
-    height: 4.2rem;
-    flex-shrink: 0;
   }
 `;
 

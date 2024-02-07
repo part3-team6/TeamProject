@@ -113,6 +113,7 @@ export const cards = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.6rem;
+  border-bottom: 1px solid var(--gray-D9D9D9);
   @media all and (max-width: 1199px) {
     width: 58.4rem;
   }

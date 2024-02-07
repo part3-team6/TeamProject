@@ -10,8 +10,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
+import Button from "@/components/modal/modalButton";
 
-function EditModal() {
+interface EditModalProps {
+  closeEditModal: () => void;
+  editCard: (newCard: any) => void;
+}
+
+function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
   console.log(id);
@@ -173,6 +179,14 @@ function EditModal() {
     }
   };
 
+  const handleEditCard = (e: any) => {
+    if (e.key === "Enter") e.preventDefault();
+
+    const newCard = {};
+    editCard(newCard);
+    closeEditModal();
+  };
+
   return (
     <>
       <S.layer>
@@ -324,7 +338,7 @@ function EditModal() {
             </S.ImageContainer>
             <S.buttonContainer>
               <S.cancelButton>취소</S.cancelButton>
-              <S.button type="submit">수정</S.button>
+              <Button submit={editCard}>생성</Button>
             </S.buttonContainer>
           </form>
         </S.container>

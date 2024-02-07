@@ -39,7 +39,7 @@ export default function Test() {
       <button style={{ width: "200px", height: "200px" }} onClick={clickclick}>
         내 정보 보기
       </button>
-      <CreateModal></CreateModal>
+      {/* <CreateModal></CreateModal> */}
       {/* <EditModal></EditModal> */}
     </>
   );
