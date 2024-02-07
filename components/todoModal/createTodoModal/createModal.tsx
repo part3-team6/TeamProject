@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
@@ -8,7 +9,7 @@ import DropDownModal from "../dropDownModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
-import { useRouter } from "next/router";
+
 import Button from "@/components/modal/modalButton";
 
 interface createModalProps {
@@ -119,11 +120,10 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <S.inputTitle>담당자</S.inputTitle>
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput
-                readOnly
                 placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                 value={selectedManager}
                 onChange={(e) => setSelectedManager(e.target.value)}
-              ></S.managerInput>
+              />
               {managerDropDown && (
                 <DropDownModal
                   members={memberList || []}

@@ -219,7 +219,6 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
                 <S.inputTitle>담당자</S.inputTitle>
                 <div style={{ position: "relative" }}>
                   <S.managerInput
-                    readOnly
                     placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                     value={selectedManager}
                     onChange={(e) => setSelectedManager(e.target.value)}
