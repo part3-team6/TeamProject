@@ -25,7 +25,9 @@ export const layer = styled.div`
   background-color: rgba(76, 76, 76, 0.7);
   width: 100vw;
   height: 100vh;
+  overflow: scroll;
   position: absolute;
+  padding-top: 10rem;
   top: 0;
   z-index: 2;
 `;

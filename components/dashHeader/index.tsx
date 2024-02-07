@@ -20,16 +20,17 @@ interface Member {
 }
 
 interface HeaderProps {
-  mock?: {
+  member?: {
     members: Member[];
     totalCount: number;
   };
   title: string;
 }
 
-function Header({ mock, title }: HeaderProps) {
+function Header({ member, title }: HeaderProps) {
   const { user } = useUserStore();
-  const [member, setMember] = useState(true);
+  // const [member, setMember] = useState(true);
+  const [totalMember, setTotalMember] = useState<number>();
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
@@ -61,9 +62,13 @@ function Header({ mock, title }: HeaderProps) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const sliceMock = isTablet
-    ? mock?.members.slice(0, 2)
-    : mock?.members.slice(0, 5);
+  const sliceMember = isTablet
+    ? member?.members.slice(0, 2)
+    : member?.members.slice(0, 5);
+
+  useEffect(() => {
+    setTotalMember(member?.totalCount - sliceMember?.length);
+  }, [sliceMember]);
 
   useEffect(() => {
     setCurrentUser(user);
@@ -119,19 +124,23 @@ function Header({ mock, title }: HeaderProps) {
                 <span>초대하기</span>
               </S.btn>
               <S.member>
-                {member &&
-                  sliceMock?.slice(0, 4).map((item, index) => (
+                {sliceMember?.slice(0, 4).map((item, index) =>
+                  item.profileImageUrl ? (
+                    <S.headerCircle>
+                      <Image src={item.profileImageUrl} alt="프로필 img" fill />
+                    </S.headerCircle>
+                  ) : (
                     <S.headerCircle
                       key={index}
                       style={{ backgroundImage: item.profileImageUrl }}
                     >
                       {item.nickname.slice(0, 1).toUpperCase()}
                     </S.headerCircle>
-                  ))}
-                {sliceMock ? (
-                  <S.headerCircle>+{mock.totalCount - 2}</S.headerCircle>
-                ) : (
-                  <S.headerCircle>+{mock?.totalCount - 4}</S.headerCircle>
+                  ),
+                )}
+
+                {totalMember > 0 && (
+                  <S.headerCircle>+{totalMember}</S.headerCircle>
                 )}
               </S.member>
 

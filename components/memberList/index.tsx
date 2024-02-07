@@ -97,12 +97,10 @@ function List({
     const type = props;
 
     let calculatedTotalPage = 1;
-    console.log(emailListData);
 
     const emailList = emailListData?.invitations.filter(
       (i) => i.inviteAccepted === null,
     );
-    console.log("email", emailList);
 
     if (type === "member") {
       if (memberListData?.totalCount !== 0) {
@@ -139,7 +137,6 @@ function List({
         (curruntPage - 1) * 5 + 5,
       );
       setMapData2(data2);
-      console.log("data2", data2);
     }
   }, [curruntPage, memberListData, emailListData]);
 

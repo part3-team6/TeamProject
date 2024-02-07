@@ -5,17 +5,18 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/dashHeader";
-import mock from "@/components/dashHeader/mock";
 import Sidemenu from "@/components/sidemenu";
 import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
 import Modal from "@/components/modal/modal";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
+import useSideStore from "@/store/side";
 
 export default function Edit() {
-  const [headerData, setHeaderData] = useState<any>();
-  const [sidemenuData, setSidemenuData] = useState<any>();
+  const { setSide } = useSideStore();
+  // const [headerData, setHeaderData] = useState<any>();
+  // const [sidemenuData, setSidemenuData] = useState<any>();
   const [memberListData, setMemberListData] = useState<any>();
   const [emailListData, setEmailListData] = useState<any>();
   const [dashboardData, setDashboardData] = useState<any>();
@@ -90,9 +91,10 @@ export default function Edit() {
     const dashboardResponse = await getData(`dashboards/${id}`);
     setDashboardData(dashboardResponse.data);
     const sidemenuResponse = await getData(
-      "dashboards?navigationMethod=infiniteScroll",
+      "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
-    setSidemenuData(sidemenuResponse.data);
+    // setSidemenuData(sidemenuResponse.data);
+    setSide(sidemenuResponse.data);
   };
 
   const handleKickUser = async (targetId: number) => {
@@ -146,11 +148,6 @@ export default function Edit() {
         const dashboardResponse = await getDashboardData(`dashboards/${id}`);
         setDashboardData(dashboardResponse?.data);
 
-        const sidemenuResponse = await getData(
-          "dashboards?navigationMethod=infiniteScroll",
-        );
-        setSidemenuData(sidemenuResponse.data);
-
         const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
         setMemberListData(memberListResponse.data);
 
@@ -160,7 +157,6 @@ export default function Edit() {
         console.error(error);
       }
     };
-    // console.log("id", id);
 
     fetchData();
   }, [id]);
@@ -172,16 +168,10 @@ export default function Edit() {
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
-  // console.log("side", sidemenuData);
-  // console.log("member", memberListData);
-  // console.log("Email", emailListData);
-  // console.log("dashboardData", dashboardData);
-  // console.log("input", inputState, colorState);
-
   return (
     <S.Background>
-      <Sidemenu mock={sidemenuData} />
-      <Header mock={memberListData} title={dashboardData?.title} />
+      <Sidemenu id={id} />
+      <Header member={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>
           <S.DashboardSettings>
@@ -221,6 +211,7 @@ export default function Edit() {
           </S.DashboardSettings>
         </S.MainContainer>
       </S.DashboardContainer>
+
       {inviteModalState ? (
         <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
           <Modal

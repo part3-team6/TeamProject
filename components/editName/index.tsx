@@ -68,7 +68,6 @@ function EditName({
           break;
       }
       setInputValue(data?.title);
-      console.log(12);
     }
   }, [data]);
 
@@ -111,11 +110,7 @@ function EditName({
   useEffect(() => {
     setIsEmpty(/^\s*$/.test(inputValue));
     setInputState(inputValue);
-    console.log("isemt", isEmpty);
   }, [inputValue]);
-
-  // console.log(data);
-  // console.log("checked", checked);
 
   return (
     <S.EditNameContainer>

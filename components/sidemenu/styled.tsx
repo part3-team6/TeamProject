@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const sidemenu = styled.div`
   width: 30rem;
   height: 100%;
-  overflow: scroll;
   display: flex;
   flex-direction: column;
   padding: 2rem 2.4rem;
@@ -16,6 +15,8 @@ export const sidemenu = styled.div`
   }
   @media all and (max-width: 767px) {
     width: 6.7rem;
+    padding: 2rem 1rem 0;
+    align-items: center;
   }
 `;
 
@@ -52,15 +53,33 @@ export const more = styled.div`
   position: relative;
   cursor: pointer;
 `;
-export const sideList = styled.div`
+export const sideLists = styled.div`
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--violet-5534DA);
+    border-radius: 6px;
+  }
+`;
+export const sideList = styled.div<{ selectId: number; itemID: number }>`
   /* width: 100%; */
   height: 4.5rem;
   color: var(--gray-787486);
   font-size: 1.8rem;
   font-weight: 500;
-  padding-bottom: 1.5rem;
+  background-color: ${(props) =>
+    props.selectId === props.itemID ? "#e9e5ff" : ""};
   cursor: pointer;
+  border-radius: 10px;
   & a {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
   }
@@ -72,6 +91,9 @@ export const sideList = styled.div`
       display: none;
     }
     justify-content: center;
+    & a {
+      justify-content: center;
+    }
   }
 `;
 export const colors = styled.div`
