@@ -11,43 +11,7 @@ import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
-
-export interface ColumnsProps {
-  result: string;
-  data: ColumnProps[];
-}
-
-export interface ColumnProps {
-  id: number;
-  title: string;
-  teamId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CardsProps {
-  cursorId?: number;
-  totalCount?: number;
-  cards: CardProps[];
-}
-
-export interface CardProps {
-  id: number;
-  title: string;
-  description: string;
-  tags: string[];
-  dueDate: string;
-  assignee: {
-    porfileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
-  imageUrl: string;
-  teamId: string;
-  columnId: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { ColumnsProps, CardProps } from "./props";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
@@ -105,10 +69,25 @@ export default function boardsById() {
     setIsEditCardOpen(false);
   };
 
-  const addCard = (newCard: CardProps) => {
-    setCards((prevCard) => {
-      return [...prevCard, newCard];
-    });
+  const addCard = async (newCard: CardProps) => {
+    try {
+      const response = await axiosInstance.post(`cards`, {
+        newCard,
+      });
+
+      if (response.status === 201) {
+        setCards((prevCards: CardProps[]) => {
+          if (!prevCards) {
+            return [newCard];
+          }
+          return [...prevCards, newCard];
+        });
+      }
+      console.log("addCard API 호출 성공", response.data);
+      setIsCreateCardOpen(false);
+    } catch (error) {
+      console.log("addCard API 호출 오류", error);
+    }
   };
 
   const editCard = (newCard: CardProps) => {
@@ -126,15 +105,12 @@ export default function boardsById() {
     try {
       const response = await axiosInstance.get(`columns?dashboardId=${id}`);
       setColumns(response.data);
-      console.log("getColumns", response.data);
     } catch (error) {
       console.log("getColumns API 호출 오류", error);
     }
   };
 
-  const addColumn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const addColumn = async () => {
     try {
       const response = await axiosInstance.post("columns", {
         title: inputValue,
@@ -156,7 +132,6 @@ export default function boardsById() {
         });
         setIsCreateColumnOpen(false);
       }
-      console.log("addColumn", response.data);
     } catch (error) {
       console.log("addColumn API 호출 오류", error);
     }
@@ -194,10 +169,36 @@ export default function boardsById() {
     }
   };
 
+  const deleteColumn = async () => {
+    try {
+      const response = await axiosInstance.delete(`columns/${editedColumnId}`);
+
+      if (response.status === 204) {
+        setColumns((prevColumns: ColumnsProps | undefined) => {
+          if (!prevColumns) {
+            return;
+          }
+
+          const updatedColumns = prevColumns.data.filter(
+            (col) => col.id !== editedColumnId,
+          );
+
+          return {
+            result: prevColumns.result,
+            data: updatedColumns,
+          };
+        });
+
+        setIsEditColumnOpen(false);
+      }
+    } catch (error) {
+      console.log("deleteColumn API 호출 오류", error);
+    }
+  };
+
   const getCardsForColumn = async (columnId: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
-      console.log("response1", response.data);
       return response.data;
     } catch (error) {
       console.log("getCardsForColumn API 호출 오류", error);
@@ -209,12 +210,14 @@ export default function boardsById() {
     const cardsForColumns = await Promise.all(
       columns?.data?.map(async (column) => {
         const cardsForColumn = await getCardsForColumn(Number(column.id));
-        console.log("cardsForColumn", cardsForColumn);
         return cardsForColumn;
       }) || [],
     );
     setCards(cardsForColumns);
   };
+
+  console.log("칼럼이쥬?", columns);
+  console.log("카드쥬?", cards);
 
   // const getCards = async () => {
   //   try {
@@ -238,7 +241,7 @@ export default function boardsById() {
     if (id) {
       getColumns();
     }
-    console.log("useEffect 호출 - id:", id);
+    // console.log("useEffect 호출 - id:", id);
   }, [id, isCreateColumnOpen]);
 
   return (
@@ -277,7 +280,11 @@ export default function boardsById() {
             title="컬럼 관리"
             name="이름"
             submitButton="변경"
-            children="삭제하기"
+            children={
+              <S.DeleteColumnButton onClick={deleteColumn}>
+                삭제하기
+              </S.DeleteColumnButton>
+            }
             Placeholder=""
             cancelButton="취소"
             cancel={closeEditColumnModal}
