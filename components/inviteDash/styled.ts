@@ -119,7 +119,7 @@ export const menu = styled.p<{ display?: string }>`
   @media (max-width: 767px) {
     font-size: 1.4rem;
     display: ${(props) => props?.display || "grid"};
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 5rem 1fr;
   }
 `;
 
@@ -135,7 +135,7 @@ export const menuDiv = styled.div`
   @media (max-width: 767px) {
     padding: 1.6rem 0 1.2rem 1.6rem;
     gap: 1rem;
-    flex-direction: column;
+    /* flex-direction: column; */
   }
 `;
 
