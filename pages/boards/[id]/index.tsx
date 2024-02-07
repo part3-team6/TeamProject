@@ -11,7 +11,7 @@ import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
-import { ColumnsProps, CardProps } from "./props";
+import { ColumnsProps, CardProps, NewCard } from "./props";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
@@ -69,18 +69,16 @@ export default function boardsById() {
     setIsEditCardOpen(false);
   };
 
-  const addCard = async (newCard: CardProps) => {
+  const addCard = async (newCard: NewCard) => {
     try {
-      const response = await axiosInstance.post(`cards`, {
-        newCard,
-      });
+      const response = await axiosInstance.post(`cards`, newCard);
 
       if (response.status === 201) {
         setCards((prevCards: CardProps[]) => {
           if (!prevCards) {
-            return [newCard];
+            return [response.data];
           }
-          return [...prevCards, newCard];
+          return [...prevCards, response.data];
         });
       }
       console.log("addCard API 호출 성공", response.data);

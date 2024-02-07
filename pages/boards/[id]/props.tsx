@@ -22,15 +22,26 @@ export interface CardProps {
   title: string;
   description: string;
   tags: string[];
-  dueDate: string;
+  dueDate?: string;
   assignee: {
     porfileImageUrl: string;
     nickname: string;
     id: number;
   };
-  imageUrl: string;
+  imageUrl?: string;
   teamId: string;
   columnId: number;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface NewCard {
+  assigneeUserId: number;
+  dashboardId: number;
+  columnId: number;
+  title: string;
+  description: string;
+  dueDate: string;
+  tags: string[];
+  imageUrl: string;
 }
