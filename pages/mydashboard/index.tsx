@@ -285,11 +285,7 @@ function Mydashboard() {
           </S.EllipseUl>
         </Modal>
       )}
-      <Sidemenu
-        mock={side}
-        sideBarDashboard={sideBarDashboard}
-        myDashboard={() => myDashboard(currentPage, sizePages)}
-      />
+      <Sidemenu myDashboard={() => myDashboard(currentPage, sizePages)} />
       <Header title="내 대시보드" mock={Mock} />
 
       <S.background>

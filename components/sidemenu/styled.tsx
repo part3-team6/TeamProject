@@ -3,7 +3,6 @@ import styled from "styled-components";
 export const sidemenu = styled.div`
   width: 30rem;
   height: 100%;
-  overflow: scroll;
   display: flex;
   flex-direction: column;
   padding: 2rem 2.4rem;
@@ -52,6 +51,18 @@ export const more = styled.div`
   position: relative;
   cursor: pointer;
 `;
+export const sideLists = styled.div`
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0.3rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--violet-5534DA);
+    border-radius: 6px;
+  }
+`;
 export const sideList = styled.div`
   /* width: 100%; */
   height: 4.5rem;
@@ -72,6 +83,9 @@ export const sideList = styled.div`
       display: none;
     }
     justify-content: center;
+    & a {
+      transform: translateX(0.5rem);
+    }
   }
 `;
 export const colors = styled.div`
