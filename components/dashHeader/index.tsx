@@ -151,6 +151,9 @@ function Header({ member, title }: HeaderProps) {
                   // <div>ss</div>
                   // <S.headerCircle>+{mock?.totalCount - 4}</S.headerCircle>
                   ""
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
                 )}
               </S.member>
