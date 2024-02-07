@@ -136,7 +136,6 @@ function Mydashboard() {
         myDashboard(currentPage, sizePages);
         sideBarDashboard();
       }
-      // router.push("/boardid");
     } catch (error: any) {
       console.error("대쉬보드 생성 오류.", error);
     }
@@ -156,27 +155,12 @@ function Mydashboard() {
     }
   };
 
-  // https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&cursorId=1&page=1&size=10
-
   // 생성 혹은 초대 받은 대쉬보드 목록
   const myDashboard = async (page: any, sizePages: any) => {
     try {
       const res = await axios.get(
         `dashboards?navigationMethod=pagination&cursorId=1&page=${page}&size=${sizePages}`,
       );
-      // const sortedData = res.data.dashboards.sort((a, b) => {
-      //   return new Date(a.createdAt) - new Date(b.createdAt);
-      // });
-      // console.log(sortedData);
-
-      //       const sortedData = res.data.dashboards.sort((a: any, b: any) => {
-      //         return new Date(a.createdAt) - new Date(b.createdAt);
-      //       });
-      // console.log()
-      //       setNewDashboard({
-      //         ...res.data,
-      //         dashboards: sortedData,
-      //       });
       console.log("이거 확인 해야함", res.data);
       setNewDashboard(res.data);
     } catch (error: any) {
@@ -189,38 +173,16 @@ function Mydashboard() {
     try {
       const res = await axios.get(`invitations?size=5`);
       setInvited(res.data);
-      console.log("이거봐:", res.data);
-      // console.log("이거봐:", res.data.invitations.dashboard.id);
     } catch (error) {
       console.error("초대목록 에러", error);
     }
   };
 
   // 초대 수락 거절
-  // const inviteAcceptReject = async (invitationId: number) => {
-  //   try {
-  //     const res = await axios.put(
-  //       `invitations/${invitationId}`,
-  //       inviteAccepted,
-  //     );
-  //     console.log(res.data);
-  //   } catch (error: any) {
-  //     console.error("초대 수락 거절 오류", error);
-  //   }
-  // };
-
-  // 초대하기 id 값 따오기
-  // const test = () => {
-  //   if (invited !== null) {
-  //     const [{ id }] = invited;
-  //   }
-  // };
 
   // 대쉬보드 클릭시 해당 대쉬보드 이동
   const handleThisDashboard = (id: string) => {
-    // const [{ id }] = newDashboard.dashboards;
     if (newDashboard?.dashboards?.length) {
-      // router.push(`mydashboard/${id}`);
       router.push(`boards/${id}`);
     }
   };
@@ -228,7 +190,6 @@ function Mydashboard() {
   // 대쉬보드 생길때마다 혹은 페이지네이션 실행시 실행됨.
   useEffect(() => {
     myDashboard(currentPage, sizePages);
-    // inviteAcceptReject(id);
     sideBarDashboard();
     inviteList();
   }, [setNewDashboard, setCurrentPage, setInvited]);
@@ -282,11 +243,10 @@ function Mydashboard() {
                 <Image src={"/images/chip+.svg"} alt="+버튼" fill />
               </S.newDashBoardButton>
             </S.Dashboard>
-            {newDashboard?.dashboards?.map((data: any, index: number) => (
+            {newDashboard?.dashboards?.map((data: any) => (
               <S.Dashboard
                 onClick={() => handleThisDashboard(data.id)}
-                // key={data.id}
-                key={index}
+                key={data.id}
               >
                 <S.dashboardColor
                   backgroundColor={data.color}
@@ -319,7 +279,6 @@ function Mydashboard() {
               </S.pageNation>
             </S.pageNationFlex>
           </S.dashboardGrid>
-          {/* Mock={invited}  */}
           <InviteDash mock={invited} />
         </S.mainContainer>
       </S.background>
