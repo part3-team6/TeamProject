@@ -27,7 +27,7 @@ export const layer = styled.div`
   height: 100vh;
   overflow: scroll;
   position: absolute;
-  padding-top: 10rem;
+  padding-top: 13rem;
   top: 0;
   z-index: 2;
 `;
@@ -72,6 +72,7 @@ export const managerInput = styled.input`
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
   padding: 0 3rem 0 1.6rem;
+  cursor: pointer;
 
   @media (max-width: 767px) {
     width: 28.7rem;
@@ -153,6 +154,8 @@ export const statusInput = styled.input`
   border-radius: 6px;
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
+  padding: 0.8rem 0 0.8rem 0.8rem;
+  cursor: pointer;
 
   @media (max-width: 767px) {
     width: 28.7rem;
@@ -205,6 +208,9 @@ export const cancelButton = styled.button`
   font-size: 1.6rem;
   font-weight: 500;
 
+  :hover {
+    opacity: 0.1;
+  }
   @media (max-width: 767px) {
     padding: 1.2rem 5.6rem;
     font-size: 1.4rem;
@@ -242,7 +248,9 @@ export const ImageContainer = styled.div`
   flex-shrink: 0;
   border-radius: 6px;
   background: #f5f5f5;
-
+  :hover {
+    opacity: 0.5;
+  }
   @media (max-width: 767px) {
     width: 5.8rem;
     height: 5.8rem;
@@ -276,7 +284,6 @@ export const dropDownWrapper = styled.div`
   border: 1px solid var(--gray-D9D9D9);
   background: var(--white-FFFFFF);
   box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.08);
-
   z-index: 1;
 
   @media (max-width: 767px) {
@@ -307,7 +314,7 @@ export const circle = styled.div`
 
 export const nickName = styled.p`
   color: var(--black-black_333236);
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   font-weight: 400;
 `;
 
@@ -319,9 +326,9 @@ export const memberWrapper = styled.div`
 
 export const DatePick = styled.input`
   top: -3rem;
-
   width: 42.5rem;
   height: 4.8rem;
+  cursor: pointer;
 
   @media (max-width: 767px) {
     width: 28rem;
@@ -354,4 +361,34 @@ export const TagInput = styled.input`
   flex: 1;
   border: none;
   outline: none;
+`;
+
+export const statusFrame = styled.div`
+  display: flex;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: 3rem;
+  padding: 0.1rem 0.8rem;
+  border-radius: 1.1rem;
+  align-items: center;
+  gap: 0.6rem;
+  border-radius: 1.1rem;
+  background: var(--violet-8-percent);
+  left: 3.6rem;
+  top: 0.8rem;
+  margin-bottom: 0.8rem;
+  cursor: pointer;
+  :hover {
+  }
+`;
+
+export const statusWrapper = styled.div``;
+
+export const statusEllipse = styled.div`
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 100%;
+  background-color: var(--violet-5534DA);
 `;
