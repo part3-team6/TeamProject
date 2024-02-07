@@ -13,6 +13,7 @@ export const drop = styled.div`
   border-radius: 8px;
   background-color: #fff;
   overflow: hidden;
+  z-index: 55;
   @media all and (max-width: 767px) {
     font-size: 1.3rem;
   }

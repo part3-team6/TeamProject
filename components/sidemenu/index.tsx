@@ -5,6 +5,7 @@ import Link from "next/link";
 import Modal from "../modal/modal";
 import axios from "@/lib/axios";
 import ColorData from "@/components/modal/newDashboardColor";
+import useSideStore from "@/store/side";
 
 interface Dashboard {
   id: number;
@@ -17,16 +18,16 @@ interface Dashboard {
 }
 
 interface SidemenuProps {
-  mock: {
-    cursorId: number;
-    totalCount: number;
-    dashboards: Dashboard[];
-  };
-  sideBarDashboard?: () => void;
-  myDashboard?: any;
+  // mock: {
+  //   cursorId: number;
+  //   totalCount: number;
+  //   dashboards: Dashboard[];
+  // };
+  myDashboard?: () => void;
 }
 
-function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
+function Sidemenu({ myDashboard }: SidemenuProps) {
+  const { side, setSide } = useSideStore();
   const [isTablet, setIsTablet] = useState(false);
   const [tablet, setTablet] = useState(false); // 이게 진짜 태블릿
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
@@ -37,9 +38,10 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
     totalCount: number;
     dashboards: Dashboard[];
   } | null>();
+
   useEffect(() => {
-    setSideList(mock);
-  }, [mock]);
+    setSideList(side);
+  }, [side]);
 
   const handleModalCancel = () => {
     setCreateDashboardModal(false);
@@ -49,6 +51,23 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
     setCreateDashboardModal(true);
   };
 
+  // 사이드바 대쉬보드
+  const sideBarDashboards = async () => {
+    try {
+      const res = await axios.get(
+        `dashboards?navigationMethod=pagination&cursorId=1&page=1&size=100`,
+      );
+      setSide(res.data);
+    } catch (error) {
+      console.error("사이드바 대쉬보드 불러오기 오류", error);
+    }
+  };
+
+  useEffect(() => {
+    setSide(null);
+    sideBarDashboards();
+  }, []);
+
   const createDashboard = async () => {
     try {
       const res = await axios.post("dashboards", {
@@ -56,7 +75,7 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
         color: choiceColor,
       });
       if (res.status === 201) {
-        sideBarDashboard();
+        sideBarDashboards();
         myDashboard();
       }
       // router.push("/boardid");
@@ -160,23 +179,25 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
           </S.more>
         </S.subTitle>
 
-        {sideList?.dashboards?.map((item, index) => (
-          <S.sideList key={index}>
-            <Link href={`boards/${item.id}`}>
-              <S.colors style={{ backgroundColor: item.color }}></S.colors>
-              {!tablet ? (
-                <span>{item.title}</span>
-              ) : (
-                <span>{truncateText(item.title, 4)}</span>
-              )}
-              {item.createdByMe && (
-                <S.crown>
-                  <Image src={"/images/crown.svg"} alt="crown" fill />
-                </S.crown>
-              )}
-            </Link>
-          </S.sideList>
-        ))}
+        <S.sideLists>
+          {sideList?.dashboards?.map((item, index) => (
+            <S.sideList key={index}>
+              <Link href={`boards/${item.id}`}>
+                <S.colors style={{ backgroundColor: item.color }}></S.colors>
+                {!tablet ? (
+                  <span>{item.title}</span>
+                ) : (
+                  <span>{truncateText(item.title, 4)}</span>
+                )}
+                {item.createdByMe && (
+                  <S.crown>
+                    <Image src={"/images/crown.svg"} alt="crown" fill />
+                  </S.crown>
+                )}
+              </Link>
+            </S.sideList>
+          ))}
+        </S.sideLists>
       </S.sidemenu>
     </>
   );
