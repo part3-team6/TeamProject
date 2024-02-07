@@ -11,29 +11,41 @@ import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 
 import Button from "@/components/modal/modalButton";
+import { NewCard } from "@/pages/boards/[id]/props";
 
 interface createModalProps {
   closeCreateModal: () => void;
-  addCard: (newCard: any) => void;
+  addCard: (newCard: NewCard) => void;
+  columnId: number;
 }
 
-function CreateModal({ closeCreateModal, addCard }: createModalProps) {
-  const router = useRouter();
-  const { id } = router.query;
-
+function CreateModal({
+  closeCreateModal,
+  addCard,
+  columnId,
+}: createModalProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [managerDropDown, setManagerDropDown] = useState(false);
   const [selectedManager, setSelectedManager] = useState("");
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
-  const [memberList, setMemberList] = useState([]);
-  const [deadline, setDeadline] = useState<Date | null>(null);
+  const [memberList, setMemberList] = useState<any[]>([]);
+  const [deadline, setDeadline] = useState<Date>();
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState<string>("");
   const [imagePreview, setImagePreview] = useState<string>("");
 
   const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const formatDate = (date: string) => {
+    return `${date.split("T")[0]} ${
+      date.split("T")[1].split(".")[0].split(":")[0]
+    }:${date.split("T")[1].split(".")[0].split(":")[1]}`;
+  };
 
   // 태그 추가 함수
   const addTag = (e: React.KeyboardEvent) => {
@@ -62,7 +74,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       };
       reader.readAsDataURL(file);
     } else {
-      setImage(null);
+      setImage("");
       setImagePreview("");
     }
   };
@@ -81,7 +93,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
   };
 
   // 대시보드 멤버 목록 조회
-  async function fetchMembers() {
+  const fetchMembers = async () => {
     try {
       const response = await axios.get(
         `members?page=1&size=20&dashboardId=${id}`,
@@ -93,11 +105,12 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
+      console.log("memberList!!!!", memberList);
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
     }
-  }
+  };
 
   useEffect(() => {
     fetchMembers();
@@ -170,7 +183,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <DatePicker
               placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
-              onChange={(date: Date | null) => {
+              onChange={(date: Date) => {
                 setDeadline(date);
               }}
               dateFormat="yyyy.MM.dd"
@@ -224,7 +237,21 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             </S.ImageContainer>
             <S.buttonContainer>
               <S.cancelButton onClick={closeCreateModal}>취소</S.cancelButton>
-              <Button submit={addCard}>생성</Button>
+              <Button
+                children="생성"
+                submit={() =>
+                  addCard({
+                    assigneeUserId: memberList[selectedMemberIndex]?.id || 0,
+                    dashboardId: Number(id),
+                    columnId: columnId,
+                    title,
+                    description,
+                    dueDate: formatDate(deadline?.toISOString() || ""), // 날짜를 ISO 문자열로
+                    tags,
+                    imageUrl: imagePreview ? imagePreview : "", // 미리보기 이미지 URL 사용
+                  })
+                }
+              />
             </S.buttonContainer>
           </form>
         </S.container>

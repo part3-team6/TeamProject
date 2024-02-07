@@ -22,7 +22,7 @@ export interface CardProps {
   title: string;
   description: string;
   tags: string[];
-  dueDate?: string;
+  dueDate: string;
   assignee: {
     porfileImageUrl: string;
     nickname: string;
@@ -43,5 +43,5 @@ export interface NewCard {
   description: string;
   dueDate: string;
   tags: string[];
-  imageUrl: string;
+  imageUrl?: string;
 }

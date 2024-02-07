@@ -1,7 +1,5 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import mockHeader from "@/components/dashHeader/mock";
-import mockSidemenu from "@/components/sidemenu/mock";
 import * as S from "./styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
@@ -23,6 +21,10 @@ export default function boardsById() {
 
   const [inputValue, setInputValue] = useState<string>("");
   const [editedColumnId, setEditedColumnId] = useState<number>(0);
+  const [ColumnIdOfCard, setColumnIdOfCard] = useState<number>(0);
+
+  const [memberListData, setMemberListData] = useState<any>();
+  const [dashboardData, setDashboardData] = useState<any>();
 
   const router = useRouter();
   const { id } = router.query;
@@ -52,8 +54,9 @@ export default function boardsById() {
   };
 
   // Card Create 모달
-  const openCreateModal = () => {
+  const openCreateModal = (columnId: number) => {
     setIsCreateCardOpen(true);
+    setColumnIdOfCard(columnId);
   };
 
   const closeCreateModal = () => {
@@ -69,10 +72,31 @@ export default function boardsById() {
     setIsEditCardOpen(false);
   };
 
+  const getDashboardData = async (link: string) => {
+    try {
+      const response = await axiosInstance.get(link);
+      return response;
+    } catch (e: any) {
+      if (e.response.status === 404) {
+        router.push("/404");
+      }
+      throw Error(`겟 에러 ${e} 발생`);
+    }
+  };
+
+  const getData = async (link: string) => {
+    try {
+      const response = await axiosInstance.get(link);
+      return response;
+    } catch (e) {
+      throw Error(`겟 에러 ${e} 발생`);
+    }
+  };
+
   const addCard = async (newCard: NewCard) => {
+    console.log("이거 좀 보세요!!!", newCard);
     try {
       const response = await axiosInstance.post(`cards`, newCard);
-
       if (response.status === 201) {
         setCards((prevCards: CardProps[]) => {
           if (!prevCards) {
@@ -230,22 +254,44 @@ export default function boardsById() {
   // };
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dashboardResponse = await getDashboardData(`dashboards/${id}`);
+        setDashboardData(dashboardResponse?.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchData();
+    console.log("대쉬보드 데이터", dashboardData);
+
+    if (id) {
+      getColumns();
+    }
+  }, [id, isCreateColumnOpen]);
+
+  useEffect(() => {
     if (columns?.data && columns.data.length > 0) {
       getCardsForAllColumns();
     }
   }, [columns]);
 
   useEffect(() => {
-    if (id) {
-      getColumns();
-    }
-    // console.log("useEffect 호출 - id:", id);
-  }, [id, isCreateColumnOpen]);
+    const fetchMemberList = async () => {
+      try {
+        const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
+        setMemberListData(memberListResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchMemberList();
+  }, [id]);
 
   return (
     <S.DashboardWrap>
-      <Header mock={mockHeader[0]} title="대시보드 Test" />
-      <Sidemenu mock={mockSidemenu} id={id} />
+      <Header member={memberListData} title={dashboardData?.title} />
+      <Sidemenu id={Number(id)} />
       <S.DashboardContainer>
         <S.DashboardMain>
           {columns?.data?.map((column, index) => (
@@ -253,7 +299,7 @@ export default function boardsById() {
               <CardItem
                 column={column}
                 cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
-                openCreateModal={openCreateModal}
+                openCreateModal={() => openCreateModal(column.id)}
                 openEditModal={openEditColumnModal}
               />
             </S.Column>
@@ -267,7 +313,11 @@ export default function boardsById() {
         </S.DashboardMain>
       </S.DashboardContainer>
       {isCreateCardOpen && ( // card 생성 버튼 눌렀을때
-        <CreateModal closeCreateModal={closeCreateModal} addCard={addCard} />
+        <CreateModal
+          closeCreateModal={closeCreateModal}
+          addCard={addCard}
+          columnId={ColumnIdOfCard}
+        />
       )}
       {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때
         <EditModal closeEditModal={closeEditModal} editCard={editCard} />

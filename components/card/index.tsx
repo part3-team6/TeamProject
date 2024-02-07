@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
-import { CardProps, ColumnProps } from "@/pages/boards/[id]";
+import { CardProps, ColumnProps } from "@/pages/boards/[id]/props";
 
 function CardItem({
   column,
@@ -11,7 +11,7 @@ function CardItem({
 }: {
   column: ColumnProps;
   cards: CardProps[];
-  openCreateModal: () => void;
+  openCreateModal: (columnId: number) => void;
   openEditModal: (columnId: number) => void;
 }) {
   return (
@@ -27,7 +27,7 @@ function CardItem({
         </S.cardsImg>
       </S.cardsTitle>
 
-      <S.card onClick={openCreateModal}>
+      <S.card onClick={() => openCreateModal(column.id)}>
         <S.cardMore>
           <S.cardMoreImg>
             <Image src={"/images/chip+.svg"} alt="추가하기" fill />

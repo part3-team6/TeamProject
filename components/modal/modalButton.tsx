@@ -9,7 +9,7 @@ interface ButtonProps {
 
 function Button({ children, submit, disabled }: ButtonProps) {
   return (
-    <S.button onClick={submit} disabled={disabled}>
+    <S.button onClick={submit} disabled={disabled} type="button">
       {children}
     </S.button>
   );
