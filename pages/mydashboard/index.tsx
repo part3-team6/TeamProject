@@ -1,5 +1,4 @@
 import Header from "@/components/dashHeader";
-import Mock from "./mock";
 import Sidemenu from "@/components/sidemenu";
 import * as S from "./styled";
 import Image from "next/image";
@@ -271,7 +270,7 @@ function Mydashboard() {
         </Modal>
       )}
       <Sidemenu myDashboard={() => myDashboard(currentPage, sizePages)} />
-      <Header title="내 대시보드" mock={Mock} />
+      <Header title="내 대시보드" />
 
       <S.background>
         <S.mainContainer>
