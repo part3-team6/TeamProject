@@ -23,9 +23,13 @@ export default function Test() {
     const res = await axios.get(`users/me`);
     console.log(res);
   }
+  async function getaaa() {
+    const res = await axios.get(`/members?page=1&size=20&dashboardId=3140`);
+    console.log(res);
+  }
 
   const click = () => {
-    getFolders();
+    getaaa();
   };
   const clickclick = () => {
     getFd();
@@ -34,7 +38,7 @@ export default function Test() {
   return (
     <>
       <button style={{ width: "200px", height: "200px" }} onClick={click}>
-        로그인
+        test
       </button>
       <button style={{ width: "200px", height: "200px" }} onClick={clickclick}>
         내 정보 보기

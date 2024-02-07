@@ -116,7 +116,7 @@ export const newDashBoardButton = styled.div`
 export const mainContainer = styled.main`
   display: flex;
   flex-direction: column;
-  padding: 4rem 0 0 4rem;
+  padding: 1rem 0 0 1rem;
 `;
 
 //dashboard styles

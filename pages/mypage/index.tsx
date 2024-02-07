@@ -40,7 +40,6 @@ interface PwdChange {
 
 function MyPage() {
   const { user, setUser } = useUserStore();
-  const { side } = useSideStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
   const [pwdWrong, setPwdWrong] = useState(false);
@@ -221,10 +220,8 @@ function MyPage() {
       try {
         const res = await axios.put("/auth/password", data);
 
-        if (res.status === 201) {
-          setModalText("비밀번호가 변경 되었습니다");
-          showPwdToggle();
-        }
+        setModalText("비밀번호가 변경 되었습니다");
+        showPwdToggle();
 
         router.push("/mypage");
       } catch (err) {

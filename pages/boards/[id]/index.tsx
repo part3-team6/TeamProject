@@ -210,7 +210,7 @@ export default function boardsById() {
   return (
     <S.DashboardWrap>
       <Header mock={mockHeader[0]} title="대시보드 Test" />
-      <Sidemenu mock={mockSidemenu} />
+      <Sidemenu mock={mockSidemenu} id={id} />
       <S.DashboardContainer>
         <S.DashboardMain>
           {columns?.data?.map((column, index) => (
