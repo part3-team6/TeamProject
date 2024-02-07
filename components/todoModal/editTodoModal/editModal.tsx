@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
@@ -10,6 +10,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
+import Button from "@/components/modal/modalButton";
 
 interface EditModalProps {
   closeEditModal: () => void;
@@ -36,6 +37,9 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
 
   const [statusTitles, setStatusTitles] = useState([]);
   const [selectedStatusTitle, setSelectedStatusTitle] = useState("");
+
+  const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
+
   // 태그 추가 함수
   const addTag = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && inputValue) {
@@ -52,7 +56,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   };
 
   // 이미지를 선택했을 때 호출될 함수
-  const handleImageChange = (e: any) => {
+  const handleImageChange = (e: unknown) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       setImage(file);
@@ -66,6 +70,14 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     } else {
       setImage(null);
       setImagePreview("");
+    }
+  };
+
+  // 이미지 입력 요소를 클릭하는 함수
+  const triggerImageInputClick = () => {
+    // ref를 통해 image input 요소에 접근하여 클릭 이벤트를 발생시킴
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
     }
   };
 
@@ -143,7 +155,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     formData.append("title", title);
     formData.append("description", description);
     formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
-    formData.append("deadline", deadline ? deadline.toISOString() : ""); // 마감일을 ISO 문자열로 변환
+    formData.append("deadline", deadline ? deadline.toString() : ""); // 마감일을 문자열로 변환
     // 선택된 멤버의 닉네임 추가
     if (memberList[selectedMemberIndex]) {
       formData.append("manager", memberList[selectedMemberIndex].nickname);
@@ -155,7 +167,6 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     }
 
     try {
-      const dashboardId = "your-dashboard-id"; // 대시보드 ID를 적절한 값으로 설정하세요.
       const response = await axios.put(`/dashboard/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -300,9 +311,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               />
             </S.TagContainer>
             <S.inputTitle>이미지</S.inputTitle>
-            <S.ImageContainer
-              onClick={() => document.getElementById("imageInput").click()}
-            >
+            <S.ImageContainer onClick={triggerImageInputClick}>
               {imagePreview ? (
                 <Image
                   src={imagePreview}
@@ -320,6 +329,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
                 />
               )}
               <input
+                ref={imageInputRef}
                 id="imageInput"
                 type="file"
                 style={{ display: "none" }}
@@ -328,7 +338,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
             </S.ImageContainer>
             <S.buttonContainer>
               <S.cancelButton>취소</S.cancelButton>
-              <S.button type="submit">수정</S.button>
+              <Button submit={editCard}>생성</Button>
             </S.buttonContainer>
           </form>
         </S.container>

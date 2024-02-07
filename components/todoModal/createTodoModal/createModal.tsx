@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
 import addBox from "@/public/images/add_FILL0_wght500_GRAD0_opsz24 1.svg";
@@ -9,16 +9,16 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
+import Button from "@/components/modal/modalButton";
 
-interface CreateModalProps {
+interface createModalProps {
   closeCreateModal: () => void;
   addCard: (newCard: any) => void;
 }
 
-function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
+function CreateModal({ closeCreateModal, addCard }: createModalProps) {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -31,6 +31,8 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
   const [image, setImage] = useState("");
   const [imagePreview, setImagePreview] = useState<string>("");
+
+  const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
 
   // 태그 추가 함수
   const addTag = (e: React.KeyboardEvent) => {
@@ -64,24 +66,24 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
     }
   };
 
+  // 이미지 입력 요소를 클릭하는 함수
+  const triggerImageInputClick = () => {
+    // ref를 통해 image input 요소에 접근하여 클릭 이벤트를 발생시킴
+    if (imageInputRef.current) {
+      imageInputRef.current.click();
+    }
+  };
+
   // 담당자 클릭시 드롭다운 함수
   const handleManagerDropDownClick = () => {
     setManagerDropDown(!managerDropDown);
   };
 
-  function handleCreateCard(e: any) {
-    if (e.key === "Enter") e.preventDefault();
-
-    const newCard = {};
-    addCard(newCard);
-    closeCreateModal();
-  }
-
   // 대시보드 멤버 목록 조회
   async function fetchMembers() {
     try {
       const response = await axios.get(
-        "members?page=1&size=20&dashboardId=2682",
+        `members?page=1&size=20&dashboardId=${id}`,
       );
       console.log(response);
       const memberList = response.data.members.map((member: any) => ({
@@ -102,50 +104,19 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
     fetchMembers();
   }, []);
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: unknown) => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: unknown) => {
     setDescription(e.target.value);
-  };
-
-  // 폼 제출로 POST 요청 보내기
-  const handleSubmit = async (e: React.FormEvent) => {
-    //   e.preventDefault();
-    //   // FormData 객체 생성
-    //   const formData = new FormData();
-    //   // 기본 필드 추가
-    //   formData.append("title", title);
-    //   formData.append("description", description);
-    //   formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
-    //   formData.append("deadline", deadline ? deadline.toISOString() : ""); // 마감일을 ISO 문자열로 변환
-    //   // 선택된 멤버의 닉네임 추가
-    //   if (memberList[selectedMemberIndex]) {
-    //     formData.append("manager", memberList[selectedMemberIndex].nickname);
-    //   }
-    //   // 이미지 파일이 있다면 추가
-    //   if (image) {
-    //     formData.append("image", image);
-    //   }
-    //   try {
-    //     const response = await axios.post(`/dashboard/${id}`, formData, {
-    //       headers: {
-    //         "Content-Type": "multipart/form-data",
-    //       },
-    //     });
-    //     console.log(response.data);
-    //     // 성공 처리 로직
-    //   } catch (error) {
-    //     console.error("할 일 생성 오류:", error);
-    //   }
   };
 
   return (
     <>
       <S.layer>
         <S.container>
-          <form onSubmit={handleSubmit}>
+          <form>
             <S.mainTitle>할 일 생성</S.mainTitle>
             <S.inputTitle>담당자</S.inputTitle>
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
@@ -202,8 +173,8 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
               selected={deadline}
               onChange={(date: Date | null) => {
                 setDeadline(date);
-                console.log(date);
               }}
+              dateFormat="yyyy.MM.dd"
               customInput={<S.input style={{ paddingLeft: "3rem" }} />}
             />
             <S.inputTitle>태그</S.inputTitle>
@@ -227,9 +198,7 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
             </S.TagContainer>
 
             <S.inputTitle>이미지</S.inputTitle>
-            <S.ImageContainer
-              onClick={() => document.getElementById("imageInput").click()}
-            >
+            <S.ImageContainer onClick={triggerImageInputClick}>
               {imagePreview ? (
                 <Image
                   src={imagePreview}
@@ -247,6 +216,7 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
                 />
               )}
               <input
+                ref={imageInputRef}
                 id="imageInput"
                 type="file"
                 style={{ display: "none" }}
@@ -254,8 +224,8 @@ function CreateModal({ closeCreateModal, addCard }: CreateModalProps) {
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton>취소</S.cancelButton>
-              <S.button type="submit">생성</S.button>
+              <S.cancelButton onClick={closeCreateModal}>취소</S.cancelButton>
+              <Button submit={addCard}>생성</Button>
             </S.buttonContainer>
           </form>
         </S.container>
