@@ -20,7 +20,6 @@ interface EditModalProps {
 function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -81,6 +80,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     }
   };
 
+  // 상태창 제목 조작 함수
   const handleSelectStatusTitle = (title) => {
     setSelectedStatusTitle(title);
     setStatusDropDown(false); // 드롭다운 닫기
@@ -105,7 +105,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   async function fetchMembers() {
     try {
       const response = await axios.get(
-        "members?page=1&size=20&dashboardId=2682",
+        `members?page=1&size=20&dashboardId=${id}`,
       );
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
@@ -124,7 +124,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   // 컬럼 목록 조회
   async function fetchColumn() {
     try {
-      const response = await axios.get("/columns?dashboardId=2682");
+      const response = await axios.get(`/columns?dashboardId=${id}`);
       console.log(response);
       setStatusTitles(response.data.data.map((column) => column.title));
     } catch (error) {
@@ -150,33 +150,30 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
 
   // 기본 필드 추가
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
-    formData.append("deadline", deadline ? deadline.toString() : ""); // 마감일을 문자열로 변환
-    // 선택된 멤버의 닉네임 추가
-    if (memberList[selectedMemberIndex]) {
-      formData.append("manager", memberList[selectedMemberIndex].nickname);
-    }
-
-    // 이미지 파일이 있다면 추가
-    if (image) {
-      formData.append("image", image);
-    }
-
-    try {
-      const response = await axios.put(`/dashboard/${id}`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
-      console.log(response.data);
-      // 성공 처리 로직
-    } catch (error) {
-      console.error("할 일 생성 오류:", error);
-    }
+    // e.preventDefault();
+    // formData.append("title", title);
+    // formData.append("description", description);
+    // formData.append("tags", JSON.stringify(tags)); // 태그 배열을 문자열로 변환
+    // formData.append("deadline", deadline ? deadline.toString() : ""); // 마감일을 문자열로 변환
+    // // 선택된 멤버의 닉네임 추가
+    // if (memberList[selectedMemberIndex]) {
+    //   formData.append("manager", memberList[selectedMemberIndex].nickname);
+    // }
+    // // 이미지 파일이 있다면 추가
+    // if (image) {
+    //   formData.append("image", image);
+    // }
+    // try {
+    //   const response = await axios.put(`/dashboard/${id}`, formData, {
+    //     headers: {
+    //       "Content-Type": "multipart/form-data",
+    //     },
+    //   });
+    //   console.log(response.data);
+    //   // 성공 처리 로직
+    // } catch (error) {
+    //   console.error("할 일 생성 오류:", error);
+    // }
   };
 
   const handleEditCard = (e: any) => {
@@ -197,7 +194,10 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               <S.flexContainers>
                 <S.inputTitle>상태</S.inputTitle>
                 <S.arrowDropContainer onClick={handleStatusDropDownClick}>
-                  <S.statusInput value={selectedStatusTitle} readOnly />
+                  <S.statusInput
+                    value={selectedStatusTitle}
+                    readOnly
+                  ></S.statusInput>
                   {statusDropDown && (
                     <StatusDropDownModal
                       statusTitles={statusTitles}
@@ -219,7 +219,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
                 <S.inputTitle>담당자</S.inputTitle>
                 <div style={{ position: "relative" }}>
                   <S.managerInput
-                    placeholder="이름을 입력해 주세요"
+                    placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                     value={selectedManager}
                     onChange={(e) => setSelectedManager(e.target.value)}
                   ></S.managerInput>
@@ -250,14 +250,6 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
                     />
                   </div>
                 </div>
-                {managerDropDown && (
-                  <DropDownModal
-                    members={memberList || []}
-                    profileImageUrl={memberList}
-                    selectedMemberIndex={selectedMemberIndex}
-                    onSelectMember={handleSelectMember}
-                  />
-                )}
               </S.flexContainers>
             </S.flexContainer>
 
@@ -286,9 +278,10 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               </S.calenderWrapper>
             </S.calenderContainer>
             <DatePicker
-              placeholderText={"날짜를 입력해 주세요"}
+              placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
               onChange={(date: Date | null) => setDeadline(date)}
+              dateFormat="yyyy.MM.dd"
               customInput={<S.input style={{ paddingLeft: "3rem" }} />}
             />
             <S.inputTitle>태그</S.inputTitle>
@@ -337,7 +330,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton>취소</S.cancelButton>
+              <S.cancelButton onClick={closeEditModal}>취소</S.cancelButton>
               <Button submit={editCard}>생성</Button>
             </S.buttonContainer>
           </form>
