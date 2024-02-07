@@ -15,6 +15,8 @@ export const sidemenu = styled.div`
   }
   @media all and (max-width: 767px) {
     width: 6.7rem;
+    padding: 2rem 1rem 0;
+    align-items: center;
   }
 `;
 
@@ -52,7 +54,9 @@ export const more = styled.div`
   cursor: pointer;
 `;
 export const sideLists = styled.div`
-  overflow: scroll;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
 
   &::-webkit-scrollbar {
     width: 0.3rem;
@@ -63,15 +67,19 @@ export const sideLists = styled.div`
     border-radius: 6px;
   }
 `;
-export const sideList = styled.div`
+export const sideList = styled.div<{ selectId: number; itemID: number }>`
   /* width: 100%; */
   height: 4.5rem;
   color: var(--gray-787486);
   font-size: 1.8rem;
   font-weight: 500;
-  padding-bottom: 1.5rem;
+  background-color: ${(props) =>
+    props.selectId === props.itemID ? "#e9e5ff" : ""};
   cursor: pointer;
+  border-radius: 10px;
   & a {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
   }
@@ -84,7 +92,7 @@ export const sideList = styled.div`
     }
     justify-content: center;
     & a {
-      transform: translateX(0.5rem);
+      justify-content: center;
     }
   }
 `;

@@ -160,8 +160,10 @@ export const pointImg = styled.div`
 `;
 
 export const how = styled.div`
+  max-width: 120rem;
   display: flex;
   flex-direction: column;
+  margin: 0 auto;
   @media all and (max-width: 1199px) {
     align-items: center;
   }

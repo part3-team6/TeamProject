@@ -48,8 +48,3 @@ export default class MyDocument extends Document {
     );
   }
 }
-
-//
-// export default function Document() {
-
-// }

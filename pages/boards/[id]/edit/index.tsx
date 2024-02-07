@@ -5,17 +5,18 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/dashHeader";
-import mock from "@/components/dashHeader/mock";
 import Sidemenu from "@/components/sidemenu";
 import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
 import Modal from "@/components/modal/modal";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
+import useSideStore from "@/store/side";
 
 export default function Edit() {
-  const [headerData, setHeaderData] = useState<any>();
-  const [sidemenuData, setSidemenuData] = useState<any>();
+  const { setSide } = useSideStore();
+  // const [headerData, setHeaderData] = useState<any>();
+  // const [sidemenuData, setSidemenuData] = useState<any>();
   const [memberListData, setMemberListData] = useState<any>();
   const [emailListData, setEmailListData] = useState<any>();
   const [dashboardData, setDashboardData] = useState<any>();
@@ -92,7 +93,8 @@ export default function Edit() {
     const sidemenuResponse = await getData(
       "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
-    setSidemenuData(sidemenuResponse.data);
+    // setSidemenuData(sidemenuResponse.data);
+    setSide(sidemenuResponse.data);
   };
 
   const handleKickUser = async (targetId: number) => {
@@ -169,7 +171,7 @@ export default function Edit() {
   return (
     <S.Background>
       <Sidemenu />
-      <Header mock={memberListData} title={dashboardData?.title} />
+      <Header member={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>
           <S.DashboardSettings>
@@ -209,6 +211,7 @@ export default function Edit() {
           </S.DashboardSettings>
         </S.MainContainer>
       </S.DashboardContainer>
+
       {inviteModalState ? (
         <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
           <Modal
@@ -247,6 +250,6 @@ export default function Edit() {
       ) : (
         ""
       )}
-    </S.Background>
+    </>
   );
 }
