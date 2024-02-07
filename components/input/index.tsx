@@ -8,14 +8,13 @@ interface InputProps {
   placeholder?: string;
   data?: string;
   wrong?: boolean;
-  handleBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  handleChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleBlur?: any;
   value?: string;
-  test?: () => void;
   hookform?: any;
   name?: string;
   disabled?: boolean;
   defaultValue?: string;
+  handleFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 function Input({
   data,
@@ -23,13 +22,12 @@ function Input({
   title,
   wrong,
   handleBlur,
-  handleChange,
   value,
-  test,
   hookform,
   name,
   disabled,
   defaultValue,
+  handleFocus: handleFocusEmail,
 }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
@@ -48,9 +46,8 @@ function Input({
             type={data === "이메일" ? "email" : "text"}
             id={data}
             placeholder={placeholder}
-            // onChange={handleChange}
             value={value}
-            onFocus={test}
+            onFocus={handleFocusEmail}
             wrong={wrong}
             name={name}
             disabled={disabled}
@@ -73,9 +70,8 @@ function Input({
               id={data + title}
               placeholder={placeholder}
               onBlur={handleBlur}
-              // onChange={handleChange}
               value={value}
-              onFocus={test}
+              onFocus={handleFocusEmail}
               wrong={wrong}
               name={name}
             ></S.input>

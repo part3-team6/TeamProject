@@ -56,8 +56,8 @@ function Sidemenu({ mock, sideBarDashboard, myDashboard }: SidemenuProps) {
         color: choiceColor,
       });
       if (res.status === 201) {
-        myDashboard();
         sideBarDashboard();
+        myDashboard();
       }
       // router.push("/boardid");
     } catch (error: any) {
