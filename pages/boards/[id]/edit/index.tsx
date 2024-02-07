@@ -140,23 +140,11 @@ export default function Edit() {
     }
   };
 
-  const handleSideMenuUpdate = async () => {
-    const sidemenuResponse = await getData(
-      "dashboards?navigationMethod=infiniteScroll",
-    );
-    setSidemenuData(sidemenuResponse.data);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const dashboardResponse = await getDashboardData(`dashboards/${id}`);
         setDashboardData(dashboardResponse?.data);
-
-        const sidemenuResponse = await getData(
-          "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
-        );
-        setSidemenuData(sidemenuResponse.data);
 
         const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
         setMemberListData(memberListResponse.data);
@@ -180,7 +168,7 @@ export default function Edit() {
 
   return (
     <S.Background>
-      <Sidemenu mock={sidemenuData} myDashboard={handleSideMenuUpdate} />
+      <Sidemenu />
       <Header mock={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>
