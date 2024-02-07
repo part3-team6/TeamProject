@@ -40,7 +40,7 @@ export default function Test() {
         내 정보 보기
       </button>
       {/* <CreateModal></CreateModal> */}
-      {/* <EditModal></EditModal> */}
+      <EditModal></EditModal>
     </>
   );
 }

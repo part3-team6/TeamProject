@@ -85,7 +85,6 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       const response = await axios.get(
         `members?page=1&size=20&dashboardId=${id}`,
       );
-      console.log(response);
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
         id: member.id,
@@ -93,7 +92,6 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
-      console.log(memberList);
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
@@ -121,7 +119,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <S.inputTitle>담당자</S.inputTitle>
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput
-                placeholder="이름을 입력해 주세요"
+                placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                 value={selectedManager}
                 onChange={(e) => setSelectedManager(e.target.value)}
               ></S.managerInput>
@@ -169,7 +167,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
               </S.calenderWrapper>
             </S.calenderContainer>
             <DatePicker
-              placeholderText={"날짜를 입력해 주세요"}
+              placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
               onChange={(date: Date | null) => {
                 setDeadline(date);

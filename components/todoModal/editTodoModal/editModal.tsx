@@ -20,7 +20,6 @@ interface EditModalProps {
 function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
-  console.log(id);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -286,9 +285,10 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               </S.calenderWrapper>
             </S.calenderContainer>
             <DatePicker
-              placeholderText={"날짜를 입력해 주세요"}
+              placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
               onChange={(date: Date | null) => setDeadline(date)}
+              dateFormat="yyyy.MM.dd"
               customInput={<S.input style={{ paddingLeft: "3rem" }} />}
             />
             <S.inputTitle>태그</S.inputTitle>

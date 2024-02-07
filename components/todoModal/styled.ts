@@ -283,39 +283,38 @@ export const dropDownWrapper = styled.div`
     width: 28.7rem;
     height: 11.8rem;
   }
-`;
-
-export const nickNameContainer = styled.div`
-  display: flex;
-  justify-content: left;
-  gap: 1rem;
-  align-items: center;
-`;
-
-export const statusContainer = styled.div`
-  display: flex;
-  justify-content: left;
-  gap: 1rem;
-  align-items: center;
+  overflow: scroll;
 `;
 
 export const circle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 1.8rem; // 원하는 크기로 조절하세요
-  height: 1.8rem; // 원하는 크기로 조절하세요
-  border-radius: 50%; // 원형으로 만들기
-  background-color: #f0f0f0; // 원하는 배경 색상으로 설정
-  color: #333; // 글자 색상 설정
-  font-size: 1.5rem; // 글자 크기 설정
-  margin: 0.5rem; // 원형 주변의 여백 설정
-  border: 1px solid #d9d9d9; // 테두리 색상 설정
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 99%;
+  background-color: beige;
+  font-size: 1.5rem;
+  margin: 0.5rem;
+  border: 1px solid #d9d9d9;
   margin-left: 3rem;
+  cursor: pointer;
+
+  stroke-width: 2rem;
+  stroke: var(--white-white);
+  flex-shrink: 0;
 `;
 
 export const nickName = styled.p`
-  color: yellow;
+  color: var(--black-black_333236);
+  font-size: 1.6rem;
+  font-weight: 400;
+`;
+
+export const memberWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 6px;
 `;
 
 export const DatePick = styled.input`

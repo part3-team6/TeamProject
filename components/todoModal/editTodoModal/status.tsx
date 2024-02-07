@@ -14,13 +14,11 @@ function StatusDropDownModal({
     <>
       <S.dropDownContainer>
         <S.dropDownWrapper>
-          <S.statusContainer>
-            {statusTitles.map((title, index) => (
-              <div key={index} onClick={() => onSelectStatusTitle(title)}>
-                {title}
-              </div>
-            ))}
-          </S.statusContainer>
+          {statusTitles.map((title, index) => (
+            <div key={index} onClick={() => onSelectStatusTitle(title)}>
+              {title}
+            </div>
+          ))}
         </S.dropDownWrapper>
       </S.dropDownContainer>
     </>
