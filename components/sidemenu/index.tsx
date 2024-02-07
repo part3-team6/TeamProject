@@ -24,9 +24,10 @@ interface SidemenuProps {
   //   dashboards: Dashboard[];
   // };
   myDashboard?: () => void;
+  id: number;
 }
 
-function Sidemenu({ myDashboard }: SidemenuProps) {
+function Sidemenu({ myDashboard, id }: SidemenuProps) {
   const { side, setSide } = useSideStore();
   const [isTablet, setIsTablet] = useState(false);
   const [tablet, setTablet] = useState(false); // 이게 진짜 태블릿
@@ -122,7 +123,8 @@ function Sidemenu({ myDashboard }: SidemenuProps) {
       return text;
     }
   };
-
+  console.log(id);
+  console.log(sideList);
   return (
     <>
       {createDashboardModal && (
@@ -181,8 +183,8 @@ function Sidemenu({ myDashboard }: SidemenuProps) {
 
         <S.sideLists>
           {sideList?.dashboards?.map((item, index) => (
-            <S.sideList key={index}>
-              <Link href={`boards/${item.id}`}>
+            <S.sideList key={index} selectId={Number(id)} itemID={item.id}>
+              <Link href={`/boards/${item.id}`}>
                 <S.colors style={{ backgroundColor: item.color }}></S.colors>
                 {!tablet ? (
                   <span>{item.title}</span>

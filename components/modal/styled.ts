@@ -4,7 +4,7 @@ import { styled } from "styled-components";
 export const background = styled.div`
   width: 100%;
   z-index: 999;
-  position: absolute;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: center;

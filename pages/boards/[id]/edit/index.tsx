@@ -5,17 +5,18 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
 import Header from "@/components/dashHeader";
-import mock from "@/components/dashHeader/mock";
 import Sidemenu from "@/components/sidemenu";
 import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
 import Modal from "@/components/modal/modal";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
+import useSideStore from "@/store/side";
 
 export default function Edit() {
-  const [headerData, setHeaderData] = useState<any>();
-  const [sidemenuData, setSidemenuData] = useState<any>();
+  const { setSide } = useSideStore();
+  // const [headerData, setHeaderData] = useState<any>();
+  // const [sidemenuData, setSidemenuData] = useState<any>();
   const [memberListData, setMemberListData] = useState<any>();
   const [emailListData, setEmailListData] = useState<any>();
   const [dashboardData, setDashboardData] = useState<any>();
@@ -92,7 +93,8 @@ export default function Edit() {
     const sidemenuResponse = await getData(
       "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
-    setSidemenuData(sidemenuResponse.data);
+    // setSidemenuData(sidemenuResponse.data);
+    setSide(sidemenuResponse.data);
   };
 
   const handleKickUser = async (targetId: number) => {
@@ -140,12 +142,12 @@ export default function Edit() {
     }
   };
 
-  const handleSideMenuUpdate = async () => {
-    const sidemenuResponse = await getData(
-      "dashboards?navigationMethod=infiniteScroll",
-    );
-    setSidemenuData(sidemenuResponse.data);
-  };
+  // const handleSideMenuUpdate = async () => {
+  //   const sidemenuResponse = await getData(
+  //     "dashboards?navigationMethod=infiniteScroll",
+  //   );
+  //   setSidemenuData(sidemenuResponse.data);
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -153,10 +155,10 @@ export default function Edit() {
         const dashboardResponse = await getDashboardData(`dashboards/${id}`);
         setDashboardData(dashboardResponse?.data);
 
-        const sidemenuResponse = await getData(
-          "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
-        );
-        setSidemenuData(sidemenuResponse.data);
+        // const sidemenuResponse = await getData(
+        //   "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
+        // );
+        // setSidemenuData(sidemenuResponse.data);
 
         const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
         setMemberListData(memberListResponse.data);
@@ -179,55 +181,56 @@ export default function Edit() {
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
-  console.log("side", sidemenuData);
   // console.log("member", memberListData);
   // console.log("Email", emailListData);
   // console.log("dashboardData", dashboardData);
   // console.log("input", inputState, colorState);
 
   return (
-    <S.Background>
-      <Sidemenu mock={sidemenuData} myDashboard={handleSideMenuUpdate} />
-      <Header mock={memberListData} title={dashboardData?.title} />
-      <S.DashboardContainer>
-        <S.MainContainer>
-          <S.DashboardSettings>
-            <Link href={`/boards/${id}`}>
-              <S.BackPageButton>
-                <Image
-                  alt="돌아가기버튼 화살표"
-                  src="/images/arrowRight.svg"
-                  width={20}
-                  height={20}
-                  style={{ transform: "scaleX(-1)" }}
-                />
-                <p>돌아가기</p>
-              </S.BackPageButton>
-            </Link>
-            <EditName
-              data={dashboardData}
-              handleEditDashboard={handleEditDashboard}
-            />
-            <List
-              props="member"
-              memberListData={memberListData}
-              emailListData={emailListData}
-              handleKickUser={handleKickUser}
-              handleCancelEmail={handleCancelEmail}
-            />
-            <List
-              props="invite"
-              memberListData={memberListData}
-              emailListData={emailListData}
-              handleKickUser={handleKickUser}
-              handleCancelEmail={handleCancelEmail}
-            />
-            <S.DashboardDeleteButton onClick={handleDeleteDashboard}>
-              대시보드 삭제하기
-            </S.DashboardDeleteButton>
-          </S.DashboardSettings>
-        </S.MainContainer>
-      </S.DashboardContainer>
+    <>
+      <S.Background>
+        <Sidemenu />
+        <Header member={memberListData} title={dashboardData?.title} />
+        <S.DashboardContainer>
+          <S.MainContainer>
+            <S.DashboardSettings>
+              <Link href={`/boards/${id}`}>
+                <S.BackPageButton>
+                  <Image
+                    alt="돌아가기버튼 화살표"
+                    src="/images/arrowRight.svg"
+                    width={20}
+                    height={20}
+                    style={{ transform: "scaleX(-1)" }}
+                  />
+                  <p>돌아가기</p>
+                </S.BackPageButton>
+              </Link>
+              <EditName
+                data={dashboardData}
+                handleEditDashboard={handleEditDashboard}
+              />
+              <List
+                props="member"
+                memberListData={memberListData}
+                emailListData={emailListData}
+                handleKickUser={handleKickUser}
+                handleCancelEmail={handleCancelEmail}
+              />
+              <List
+                props="invite"
+                memberListData={memberListData}
+                emailListData={emailListData}
+                handleKickUser={handleKickUser}
+                handleCancelEmail={handleCancelEmail}
+              />
+              <S.DashboardDeleteButton onClick={handleDeleteDashboard}>
+                대시보드 삭제하기
+              </S.DashboardDeleteButton>
+            </S.DashboardSettings>
+          </S.MainContainer>
+        </S.DashboardContainer>
+      </S.Background>
       {inviteModalState ? (
         <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
           <Modal
@@ -266,6 +269,6 @@ export default function Edit() {
       ) : (
         ""
       )}
-    </S.Background>
+    </>
   );
 }

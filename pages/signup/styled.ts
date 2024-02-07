@@ -4,6 +4,7 @@ export const form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  padding: 0 1rem;
 `;
 
 export const signupback = styled.div`
@@ -21,12 +22,12 @@ export const container = styled.div`
 
 export const logo = styled.div`
   position: relative;
-  margin: 17.3rem auto 1rem;
+  margin: 1rem auto;
   width: 20rem;
   height: 27.9rem;
 
-  @media (max-width: 767) {
-    margin: 10.8rem auto 0.8rem;
+  @media (max-width: 767px) {
+    margin: 30rem auto 0.8rem;
   }
 `;
 
@@ -56,7 +57,7 @@ export const noneButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 52rem;
+  width: 100%;
   height: 5rem;
   border-radius: 0.8rem;
   background: var(--gray-9FA6B2);
@@ -66,15 +67,15 @@ export const noneButton = styled.div`
   font-weight: 500;
 
   @media (max-width: 767px) {
-    width: 35rem;
     height: 5rem;
     gap: 1rem;
   }
 `;
 
 export const button = styled.button`
-  width: 52rem;
+  width: 100%;
   height: 5rem;
+  border: none;
   border-radius: 0.8rem;
   background: var(--violet-5534DA);
   color: var(--white, #fff);
@@ -84,7 +85,6 @@ export const button = styled.button`
   font-weight: 500;
 
   @media (max-width: 767px) {
-    width: 35rem;
     height: 5rem;
     gap: 1rem;
   }
