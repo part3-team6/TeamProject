@@ -167,7 +167,6 @@ export default function Edit() {
         console.error(error);
       }
     };
-    // console.log("id", id);
 
     fetchData();
   }, [id]);
@@ -178,12 +177,6 @@ export default function Edit() {
       /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
-
-  console.log("side", sidemenuData);
-  // console.log("member", memberListData);
-  // console.log("Email", emailListData);
-  // console.log("dashboardData", dashboardData);
-  // console.log("input", inputState, colorState);
 
   return (
     <S.Background>
