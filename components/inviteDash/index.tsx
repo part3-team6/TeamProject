@@ -39,11 +39,9 @@ function InviteDash({ inviteList }: any) {
       );
     });
     setSearchResults(results);
-    console.log(results);
   };
 
   const handleinviteToggle = async (action: string, invitationId: number) => {
-    console.log(action);
     try {
       let response;
       if (action === "accept") {

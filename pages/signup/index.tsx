@@ -180,9 +180,6 @@ function Signup() {
     password !== "" &&
     nickname !== "" &&
     passwordCheck == password;
-  // password.length >= 8 &&
-  // /\S+@\S+\.\S+/.test(email) &&
-  // nickname.length <= 10;
 
   return (
     <>

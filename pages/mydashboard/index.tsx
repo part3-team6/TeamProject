@@ -40,7 +40,7 @@ function Mydashboard() {
   const [isModalOpen, openModal, closeModal, toggleModal] =
     useModalToggle(false); // 모달창 토글
 
-  // 아 이거 유저 정보 가져오는거.
+  // 유저 정보
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
@@ -85,47 +85,6 @@ function Mydashboard() {
       closeModal();
     }
   };
-
-  // 초대 수락 거절 토글
-
-  // const handleinviteToggle = async (action: string, invitationId: number) => {
-  //   try {
-  //     let response;
-  //     if (action === "accept") {
-  //       response = await axios.put(`invitations/${invitationId}`, {
-  //         inviteAccepted: true,
-  //         // setInviteAccepted(true);
-  //       });
-  //     } else if (action === "reject") {
-  //       response = await axios.put(`invitations/${invitationId}`, {
-  //         inviteAccepted: false,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("초대 수락 거절 오류", error);
-  //   }
-  // };
-
-  // const handleinviteToggle = async (data: string, invitationId: number) => {
-  //   // const inviteAcceptReject = async (invitationId: number) => {
-  //   try {
-  //     const res = await axios.put(
-  //       `invitations/${invitationId}`,
-  //       inviteAccepted,
-  //     );
-  //     console.log(res.data);
-  //   } catch (error: any) {
-  //     console.error("초대 수락 거절 오류", error);
-  //   }
-  //   // };
-  //   if (data === "accept") {
-  //     console.log("수락");
-  //     setInviteAccepted(true);
-  //   } else if (data === "reject") {
-  //     setInviteAccepted(false);
-  //     console.log("거절");
-  //   }
-  // };
 
   // 새로운 대쉬보드 생성
   const createDashboard = async () => {
@@ -177,8 +136,6 @@ function Mydashboard() {
       console.error("초대목록 에러", error);
     }
   };
-
-  // 초대 수락 거절
 
   // 대쉬보드 클릭시 해당 대쉬보드 이동
   const handleThisDashboard = (id: string) => {

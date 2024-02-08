@@ -34,7 +34,6 @@ export const logo = styled.div`
 export const text = styled.p`
   color: var(--black-333236);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 2rem;
   font-weight: 500;
   padding-bottom: 3.8rem;
@@ -62,7 +61,6 @@ export const noneButton = styled.div`
   border-radius: 0.8rem;
   background: var(--gray-9FA6B2);
   color: var(--white, #fff);
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 500;
 
@@ -80,7 +78,6 @@ export const button = styled.button`
   background: var(--violet-5534DA);
   color: var(--white, #fff);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 500;
 
