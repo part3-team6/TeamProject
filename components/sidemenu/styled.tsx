@@ -74,7 +74,7 @@ export const sideList = styled.div<{ selectId: number; itemID: number }>`
   font-size: 1.8rem;
   font-weight: 500;
   background-color: ${(props) =>
-    props.selectId === props.itemID ? "#e9e5ff" : ""};
+    props.selectId == props.itemID ? "#e9e5ff" : ""};
   cursor: pointer;
   border-radius: 10px;
   & a {

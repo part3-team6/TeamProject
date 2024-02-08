@@ -34,7 +34,7 @@ function Header({ member, title }: HeaderProps) {
   // const [member, setMember] = useState(true);
   const [totalMember, setTotalMember] = useState<number>();
   const [isTablet, setIsTablet] = useState(true);
-  const [currentUser, setCurrentUser] = useState<Member | null>(null);
+  const [currentUser, setCurrentUser] = useState<Member | null>();
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
   const { setInviteModalState } = useInviteModalStore(); //주스탄드에서 초대모달창 상태관리
 
@@ -76,8 +76,8 @@ function Header({ member, title }: HeaderProps) {
     setCurrentUser(user);
   }, [user]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const myNameRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>();
+  const myNameRef = useRef<HTMLDivElement>();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {

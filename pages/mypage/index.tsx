@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
 import useUserStore from "@/store/user";
-import useSideStore from "@/store/side";
 import useToggle from "@/hooks/useToggle";
 import axios from "@/lib/axios";
 
@@ -39,11 +38,11 @@ interface PwdChange {
 function MyPage() {
   const { user, setUser } = useUserStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
-  const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
-  const [pwdWrong, setPwdWrong] = useState(false);
-  const [modalText, setModalText] = useState("");
-  const [profileBtn, setProfileBtn] = useState(false);
-  const [pwdBtn, setPwdBtn] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string>("/images/more.svg");
+  const [pwdWrong, setPwdWrong] = useState<boolean>(false);
+  const [modalText, setModalText] = useState<string>("");
+  const [profileBtn, setProfileBtn] = useState<boolean>(false);
+  const [pwdBtn, setPwdBtn] = useState<boolean>(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
   // profile
@@ -52,7 +51,7 @@ function MyPage() {
     handleSubmit: handleSubmit1,
     watch: watch1,
   } = useForm<IFormInput>();
-  const onSubmit1: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit1: SubmitHandler<IFormInput> = (data: { nickname: string }) => {
     const postData = {
       nickname: data.nickname,
       profileImageUrl: profileValue.profileImageUrl,
@@ -66,10 +65,14 @@ function MyPage() {
     handleSubmit: handleSubmit2,
     watch: watch2,
   } = useForm<PwdChange>();
-  const onSubmit2: SubmitHandler<PwdChange> = (data) => {
+  const onSubmit2: SubmitHandler<PwdChange> = (data: {
+    password: number;
+    newPassword: number;
+    newPasswordCheck: number;
+  }) => {
     const pwdValue = {
-      password: data.password,
-      newPassword: data.newPassword,
+      password: String(data.password),
+      newPassword: String(data.newPassword),
     };
 
     if (data.newPasswordCheck !== data.newPassword) {
@@ -137,7 +140,7 @@ function MyPage() {
     setCurrentUser(user);
   }, [user]);
 
-  const uploadImage = async (file: string | Blob) => {
+  const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
 
@@ -211,7 +214,7 @@ function MyPage() {
   // -- 이미지 / 닉네임 변경 끝
 
   // 비밀번호 변경 시작
-  const pwdChange = async (data: { password: any; newPassword: any }) => {
+  const pwdChange = async (data: { password: string; newPassword: string }) => {
     if (!pwdWrong && data.password !== "" && data.newPassword !== "") {
       try {
         const res = await axios.put("/auth/password", data);
@@ -220,7 +223,7 @@ function MyPage() {
         showPwdToggle();
 
         router.push("/mypage");
-      } catch (err) {
+      } catch (err: any) {
         setModalText(err.response.data.message);
         showPwdToggle();
       }

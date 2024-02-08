@@ -193,7 +193,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
 
         <S.sideLists>
           {sideList?.dashboards?.map((item, index) => (
-            <S.sideList key={index} selectId={Number(id)} itemID={item.id}>
+            <S.sideList key={index} selectId={id} itemID={item.id}>
               <Link href={`/boards/${item.id}`}>
                 <S.colors style={{ backgroundColor: item.color }}></S.colors>
                 {!tablet ? (

@@ -14,7 +14,7 @@ interface InputProps {
   name?: string;
   disabled?: boolean;
   defaultValue?: string;
-  handleFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
+  handleFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 function Input({
   data,
