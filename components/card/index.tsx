@@ -1,7 +1,7 @@
 import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
-import { CardProps, ColumnProps } from "@/pages/boards/id";
+import { CardProps, ColumnProps } from "@/pages/boards/[id]";
 
 function CardItem({
   column,
