@@ -84,6 +84,7 @@ export default function boardsById() {
   const addCard = async (newCard: NewCard) => {
     try {
       const response = await axiosInstance.post(`cards`, newCard);
+      console.log("test", response);
       if (response.status === 201) {
         setCards((prevCards: CardProps[]) => {
           if (!prevCards) {
@@ -91,6 +92,8 @@ export default function boardsById() {
           }
           return [...prevCards, response.data];
         });
+      } else if (response.status === 400) {
+        console.log("test");
       }
       setIsCreateCardOpen(false);
     } catch (error) {
