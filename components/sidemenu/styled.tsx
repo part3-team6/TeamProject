@@ -68,7 +68,6 @@ export const sideLists = styled.div`
   }
 `;
 export const sideList = styled.div<{ selectId: number; itemID: number }>`
-  /* width: 100%; */
   height: 4.5rem;
   color: var(--gray-787486);
   font-size: 1.8rem;
@@ -118,7 +117,7 @@ export const crown = styled.div`
 // newDashboardColor (children) 부분
 interface colorEllipseInnerProps {
   backgroundColor: string;
-  choiceColor: string;
+  choiceColor: string | null;
 }
 
 export const colorEllipseInner = styled.div<colorEllipseInnerProps>`

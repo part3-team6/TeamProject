@@ -35,8 +35,8 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const [deadline, setDeadline] = useState<Date | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
-  const [image, setImage] = useState("");
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [image, setImage] = useState<string | null>("");
+  const [imagePreview, setImagePreview] = useState<string | undefined>("");
 
   const [statusTitles, setStatusTitles] = useState([]);
   const [selectedStatusTitle, setSelectedStatusTitle] = useState("");
@@ -59,7 +59,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   };
 
   // 이미지를 선택했을 때 호출될 함수
-  const handleImageChange = (e: unknown) => {
+  const handleImageChange = (e: any) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
       setImage(file);
@@ -67,7 +67,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result.toString());
+        setImagePreview(reader.result?.toString());
       };
       reader.readAsDataURL(file);
     } else {
@@ -85,7 +85,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   };
 
   // 상태창 제목 조작 함수
-  const handleSelectStatusTitle = (title) => {
+  const handleSelectStatusTitle = (title: string) => {
     setSelectedStatusTitle(title);
     setStatusDropDown(false); // 드롭다운 닫기
   };
@@ -130,7 +130,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     try {
       const response = await axios.get(`/columns?dashboardId=${id}`);
       console.log(response);
-      setStatusTitles(response.data.data.map((column) => column.title));
+      setStatusTitles(response.data.data.map((column: any) => column.title));
     } catch (error) {
       console.error("컬럼 가져오기 오류", error);
     }
@@ -141,11 +141,11 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
     fetchColumn();
   }, []);
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e) => {
+  const handleDescriptionChange = (e: any) => {
     setDescription(e.target.value);
   };
 

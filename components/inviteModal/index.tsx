@@ -53,7 +53,7 @@ function InviteModal() {
     );
     if (canIInvite) {
       if (!isItExist) {
-        await postData(`$dashboards/${id}/invitations`, {
+        await postData(`dashboards/${id}/invitations`, {
           email: inviteEmailInput,
         });
         const emailListResponse = await getData(`dashboards/${id}/invitations`);
@@ -86,6 +86,12 @@ function InviteModal() {
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
+  const handleModalEsc = (event: KeyboardEvent) => {
+    if (event?.key === "Escape") {
+      handleSetInviteModalStateFalse();
+    }
+  };
+
   return (
     <>
       {inviteModalState ? (
@@ -99,6 +105,7 @@ function InviteModal() {
             cancel={handleSetInviteModalStateFalse}
             submit={handleInviteEmail}
             value={setInviteEmailInput}
+            handleModalEsc={handleModalEsc}
           />
         </S.ModalContainer>
       ) : (

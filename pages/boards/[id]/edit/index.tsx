@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import * as S from "./styled";
+import * as S from "../../../../styles/boards/[id]/edit/styled";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,8 +17,8 @@ interface Member {
   email: string;
   nickname: string;
   profileImageUrl: string;
-  createdAt: string; // Assuming this is a timestamp string
-  updatedAt: string; // Assuming this is a timestamp string
+  createdAt: string;
+  updatedAt: string;
   isOwner: boolean;
 }
 
@@ -74,8 +74,6 @@ export default function Edit() {
   const router = useRouter();
   const { id } = router.query;
 
-  const modalRef = useRef();
-
   const getData = async (link: string) => {
     try {
       const response = await axios.get(link);
@@ -123,7 +121,6 @@ export default function Edit() {
     const sidemenuResponse = await getData(
       "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
     );
-    // setSidemenuData(sidemenuResponse.data);
     setSide(sidemenuResponse.data);
   };
 
@@ -153,10 +150,10 @@ export default function Edit() {
         const dashboardResponse = await getDashboardData(`dashboards/${id}`);
         setDashboardData(dashboardResponse?.data);
 
-        const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
+        const memberListResponse = await getData(`members?dashboardId=${id}`);
         setMemberListData(memberListResponse.data);
 
-        const emailListResponse = await getData(`dashboards/${id}/invitations`); //`dashboards/${id}/invitations`
+        const emailListResponse = await getData(`dashboards/${id}/invitations`);
         setEmailListData(emailListResponse.data);
       } catch (error) {
         console.error(error);

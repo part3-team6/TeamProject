@@ -1,11 +1,10 @@
 import styled from "styled-components";
 
-export const wrap = styled.div`
+export const Wrap = styled.div`
   position: relative;
 `;
-export const mypage = styled.div`
+export const Mypage = styled.div`
   width: calc(100% - 30rem);
-  /* height: calc(100vh - 7rem); */
   min-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;
@@ -22,21 +21,21 @@ export const mypage = styled.div`
     margin-left: 7rem;
   }
 `;
-export const back = styled.div`
+export const Back = styled.div`
   color: var(--black-333236);
   font-size: 1.6rem;
   font-weight: 500;
   margin-bottom: 1rem;
   cursor: pointer;
 `;
-export const box = styled.form`
+export const Box = styled.form`
   width: 100%;
   max-width: 62rem;
   padding: 3.2rem 2.8rem;
   border-radius: 8px;
   background: var(--white-FFFFFF);
 `;
-export const boxTitle = styled.div`
+export const BoxTitle = styled.div`
   color: var(--black-333236);
   font-size: 2.4rem;
   font-weight: 700;
@@ -45,7 +44,7 @@ export const boxTitle = styled.div`
     font-size: 2rem;
   }
 `;
-export const boxImg = styled.div`
+export const BoxImg = styled.div`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
@@ -57,7 +56,7 @@ export const boxImg = styled.div`
     height: 10rem;
   }
 `;
-export const changeImg = styled.div`
+export const ChangeImg = styled.div`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
@@ -77,7 +76,7 @@ export const changeImg = styled.div`
     height: 10rem;
   }
 `;
-export const changeImginner = styled.label`
+export const ChangeImgInner = styled.label`
   width: 18.2rem;
   height: 18.2rem;
   position: relative;
@@ -90,7 +89,7 @@ export const changeImginner = styled.label`
     height: 10rem;
   }
 `;
-export const imgEdit = styled.div`
+export const ImgEdit = styled.div`
   width: 2rem;
   height: 2rem;
   position: relative;
@@ -98,11 +97,11 @@ export const imgEdit = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
 `;
-export const btnBox = styled.div`
+export const BtnBox = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-export const submit = styled.input<{ null: boolean }>`
+export const Submit = styled.input<{ null: boolean }>`
   width: 8.4rem;
   height: 3.2rem;
   border-radius: 4px;
@@ -119,7 +118,7 @@ export const submit = styled.input<{ null: boolean }>`
   border: none;
   margin: 3.2rem 0 0 auto;
 `;
-export const deleteImg = styled.div`
+export const DeleteImg = styled.div`
   width: 8.4rem;
   height: 3.2rem;
   border-radius: 4px;
@@ -135,14 +134,14 @@ export const deleteImg = styled.div`
   border: none;
 `;
 
-export const inputBox = styled.div`
+export const InputBox = styled.div`
   display: flex;
   gap: 1.6rem;
   @media all and (max-width: 767px) {
     flex-direction: column;
   }
 `;
-export const inputs = styled.div`
+export const Inputs = styled.div`
   display: flex;
   flex-flow: wrap;
   gap: 1.6rem;

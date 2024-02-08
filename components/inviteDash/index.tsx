@@ -3,8 +3,24 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 import NoDash from "./noDash";
 import axios from "@/lib/axios";
-// 목이라는 이름 바꾸고 타입지정하기
-function InviteDash({ mock }: any) {
+
+interface dashboardType {
+  id: number;
+  title: string;
+}
+
+interface itemType {
+  createdAt: string;
+  dashboard: dashboardType;
+  id: number;
+  inviteAccepted: null;
+  invitee: object;
+  inviter: object;
+  teamId: string;
+  updatedAt: string;
+}
+
+function InviteDash({ inviteList }: any) {
   const [ismobile, setIsMobile] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -14,11 +30,10 @@ function InviteDash({ mock }: any) {
     setSearchTerm(e.target.value);
   };
 
-  //item 콘솔에 찍어보고 타입 지정하기
   const handleSearch = () => {
-    const results = mock?.invitations?.filter((item: any) => {
-      console.log(item);
+    const results = inviteList?.invitations?.filter((item: itemType) => {
       const inviterDashboard = item.dashboard?.title.toLowerCase();
+
       return (
         inviterDashboard && inviterDashboard.includes(searchTerm.toLowerCase())
       );
@@ -27,7 +42,6 @@ function InviteDash({ mock }: any) {
   };
 
   const handleinviteToggle = async (action: string, invitationId: number) => {
-    console.log(action);
     try {
       let response;
       if (action === "accept") {
@@ -61,7 +75,7 @@ function InviteDash({ mock }: any) {
     handleSearch();
   }, [searchTerm, setInviteAccepted]);
 
-  return mock?.invitations?.length !== 0 ? (
+  return inviteList?.invitations?.length !== 0 ? (
     <S.container>
       <S.title>초대받은 대쉬보드</S.title>
       <S.inputContainer>
@@ -87,7 +101,7 @@ function InviteDash({ mock }: any) {
             searchResults.map((data: any) => (
               <S.section key={data.id}>
                 <S.menuDiv>
-                  <S.menu>이ㅗㅗㅗ름</S.menu>
+                  <S.menu>이름</S.menu>
                   <S.text>{data.dashboard.title}</S.text>
                 </S.menuDiv>
                 <S.menuDiv>
@@ -111,7 +125,7 @@ function InviteDash({ mock }: any) {
               </S.section>
             ))
           ) : !searchTerm ? (
-            mock?.invitations.map((data: any, index?: number) => (
+            inviteList?.invitations.map((data: any, index?: number) => (
               <S.section key={index}>
                 <S.menuDiv>
                   <S.menu>이름</S.menu>
@@ -172,7 +186,7 @@ function InviteDash({ mock }: any) {
               </S.section>
             ))
           ) : !searchTerm ? (
-            mock?.invitations.map((data: any, index: number) => (
+            inviteList?.invitations.map((data: any, index: number) => (
               <S.section key={index}>
                 <S.text>{data.dashboard.title}</S.text>
                 <S.text>{data.inviter.nickname}</S.text>

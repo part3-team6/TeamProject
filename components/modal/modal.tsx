@@ -12,7 +12,8 @@ export interface ModalProps {
   cancel: MouseEventHandler;
   value: (value: string) => void;
   submit: any;
-  handleModalEsc: (e: KeyboardEvent) => void;
+  handleModalEsc?: any;
+  // (e: KeyboardEvent) => void;
 }
 
 const test: any = {

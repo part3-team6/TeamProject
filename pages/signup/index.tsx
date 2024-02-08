@@ -1,4 +1,4 @@
-import * as S from "./styled";
+import * as S from "../../styles/signup/styled";
 import Input from "@/components/input";
 import Image from "next/image";
 import Link from "next/link";
@@ -180,9 +180,6 @@ function Signup() {
     password !== "" &&
     nickname !== "" &&
     passwordCheck == password;
-  // password.length >= 8 &&
-  // /\S+@\S+\.\S+/.test(email) &&
-  // nickname.length <= 10;
 
   return (
     <>
@@ -200,15 +197,15 @@ function Signup() {
           wrong={handleModalToggle}
         />
       )}
-      <S.container>
-        <S.logo>
+      <S.Container>
+        <S.Logo>
           <Link href={"/"}>
             <Image src="images/logoLogin.svg" alt="로고" fill />
           </Link>
-        </S.logo>
-        <S.text>첫 방문을 환영합니다!</S.text>
+        </S.Logo>
+        <S.Text>첫 방문을 환영합니다!</S.Text>
 
-        <S.form onSubmit={handleSubmit(onSubmit)}>
+        <S.Form onSubmit={handleSubmit(onSubmit)}>
           <Input
             hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}
             data="이메일"
@@ -249,28 +246,28 @@ function Signup() {
             handleFocus={handleFocus("passwordCheck")}
             handleBlur={handleBlur("passwordCheck")}
           />
-          <S.checkBox>
-            <S.checkInput
+          <S.CheckBox>
+            <S.CheckInput
               type="checkbox"
               id="agree"
               name="agree"
               onChange={handleCheckBoxChange}
             />
-            <S.label htmlFor="agree">이용약관에 동의합니다</S.label>
-          </S.checkBox>
+            <S.Label htmlFor="agree">이용약관에 동의합니다</S.Label>
+          </S.CheckBox>
           {lastCheck ? (
-            <S.button type="submit">가입하기</S.button>
+            <S.Button type="submit">가입하기</S.Button>
           ) : (
-            <S.noneButton>가입하기</S.noneButton>
+            <S.NoneButton>가입하기</S.NoneButton>
           )}
-          <S.logintext>
+          <S.Logintext>
             이미 가입하셨나요?
-            <S.linkLogin>
+            <S.LinkLogin>
               <Link href={"/signin"}>로그인하기</Link>
-            </S.linkLogin>
-          </S.logintext>
-        </S.form>
-      </S.container>
+            </S.LinkLogin>
+          </S.Logintext>
+        </S.Form>
+      </S.Container>
     </>
   );
 }

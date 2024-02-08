@@ -2,6 +2,7 @@ import * as S from "./styled";
 
 interface TagProps {
   tags: string[];
+  tagIndex?: any;
 }
 
 function Tag({ tags, tagIndex }: TagProps) {

@@ -5,7 +5,6 @@ function NoDash() {
   return (
     <>
       <S.container>
-        {/* <S.title>초대받은 대쉬보드</S.title> */}
         <S.noDashflex>
           <S.unsub>
             <Image src={"images/unsubscribe.svg"} alt="편지지 이미지" fill />

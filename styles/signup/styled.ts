@@ -1,17 +1,17 @@
 import { styled } from "styled-components";
 
-export const form = styled.form`
+export const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 3rem;
   padding: 0 1rem;
 `;
 
-export const signupback = styled.div`
+export const Signupback = styled.div`
   display: flex;
   flex-direction: column;
 `;
-export const container = styled.div`
+export const Container = styled.div`
   width: 100%;
   max-width: 52rem;
   position: absolute;
@@ -20,7 +20,7 @@ export const container = styled.div`
   transform: translate(-50%, -50%);
 `;
 
-export const logo = styled.div`
+export const Logo = styled.div`
   position: relative;
   margin: 1rem auto;
   width: 20rem;
@@ -31,29 +31,28 @@ export const logo = styled.div`
   }
 `;
 
-export const text = styled.p`
+export const Text = styled.p`
   color: var(--black-333236);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 2rem;
   font-weight: 500;
   padding-bottom: 3.8rem;
 `;
 
-export const checkBox = styled.div`
+export const CheckBox = styled.div`
   align-items: center;
   display: flex;
   gap: 0.8rem;
 `;
 
-export const checkInput = styled.input`
+export const CheckInput = styled.input`
   width: 2rem;
   height: 2rem;
   border-radius: 0.4rem;
   border: 1px solid var(--gray-D9D9D9);
 `;
 
-export const noneButton = styled.div`
+export const NoneButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -62,7 +61,6 @@ export const noneButton = styled.div`
   border-radius: 0.8rem;
   background: var(--gray-9FA6B2);
   color: var(--white, #fff);
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 500;
 
@@ -72,7 +70,7 @@ export const noneButton = styled.div`
   }
 `;
 
-export const button = styled.button`
+export const Button = styled.button`
   width: 100%;
   height: 5rem;
   border: none;
@@ -80,7 +78,6 @@ export const button = styled.button`
   background: var(--violet-5534DA);
   color: var(--white, #fff);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 500;
 
@@ -90,19 +87,19 @@ export const button = styled.button`
   }
 `;
 
-export const logintext = styled.div`
+export const Logintext = styled.div`
   display: flex;
   color: var(--black-333236);
   font-size: 1.6rem;
   gap: 1rem;
 `;
 
-export const linkLogin = styled.p`
+export const LinkLogin = styled.p`
   color: var(--violet-5534DA);
   text-decoration-line: underline;
 `;
 
-export const label = styled.label`
+export const Label = styled.label`
   color: var(--black-333236);
   font-size: 1.6rem;
   font-weight: 400;

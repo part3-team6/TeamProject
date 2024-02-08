@@ -23,8 +23,8 @@ function EditName({
   const [windowWidth, setWindowWidth] = useState<number>(1700);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [checked, setChecked] = useState<number>(1);
-  const [inputValue, setInputValue] = useState("");
-  const [isEmpty, setIsEmpty] = useState(false);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [isEmpty, setIsEmpty] = useState<boolean>(false);
   const { setInputState, setColorState } = useEditStore();
 
   const handleColor = (e: number) => {
