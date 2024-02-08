@@ -37,10 +37,10 @@ export const DashboardSettings = styled.div`
   flex-direction: column;
   gap: 1.2rem;
 
-  margin: 2rem 0 0 2rem;
+  margin: 2rem 0 2rem 2rem;
   @media (max-width: 767px) {
     gap: 1.1rem;
-    margin: 1.6rem 0 0 2rem;
+    margin: 1.6rem 0 2rem 2rem;
   }
 `;
 

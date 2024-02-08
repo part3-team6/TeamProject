@@ -19,11 +19,15 @@ interface Member {
 
 interface MapData {
   members: Member[];
-  totalCount: number;
+  totalCount?: number;
+}
+
+interface MemberResponse {
+  members?: Member[];
 }
 
 interface MapData2 {
-  totalCount: number;
+  totalCount?: number;
   invitations: {
     id: number;
     inviter: {
@@ -66,7 +70,6 @@ function List({
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [curruntPage, setCurruntPage] = useState<number>(1);
-  const [invitedEmail, setInvitedEmail] = useState<any>([]);
   const [mapData, setMapData] = useState<MapData>({
     members: [],
     totalCount: 0,
@@ -97,20 +100,18 @@ function List({
     const type = props;
 
     let calculatedTotalPage = 1;
-    console.log(emailListData);
 
     const emailList = emailListData?.invitations.filter(
       (i) => i.inviteAccepted === null,
     );
-    console.log("email", emailList);
 
     if (type === "member") {
       if (memberListData?.totalCount !== 0) {
-        calculatedTotalPage = Math.ceil(memberListData?.totalCount / 4);
+        calculatedTotalPage = Math.ceil((memberListData?.totalCount ?? 0) / 4);
       }
     } else {
       if (emailList?.length !== 0) {
-        calculatedTotalPage = Math.ceil(emailList?.length / 5);
+        calculatedTotalPage = Math.ceil((emailList?.length ?? 0) / 5);
       }
     }
 
@@ -123,23 +124,22 @@ function List({
       (i) => i.inviteAccepted === null,
     );
 
-    setInvitedEmail(emailList);
-
     if (listType === "member") {
-      let data: any = { members: "" };
-      data.members = memberListData?.members.slice(
-        (curruntPage - 1) * 4,
-        (curruntPage - 1) * 4 + 4,
-      );
+      let data: MapData = { members: [] };
+      data.members = memberListData?.members
+        ? memberListData.members.slice(
+            (curruntPage - 1) * 4,
+            (curruntPage - 1) * 4 + 4,
+          )
+        : [];
+      console.log("members", data);
       setMapData(data);
     } else if (listType === "invite") {
-      let data2: any = { invitations: "" };
-      data2.invitations = emailList?.slice(
-        (curruntPage - 1) * 5,
-        (curruntPage - 1) * 5 + 5,
-      );
+      let data2: MapData2 = { invitations: [], totalCount: 0 };
+      data2.invitations = emailList
+        ? emailList.slice((curruntPage - 1) * 5, (curruntPage - 1) * 5 + 5)
+        : [];
       setMapData2(data2);
-      console.log("data2", data2);
     }
   }, [curruntPage, memberListData, emailListData]);
 
@@ -226,7 +226,7 @@ function List({
       </S.SortContainer>
       {listType === "member" ? (
         <S.MemberList>
-          {memberListData?.members.map((item, index) => (
+          {mapData?.members?.map((item, index) => (
             <Member
               key={`${index}-member`}
               profileImageUrl={item.profileImageUrl}

@@ -9,23 +9,67 @@ import Sidemenu from "@/components/sidemenu";
 import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
-import Modal from "@/components/modal/modal";
-import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useSideStore from "@/store/side";
+
+interface Member {
+  id: number;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string; // Assuming this is a timestamp string
+  updatedAt: string; // Assuming this is a timestamp string
+  isOwner: boolean;
+}
+
+interface MemberListData {
+  members: Member[];
+  totalCount: number;
+}
+
+interface Invitation {
+  id: number;
+  inviter: {
+    nickname: string;
+    email: string;
+    id: number;
+  };
+  teamId: string;
+  dashboard: {
+    title: string;
+    id: number;
+  };
+  invitee: {
+    nickname: string;
+    email: string;
+    id: number;
+  };
+  inviteAccepted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface EmailInvitationListData {
+  totalCount: number;
+  invitations: Invitation[];
+}
+
+interface DashboardData {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+  userId: number;
+}
 
 export default function Edit() {
   const { setSide } = useSideStore();
-  // const [headerData, setHeaderData] = useState<any>();
-  // const [sidemenuData, setSidemenuData] = useState<any>();
-  const [memberListData, setMemberListData] = useState<any>();
-  const [emailListData, setEmailListData] = useState<any>();
-  const [dashboardData, setDashboardData] = useState<any>();
-  const [inviteEmailInput, setInviteEmailInput] = useState<string>("");
-  const [canIInvite, setCanIInvite] = useState<boolean>(false);
-  const [errorModal, setErrorModal] = useState<boolean>(false);
-  const [errorModal2, setErrorModal2] = useState<boolean>(false);
-  const { inputState, colorState, inviteModalState, setInviteModalState } =
-    useEditStore();
+  const [memberListData, setMemberListData] = useState<MemberListData>();
+  const [emailListData, setEmailListData] = useState<EmailInvitationListData>();
+  const [dashboardData, setDashboardData] = useState<DashboardData>();
+  const { inputState, colorState, inviteModalState } = useEditStore();
 
   const router = useRouter();
   const { id } = router.query;
@@ -69,20 +113,6 @@ export default function Edit() {
     }
   };
 
-  const postData = async (link: string, data: any) => {
-    try {
-      const response = await axios.post(link, data);
-    } catch (e: any) {
-      if (e.response.status === 409) {
-        await setErrorModal(true);
-        setInviteModalState(false);
-      } else if (e.response.status === 404) {
-        await setErrorModal2(true);
-        setInviteModalState(false);
-      }
-    }
-  };
-
   const handleEditDashboard = async () => {
     await putData(`dashboards/${id}`, {
       title: inputState,
@@ -117,48 +147,11 @@ export default function Edit() {
     }
   };
 
-  const handleSetInviteModalStateFalse = () => {
-    setInviteModalState(false);
-    setErrorModal(false);
-    setErrorModal2(false);
-  };
-
-  const handleInviteEmail = async () => {
-    const isItExist = emailListData?.invitations.some(
-      (invitation: any) => invitation.invitee.email === inviteEmailInput,
-    );
-    if (canIInvite) {
-      if (!isItExist) {
-        await postData(`dashboards/${id}/invitations`, {
-          email: inviteEmailInput,
-        });
-        const emailListResponse = await getData(`dashboards/${id}/invitations`);
-        setEmailListData(emailListResponse.data);
-        setInviteModalState(false);
-      } else {
-        await setErrorModal(true);
-        setInviteModalState(false);
-      }
-    }
-  };
-
-  // const handleSideMenuUpdate = async () => {
-  //   const sidemenuResponse = await getData(
-  //     "dashboards?navigationMethod=infiniteScroll",
-  //   );
-  //   setSidemenuData(sidemenuResponse.data);
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
         const dashboardResponse = await getDashboardData(`dashboards/${id}`);
         setDashboardData(dashboardResponse?.data);
-
-        // const sidemenuResponse = await getData(
-        //   "https://sp-taskify-api.vercel.app/2-6/dashboards?navigationMethod=infiniteScroll&page=1&size=100",
-        // );
-        // setSidemenuData(sidemenuResponse.data);
 
         const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
         setMemberListData(memberListResponse.data);
@@ -169,106 +162,53 @@ export default function Edit() {
         console.error(error);
       }
     };
-    // console.log("id", id);
 
     fetchData();
   }, [id]);
 
-  useEffect(() => {
-    //이메일인지 검사하고 맞으면 true값 반환
-    const reg =
-      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-    setCanIInvite(reg.test(inviteEmailInput));
-  }, [inviteEmailInput]);
-
-  // console.log("member", memberListData);
-  // console.log("Email", emailListData);
-  // console.log("dashboardData", dashboardData);
-  // console.log("input", inputState, colorState);
-
   return (
-    <>
-      <S.Background>
-        <Sidemenu />
-        <Header member={memberListData} title={dashboardData?.title} />
-        <S.DashboardContainer>
-          <S.MainContainer>
-            <S.DashboardSettings>
-              <Link href={`/boards/${id}`}>
-                <S.BackPageButton>
-                  <Image
-                    alt="돌아가기버튼 화살표"
-                    src="/images/arrowRight.svg"
-                    width={20}
-                    height={20}
-                    style={{ transform: "scaleX(-1)" }}
-                  />
-                  <p>돌아가기</p>
-                </S.BackPageButton>
-              </Link>
-              <EditName
-                data={dashboardData}
-                handleEditDashboard={handleEditDashboard}
-              />
-              <List
-                props="member"
-                memberListData={memberListData}
-                emailListData={emailListData}
-                handleKickUser={handleKickUser}
-                handleCancelEmail={handleCancelEmail}
-              />
-              <List
-                props="invite"
-                memberListData={memberListData}
-                emailListData={emailListData}
-                handleKickUser={handleKickUser}
-                handleCancelEmail={handleCancelEmail}
-              />
-              <S.DashboardDeleteButton onClick={handleDeleteDashboard}>
-                대시보드 삭제하기
-              </S.DashboardDeleteButton>
-            </S.DashboardSettings>
-          </S.MainContainer>
-        </S.DashboardContainer>
-      </S.Background>
-      {inviteModalState ? (
-        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
-          <Modal
-            title="초대하기"
-            name="이메일"
-            Placeholder="이메일"
-            cancelButton="취소"
-            submitButton="초대"
-            cancel={handleSetInviteModalStateFalse}
-            submit={handleInviteEmail}
-            value={setInviteEmailInput}
-          />
-        </S.ModalContainer>
-      ) : (
-        ""
-      )}
-      {errorModal ? (
-        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
-          <ModalCheckIt
-            text={"이미 초대된 회원입니다."}
-            submitButton={"확인"}
-            wrong={handleSetInviteModalStateFalse}
-          />
-        </S.ModalContainer>
-      ) : (
-        ""
-      )}
-      {errorModal2 ? (
-        <S.ModalContainer onClick={handleSetInviteModalStateFalse}>
-          <ModalCheckIt
-            text={"존재하지 않는 회원입니다."}
-            submitButton={"확인"}
-            wrong={handleSetInviteModalStateFalse}
-          />
-        </S.ModalContainer>
-      ) : (
-        ""
-      )}
-    </>
+    <S.Background>
+      <Sidemenu id={id} />
+      <Header member={memberListData} title={dashboardData?.title} />
+      <S.DashboardContainer>
+        <S.MainContainer>
+          <S.DashboardSettings>
+            <Link href={`/boards/${id}`}>
+              <S.BackPageButton>
+                <Image
+                  alt="돌아가기버튼 화살표"
+                  src="/images/arrowRight.svg"
+                  width={20}
+                  height={20}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+                <p>돌아가기</p>
+              </S.BackPageButton>
+            </Link>
+            <EditName
+              data={dashboardData}
+              handleEditDashboard={handleEditDashboard}
+            />
+            <List
+              props="member"
+              memberListData={memberListData}
+              emailListData={emailListData}
+              handleKickUser={handleKickUser}
+              handleCancelEmail={handleCancelEmail}
+            />
+            <List
+              props="invite"
+              memberListData={memberListData}
+              emailListData={emailListData}
+              handleKickUser={handleKickUser}
+              handleCancelEmail={handleCancelEmail}
+            />
+            <S.DashboardDeleteButton onClick={handleDeleteDashboard}>
+              대시보드 삭제하기
+            </S.DashboardDeleteButton>
+          </S.DashboardSettings>
+        </S.MainContainer>
+      </S.DashboardContainer>
+    </S.Background>
   );
 }

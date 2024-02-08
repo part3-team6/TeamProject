@@ -9,6 +9,7 @@ export const headerWrap = styled.div`
   padding: 0 3rem 0 3rem;
   margin-left: 30rem;
   font-size: 1.6rem;
+  position: relative;
   @media all and (max-width: 1199px) {
     margin-left: 16rem;
     justify-content: flex-end;

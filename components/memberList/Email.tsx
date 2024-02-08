@@ -1,4 +1,3 @@
-import { MouseEventHandler } from "react";
 import * as S from "./styled";
 
 function Email({
