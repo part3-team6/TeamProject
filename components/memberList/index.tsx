@@ -3,7 +3,6 @@ import * as S from "./styled";
 import Image from "next/image";
 import Member from "./Member";
 import Email from "./Email";
-import { mocData, mocData2 } from "./moc";
 import useEditStore from "@/store/edit";
 
 interface Member {
@@ -20,10 +19,6 @@ interface Member {
 interface MapData {
   members: Member[];
   totalCount?: number;
-}
-
-interface MemberResponse {
-  members?: Member[];
 }
 
 interface MapData2 {
@@ -78,7 +73,7 @@ function List({
     invitations: [],
     totalCount: 0,
   });
-  const { inviteModalState, setInviteModalState } = useEditStore();
+  const { setInviteModalState } = useEditStore();
 
   const handleSetInviteModalStateTrue = () => {
     setInviteModalState(true);

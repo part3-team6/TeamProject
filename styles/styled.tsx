@@ -195,7 +195,6 @@ export const howCards = styled.div`
 export const howCard = styled.div`
   width: 100%;
   max-width: 38rem;
-  /* height: 38rem; */
   display: flex;
   flex-direction: column;
   @media all and (max-width: 767px) {

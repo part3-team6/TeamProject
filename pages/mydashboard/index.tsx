@@ -1,6 +1,6 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import * as S from "./styled";
+import * as S from "../../styles/mydashboard/styled";
 import Image from "next/image";
 import { MouseEventHandler, useEffect, useState } from "react";
 import Modal from "@/components/modal/modal";
@@ -29,7 +29,7 @@ interface newDashboard {
 
 function Mydashboard() {
   const router = useRouter();
-  const { side, setSide } = useSideStore();
+  const { setSide } = useSideStore();
   const { user } = useUserStore(); // 유저 정보 주스탄드
   const [choiceColor, setChoiceColor] = useState<string | null>(""); // 모달창 컬러 선택 스테이트
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
@@ -40,7 +40,7 @@ function Mydashboard() {
   const [isModalOpen, openModal, closeModal, toggleModal] =
     useModalToggle(false); // 모달창 토글
 
-  // 아 이거 유저 정보 가져오는거.
+  // 유저 정보
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
@@ -85,47 +85,6 @@ function Mydashboard() {
       closeModal();
     }
   };
-
-  // 초대 수락 거절 토글
-
-  // const handleinviteToggle = async (action: string, invitationId: number) => {
-  //   try {
-  //     let response;
-  //     if (action === "accept") {
-  //       response = await axios.put(`invitations/${invitationId}`, {
-  //         inviteAccepted: true,
-  //         // setInviteAccepted(true);
-  //       });
-  //     } else if (action === "reject") {
-  //       response = await axios.put(`invitations/${invitationId}`, {
-  //         inviteAccepted: false,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("초대 수락 거절 오류", error);
-  //   }
-  // };
-
-  // const handleinviteToggle = async (data: string, invitationId: number) => {
-  //   // const inviteAcceptReject = async (invitationId: number) => {
-  //   try {
-  //     const res = await axios.put(
-  //       `invitations/${invitationId}`,
-  //       inviteAccepted,
-  //     );
-  //     console.log(res.data);
-  //   } catch (error: any) {
-  //     console.error("초대 수락 거절 오류", error);
-  //   }
-  //   // };
-  //   if (data === "accept") {
-  //     console.log("수락");
-  //     setInviteAccepted(true);
-  //   } else if (data === "reject") {
-  //     setInviteAccepted(false);
-  //     console.log("거절");
-  //   }
-  // };
 
   // 새로운 대쉬보드 생성
   const createDashboard = async () => {
@@ -178,8 +137,6 @@ function Mydashboard() {
     }
   };
 
-  // 초대 수락 거절
-
   // 대쉬보드 클릭시 해당 대쉬보드 이동
   const handleThisDashboard = (id: string) => {
     if (newDashboard?.dashboards?.length) {
@@ -218,11 +175,11 @@ function Mydashboard() {
         >
           <S.EllipseUl>
             {ColorData.map((color) => (
-              <S.colorEllipseInner
+              <S.ColorEllipseInner
                 choiceColor={choiceColor}
                 backgroundColor={color.backgroundColor}
               >
-                <S.colorEllipse
+                <S.ColorEllipse
                   key={color.id}
                   data-color={color.backgroundColor}
                   backgroundColor={color.backgroundColor}
@@ -235,7 +192,7 @@ function Mydashboard() {
                     fill
                   />
                 )}
-              </S.colorEllipseInner>
+              </S.ColorEllipseInner>
             ))}
           </S.EllipseUl>
         </Modal>
@@ -243,54 +200,54 @@ function Mydashboard() {
       <Sidemenu myDashboard={() => myDashboard(currentPage, sizePages)} />
       <Header title="내 대시보드" />
 
-      <S.background>
-        <S.mainContainer>
-          <S.dashboardGrid>
+      <S.Background>
+        <S.MainContainer>
+          <S.DashboardGrid>
             <S.Dashboard onClick={handleNewDashboardClick}>
               <S.DashboardText>새로운 대시보드</S.DashboardText>
-              <S.newDashBoardButton>
+              <S.NewDashBoardButton>
                 <Image src={"/images/chip+.svg"} alt="+버튼" fill />
-              </S.newDashBoardButton>
+              </S.NewDashBoardButton>
             </S.Dashboard>
             {newDashboard?.dashboards?.map((data: any) => (
               <S.Dashboard
                 onClick={() => handleThisDashboard(data.id)}
                 key={data.id}
               >
-                <S.dashboardColor
+                <S.DashboardColor
                   backgroundColor={data.color}
-                ></S.dashboardColor>
+                ></S.DashboardColor>
                 <S.DashboardText>{data.title}</S.DashboardText>
                 {data.createdByMe && (
-                  <S.crown>
+                  <S.Crown>
                     <Image src={"/images/crown.svg"} alt="왕관" fill />
-                  </S.crown>
+                  </S.Crown>
                 )}
               </S.Dashboard>
             ))}
-            <S.pageNationFlex>
+            <S.PageNationFlex>
               <S.NpagesN>
                 {totalPages} 페이지중 {currentPage}
               </S.NpagesN>
-              <S.pageNation onClick={handlePreviousPage}>
+              <S.PageNation onClick={handlePreviousPage}>
                 <Image
                   src={"images/arrowPagenationLeft.svg"}
                   alt="이전페이지"
                   fill
                 />
-              </S.pageNation>
-              <S.pageNation onClick={handleNextPage}>
+              </S.PageNation>
+              <S.PageNation onClick={handleNextPage}>
                 <Image
                   src={"images/arrowPagenationRight.svg"}
                   alt="다음페이지"
                   fill
                 />
-              </S.pageNation>
-            </S.pageNationFlex>
-          </S.dashboardGrid>
-          <InviteDash mock={invited} />
-        </S.mainContainer>
-      </S.background>
+              </S.PageNation>
+            </S.PageNationFlex>
+          </S.DashboardGrid>
+          <InviteDash inviteList={invited} />
+        </S.MainContainer>
+      </S.Background>
     </>
   );
 }

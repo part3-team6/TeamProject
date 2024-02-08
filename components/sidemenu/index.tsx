@@ -1,6 +1,6 @@
 import Image from "next/image";
 import * as S from "./styled";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import Modal from "../modal/modal";
 import axios from "@/lib/axios";
@@ -12,8 +12,8 @@ interface Dashboard {
   id: number;
   title: string;
   color: string;
-  createdAt: string; // 혹은 Date 형식으로 바꿀 수도 있어, 라이브러리에 맞게
-  updatedAt: string; // 마찬가지로 Date 형식 고려해봐
+  createdAt: string;
+  updatedAt: string;
   createdByMe: boolean;
   userId: number;
 }
@@ -25,12 +25,11 @@ interface SidemenuProps {
 
 function Sidemenu({ myDashboard, id }: SidemenuProps) {
   const { side, setSide } = useSideStore();
-  const [isTablet, setIsTablet] = useState(false);
-  const [tablet, setTablet] = useState(false); // 이게 진짜 태블릿
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [tablet, setTablet] = useState<boolean>(false);
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
-  const [isModalOpen, openModal, closeModal, toggleModal] =
-    useModalToggle(false); // 모달창 토글
-  const [choiceColor, setChoiceColor] = useState(""); // 모달창 컬러 선택 스테이트
+  const [isModalOpen, openModal, closeModal] = useModalToggle(false); // 모달창 토글
+  const [choiceColor, setChoiceColor] = useState<string | null>(""); // 모달창 컬러 선택 스테이트
   const [sideList, setSideList] = useState<{
     cursorId: number;
     totalCount: number;
@@ -84,7 +83,6 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
           myDashboard();
         }
       }
-      // router.push("/boardid");
     } catch (error: any) {
       console.error("대쉬보드 생성 오류.", error);
     }
@@ -92,7 +90,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
   };
 
   // 컬러 값 가져오는거
-  const handleColor = (e: any) => {
+  const handleColor = (e: MouseEvent) => {
     const colors = e.currentTarget.getAttribute("data-color");
     setChoiceColor(colors);
   };
@@ -103,7 +101,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
     };
 
     const handleResize = () => {
-      setIsTablet(window.innerWidth <= 767);
+      setIsMobile(window.innerWidth <= 767);
     };
 
     // 이벤트 리스너 등록
@@ -177,10 +175,10 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       <S.sidemenu>
         <Link href={`/`}>
           <S.sideLogo>
-            {isTablet ? (
+            {isMobile ? (
               <Image src={"/images/logoNavMobile.svg"} alt="logo" fill />
             ) : (
-              <Image src={"/images/logoNavPC.svg"} alt="logo" fill />
+              <Image src={"/images/logoNavPc.svg"} alt="logo" fill />
             )}
           </S.sideLogo>
         </Link>
@@ -195,7 +193,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
 
         <S.sideLists>
           {sideList?.dashboards?.map((item, index) => (
-            <S.sideList key={index} selectId={id} itemID={item.id}>
+            <S.sideList key={index} selectId={Number(id)} itemID={item.id}>
               <Link href={`/boards/${item.id}`}>
                 <S.colors style={{ backgroundColor: item.color }}></S.colors>
                 {!tablet ? (

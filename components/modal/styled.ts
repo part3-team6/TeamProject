@@ -13,7 +13,7 @@ export const background = styled.div`
   height: 100%;
 `;
 
-export const container: any = styled.div<{ width: string; height: string }>`
+export const container = styled.div<{ width?: string; height?: string }>`
   padding: 3.2rem 2.8rem 2.8rem 2.8rem;
   width: ${(props) => props?.width || ""};
   height: ${(props) => props?.height || ""};

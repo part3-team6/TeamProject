@@ -5,7 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 
 import NavBar from "@/components/nav/NavBar";
-import * as S from "./styled";
+import * as S from "@/styles/styled";
 
 export default function Home() {
   const router = useRouter();
