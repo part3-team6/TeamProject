@@ -63,10 +63,11 @@ function CreateModal({
   };
 
   // 이미지를 선택했을 때 호출될 함수
-  const handleImageChange = (e: any) => {
+  const handleImageChange = async (e: any) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
-      setImage(file);
+      const imageUrl = await uploadImage(file);
+      setImage(imageUrl);
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -76,6 +77,40 @@ function CreateModal({
     } else {
       setImage("");
       setImagePreview("");
+    }
+  };
+
+  // const fetchCardImage = async () => {
+  //   try {
+  //     const response = await axios.get(`columns/${columnId}/card-image`);
+  //     setImage(response.data.imageUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const uploadImage = async (file: string | Blob) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        `columns/${columnId}/card-image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      if (response.status === 201) {
+        // const response = await axios.get(`columns/${columnId}/`);
+        // return response.data.imageUrl;
+        return response.data.imageUrl;
+      }
+    } catch (err) {
+      console.error(err);
+      return null;
     }
   };
 
@@ -241,14 +276,14 @@ function CreateModal({
                 children="생성"
                 submit={() =>
                   addCard({
-                    assigneeUserId: memberList[selectedMemberIndex]?.id || 0,
+                    assigneeUserId: memberList[selectedMemberIndex]?.id,
                     dashboardId: Number(id),
                     columnId: columnId,
                     title,
                     description,
                     dueDate: formatDate(deadline?.toISOString() || ""), // 날짜를 ISO 문자열로
                     tags,
-                    imageUrl: imagePreview ? imagePreview : "", // 미리보기 이미지 URL 사용
+                    imageUrl: image ? image : "", // 미리보기 이미지 URL 사용
                   })
                 }
               />

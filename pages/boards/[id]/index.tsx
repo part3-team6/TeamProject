@@ -94,7 +94,6 @@ export default function boardsById() {
   };
 
   const addCard = async (newCard: NewCard) => {
-    console.log("이거 좀 보세요!!!", newCard);
     try {
       const response = await axiosInstance.post(`cards`, newCard);
       if (response.status === 201) {
@@ -105,14 +104,19 @@ export default function boardsById() {
           return [...prevCards, response.data];
         });
       }
-      console.log("addCard API 호출 성공", response.data);
       setIsCreateCardOpen(false);
     } catch (error) {
       console.log("addCard API 호출 오류", error);
     }
   };
 
-  const editCard = (newCard: CardProps) => {
+  const editCard = async (newCard: CardProps) => {
+    try {
+      const response = await axiosInstance.post("", newCard);
+    } catch (error) {
+      console.log("editCard API 호출 오류", error);
+    }
+
     setCards((prevCard) => {
       return prevCard.map((card) => {
         if (card.id === newCard.id) {
@@ -238,9 +242,6 @@ export default function boardsById() {
     setCards(cardsForColumns);
   };
 
-  console.log("칼럼이쥬?", columns);
-  console.log("카드쥬?", cards);
-
   // const getCards = async () => {
   //   try {
   //     const response = await axiosInstance.get(
@@ -263,7 +264,6 @@ export default function boardsById() {
       }
     };
     fetchData();
-    console.log("대쉬보드 데이터", dashboardData);
 
     if (id) {
       getColumns();
