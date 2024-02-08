@@ -1,9 +1,7 @@
-import exp from "constants";
 import styled from "styled-components";
 
 export const Background = styled.div`
   position: relative;
-  /* var(--gray-FAFAFA) */
 `;
 
 export const ModalContainer = styled.div`

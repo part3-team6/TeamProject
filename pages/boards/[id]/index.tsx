@@ -1,7 +1,5 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import mockHeader from "@/components/dashHeader/mock";
-import mockSidemenu from "@/components/sidemenu/mock";
 import * as S from "./styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
@@ -209,8 +207,8 @@ export default function boardsById() {
 
   return (
     <S.DashboardWrap>
-      <Header mock={mockHeader[0]} title="대시보드 Test" />
-      <Sidemenu mock={mockSidemenu} id={id} />
+      <Header title="대시보드 Test" />
+      <Sidemenu id={id} />
       <S.DashboardContainer>
         <S.DashboardMain>
           {columns?.data?.map((column, index) => (

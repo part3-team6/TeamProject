@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
@@ -33,8 +33,8 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
   const [deadline, setDeadline] = useState<Date | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
-  const [image, setImage] = useState("");
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [image, setImage] = useState<string | null>("");
+  const [imagePreview, setImagePreview] = useState<any>("");
 
   const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
 
@@ -61,7 +61,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result.toString());
+        setImagePreview(reader.result?.toString());
       };
       reader.readAsDataURL(file);
     } else {
@@ -106,11 +106,11 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
     fetchMembers();
   }, []);
 
-  const handleTitleChange = (e: unknown) => {
+  const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e: unknown) => {
+  const handleDescriptionChange = (e: any) => {
     setDescription(e.target.value);
   };
 

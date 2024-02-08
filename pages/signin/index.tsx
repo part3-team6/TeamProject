@@ -97,7 +97,6 @@ function SignIn() {
               data="이메일"
               wrong={emailError}
               name="email"
-              // handleBlur={handleFocusOut}
             />
             <Input
               hookform={register("password")}
@@ -106,7 +105,6 @@ function SignIn() {
               data="pwd"
               wrong={passwordError}
               name="password"
-              // handleBlur={handleFocusOut}
             />
 
             <S.submit type="submit" value="로그인" />

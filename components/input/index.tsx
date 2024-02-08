@@ -29,7 +29,7 @@ function Input({
   defaultValue,
   handleFocus,
 }: InputProps) {
-  const [pwd, setPwd] = useState(true);
+  const [pwd, setPwd] = useState<boolean>(true);
 
   const handlePwd = () => {
     setPwd((prev) => !prev);

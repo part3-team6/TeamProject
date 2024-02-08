@@ -5,7 +5,6 @@ export const wrap = styled.div`
 `;
 export const mypage = styled.div`
   width: calc(100% - 30rem);
-  /* height: calc(100vh - 7rem); */
   min-height: calc(100vh - 7rem);
   display: flex;
   flex-direction: column;

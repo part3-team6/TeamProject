@@ -29,7 +29,7 @@ interface newDashboard {
 
 function Mydashboard() {
   const router = useRouter();
-  const { side, setSide } = useSideStore();
+  const { setSide } = useSideStore();
   const { user } = useUserStore(); // 유저 정보 주스탄드
   const [choiceColor, setChoiceColor] = useState<string | null>(""); // 모달창 컬러 선택 스테이트
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트

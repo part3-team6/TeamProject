@@ -50,7 +50,6 @@ export const background = styled.div`
   margin-left: 30rem;
   display: flex;
   background: var(--gray-FAFAFA);
-  /* background: skyblue; */
 
   @media (max-width: 1199px) {
     margin-left: 16rem;
@@ -136,7 +135,6 @@ export const crown = styled.div`
 export const pageNationFlex = styled.div`
   align-items: center;
   display: flex;
-  /* gap: 1.2rem; */
   grid-column: -2;
   justify-self: end;
 `;
