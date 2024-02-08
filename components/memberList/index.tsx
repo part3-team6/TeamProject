@@ -129,6 +129,7 @@ function List({
         (curruntPage - 1) * 4,
         (curruntPage - 1) * 4 + 4,
       );
+      console.log("members", data.members);
       setMapData(data);
     } else if (listType === "invite") {
       let data2: any = { invitations: "" };
@@ -223,7 +224,7 @@ function List({
       </S.SortContainer>
       {listType === "member" ? (
         <S.MemberList>
-          {memberListData?.members.map((item, index) => (
+          {mapData?.members?.map((item, index) => (
             <Member
               key={`${index}-member`}
               profileImageUrl={item.profileImageUrl}
