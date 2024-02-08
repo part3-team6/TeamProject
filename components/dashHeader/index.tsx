@@ -36,12 +36,8 @@ function Header({ member, title }: HeaderProps) {
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
-<<<<<<< HEAD
-  const { setInviteModalState } = useEditStore(); //주스탄드에서 초대모달창 상태관리
-=======
   const { setInviteModalState } = useInviteModalStore(); //주스탄드에서 초대모달창 상태관리
 
->>>>>>> 180b496cfc6491e5b6ba75d12d81a68972aaa1ff
   const router = useRouter();
   const { id } = router.query;
 
