@@ -17,7 +17,6 @@ export const container = styled.div`
 
 export const title = styled.p`
   color: var(--black-333236);
-  /* font-family: Pretendard; */
   font-size: 2.4rem;
   font-weight: 700;
   padding: 3.2rem 0 2rem 2.8rem;
@@ -50,7 +49,6 @@ export const unsub = styled.div`
 export const noDash = styled.p`
   color: var(--gray-9FA6B2);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-weight: 400;
   padding: 2.4rem 0 12.8rem 0;
@@ -79,7 +77,6 @@ export const input = styled.input`
   background: var(--white-FFFFFF);
   padding: 1rem 0 1rem 4.8rem;
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
 
@@ -113,7 +110,6 @@ export const searchIcon = styled.button`
 export const menu = styled.p<{ display?: string }>`
   display: block;
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
   @media (max-width: 767px) {
@@ -135,7 +131,6 @@ export const menuDiv = styled.div`
   @media (max-width: 767px) {
     padding: 1.6rem 0 1.2rem 1.6rem;
     gap: 1rem;
-    /* flex-direction: column; */
   }
 `;
 
@@ -155,7 +150,6 @@ export const yesButton = styled.button`
   background: var(--violet-5534DA);
   color: var(--white-white_FFFFFF, #fff);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-weight: 500;
 
@@ -178,7 +172,6 @@ export const noButton = styled.button`
   background: var(--white-FFFFFF);
   color: var(--violet-violet_5534DA, #5534da);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-weight: 500;
 
@@ -235,7 +228,6 @@ export const colors = styled.div<{
 
 export const text = styled.p`
   color: var(--black-333236);
-  /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 400;
   overflow: hidden;

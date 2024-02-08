@@ -103,7 +103,7 @@ function InviteDash({ inviteList }: any) {
             searchResults.map((data: any) => (
               <S.section key={data.id}>
                 <S.menuDiv>
-                  <S.menu>이ㅗㅗㅗ름</S.menu>
+                  <S.menu>이름</S.menu>
                   <S.text>{data.dashboard.title}</S.text>
                 </S.menuDiv>
                 <S.menuDiv>
