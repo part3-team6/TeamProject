@@ -9,7 +9,6 @@ import { useRouter } from "next/router";
 function InviteModal() {
   const [inviteEmailInput, setInviteEmailInput] = useState<string>("");
   const [canIInvite, setCanIInvite] = useState<boolean>(false);
-  const [emailListData, setEmailListData] = useState<any>();
   const {
     inviteModalState,
     setInviteModalState,
@@ -17,6 +16,8 @@ function InviteModal() {
     setErrorModal,
     errorModal2,
     setErrorModal2,
+    emailListData,
+    setEmailListData,
   } = useInviteModalStore();
 
   const router = useRouter();
@@ -35,7 +36,7 @@ function InviteModal() {
         await setErrorModal(true);
         setInviteModalState(false);
       } else if (e.response.status === 404) {
-        await setErrorModal2(true);
+        setErrorModal2(true);
         setInviteModalState(false);
       }
     }
@@ -71,9 +72,7 @@ function InviteModal() {
       try {
         const emailListResponse = await getData(`dashboards/${id}/invitations`);
         setEmailListData(emailListResponse.data);
-      } catch {
-        console.log("aaaa");
-      }
+      } catch {}
     };
 
     fetchData();
