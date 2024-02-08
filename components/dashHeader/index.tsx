@@ -101,7 +101,7 @@ function Header({ member, title }: HeaderProps) {
   return (
     <>
       <S.headerWrap>
-        <InviteModal />
+        {title !== "계정관리" && title !== "내 대시보드" && <InviteModal />}
         <S.dashBoard>{title}</S.dashBoard>
         <S.headerData>
           {title !== "계정관리" && title !== "내 대시보드" && (
