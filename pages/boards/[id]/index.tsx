@@ -13,9 +13,10 @@ import { useTodoModalStore } from "@/store/todoModal";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
-  const [cards, setCards] = useState<CardProps[]>([]);
 
   const {
+    cards,
+    setCards,
     isCreateCardOpen,
     setIsCreateCardOpen,
     isCreateColumnOpen,
@@ -241,7 +242,7 @@ export default function boardsById() {
       try {
         const memberListResponse = await getDashboardData(
           `members?dashboardId=${Number(id)}`,
-        ); //`members?dashboardId=${id}`
+        );
         setMemberListData(memberListResponse.data);
         console.log("id 값이 뭔데", id, Number(id));
       } catch (error) {

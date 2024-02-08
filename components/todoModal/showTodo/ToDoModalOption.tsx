@@ -8,7 +8,7 @@ import { CardProps } from "@/pages/boards/[id]/props";
 
 const toDoModalOption = () => {
   const [rendered, setRendered] = useState<ReactElement | null>(null);
-  const { isEditCardOpen, setIsEditCardOpen, editedCardId } =
+  const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
 
   const onModifyCard = () => {
@@ -30,18 +30,21 @@ const toDoModalOption = () => {
         `cards/${editedCardId}`,
         newCard,
       );
+
+      if (response.status === 200) {
+        setCards((prevCard: CardProps[]) => {
+          return prevCard.map((card) => {
+            if (card.id === newCard.id) {
+              return newCard;
+            }
+            return card;
+          });
+        });
+        setIsEditCardOpen(false);
+      }
     } catch (error) {
       console.log("editCard API 호출 오류", error);
     }
-
-    // setCards((prevCard) => {
-    //   return prevCard.map((card) => {
-    //     if (card.id === newCard.id) {
-    //       return newCard;
-    //     }
-    //     return card;
-    //   });
-    // });
   };
 
   const closeEditCardModal = () => {
