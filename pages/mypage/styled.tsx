@@ -117,6 +117,7 @@ export const submit = styled.input<{ null: boolean }>`
   cursor: pointer;
   display: block;
   border: none;
+  margin: 3.2rem 0 0 auto;
 `;
 export const deleteImg = styled.div`
   width: 8.4rem;
