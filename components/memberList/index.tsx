@@ -128,7 +128,7 @@ function List({
             (curruntPage - 1) * 4 + 4,
           )
         : [];
-      console.log("members", data);
+
       setMapData(data);
     } else if (listType === "invite") {
       let data2: MapData2 = { invitations: [], totalCount: 0 };
