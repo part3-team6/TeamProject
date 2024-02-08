@@ -19,16 +19,16 @@ function DropDownModal({
     <>
       <S.dropDownContainer>
         <S.dropDownWrapper>
-          <S.nickNameContainer>
-            {members.map((member, index) => (
-              <Fragment key={index}>
+          {members.map((member, index) => (
+            <Fragment key={index}>
+              <S.memberWrapper>
                 <S.circle onClick={() => onSelectMember(member)}>
                   {member.nickname.charAt(0)}
                 </S.circle>
                 <S.nickName>{member.nickname}</S.nickName>
-              </Fragment>
-            ))}
-          </S.nickNameContainer>
+              </S.memberWrapper>
+            </Fragment>
+          ))}
         </S.dropDownWrapper>
       </S.dropDownContainer>
     </>

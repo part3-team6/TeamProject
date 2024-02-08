@@ -7,6 +7,8 @@ import useToggle from "@/hooks/useToggle";
 import Link from "next/link";
 import useEditStore from "@/store/edit";
 import { useRouter } from "next/router";
+import InviteModal from "../inviteModal";
+import useInviteModalStore from "@/store/inviteModal";
 
 interface Member {
   id?: number;
@@ -34,7 +36,7 @@ function Header({ member, title }: HeaderProps) {
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
-  const { setInviteModalState } = useEditStore(); //주스탄드에서 초대모달창 상태관리
+  const { setInviteModalState } = useInviteModalStore(); //주스탄드에서 초대모달창 상태관리
 
   const router = useRouter();
   const { id } = router.query;
@@ -99,6 +101,7 @@ function Header({ member, title }: HeaderProps) {
   return (
     <>
       <S.headerWrap>
+        <InviteModal />
         <S.dashBoard>{title}</S.dashBoard>
         <S.headerData>
           {title !== "계정관리" && title !== "내 대시보드" && (
