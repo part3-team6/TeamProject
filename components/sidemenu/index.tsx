@@ -178,7 +178,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
             {isMobile ? (
               <Image src={"/images/logoNavMobile.svg"} alt="logo" fill />
             ) : (
-              <Image src={"/images/logoNavPC.svg"} alt="logo" fill />
+              <Image src={"/images/logoNavPc.svg"} alt="logo" fill />
             )}
           </S.sideLogo>
         </Link>
