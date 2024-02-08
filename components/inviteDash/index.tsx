@@ -3,19 +3,21 @@ import * as S from "./styled";
 import { useEffect, useState } from "react";
 import NoDash from "./noDash";
 import axios from "@/lib/axios";
-// , setInviteAccepted, inviteAccepted
+// 목이라는 이름 바꾸고 타입지정하기
 function InviteDash({ mock }: any) {
-  const [ismobile, setIsMobile] = useState(false);
+  const [ismobile, setIsMobile] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const [inviteAccepted, setInviteAccepted] = useState(Boolean);
+  const [inviteAccepted, setInviteAccepted] = useState<boolean>(Boolean);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
+  //item 콘솔에 찍어보고 타입 지정하기
   const handleSearch = () => {
     const results = mock?.invitations?.filter((item: any) => {
+      console.log(item);
       const inviterDashboard = item.dashboard?.title.toLowerCase();
       return (
         inviterDashboard && inviterDashboard.includes(searchTerm.toLowerCase())
@@ -43,16 +45,6 @@ function InviteDash({ mock }: any) {
       window.location.reload();
     }
   };
-
-  // const handleinviteClick = (action: string, invitationId: number) => {
-  //   if (action === "accept") {
-  //     setInviteAccepted(true);
-  //     handleinviteToggle(action, invitationId, inviteAccepted);
-  //   } else if (action === "reject") {
-  //     setInviteAccepted(false);
-  //     handleinviteToggle(action, invitationId, inviteAccepted);
-  //   }
-  // };
 
   useEffect(() => {
     setIsMobile(window.innerWidth <= 767);
