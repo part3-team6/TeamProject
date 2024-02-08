@@ -7,6 +7,8 @@ const useInviteModalStore = create((set) => ({
   setErrorModal: (state) => set({ errorModal: state }),
   errorModal2: false,
   setErrorModal2: (state) => set({ errorModal2: state }),
+  emailListData: undefined,
+  setEmailListData: (state) => set({ emailListData: state }),
 }));
 
 export default useInviteModalStore;
