@@ -24,7 +24,7 @@ interface SidemenuProps {
   //   dashboards: Dashboard[];
   // };
   myDashboard?: () => void;
-  id: number;
+  id?: number;
 }
 
 function Sidemenu({ myDashboard, id }: SidemenuProps) {

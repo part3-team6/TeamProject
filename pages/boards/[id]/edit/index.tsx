@@ -170,7 +170,7 @@ export default function Edit() {
 
   return (
     <S.Background>
-      <Sidemenu />
+      <Sidemenu id={id} />
       <Header member={memberListData} title={dashboardData?.title} />
       <S.DashboardContainer>
         <S.MainContainer>
@@ -250,6 +250,6 @@ export default function Edit() {
       ) : (
         ""
       )}
-    </>
+    </S.Background>
   );
 }
