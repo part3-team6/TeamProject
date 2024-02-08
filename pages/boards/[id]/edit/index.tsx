@@ -9,19 +9,66 @@ import Sidemenu from "@/components/sidemenu";
 import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
-import Modal from "@/components/modal/modal";
-import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useSideStore from "@/store/side";
-import InviteModal from "@/components/inviteModal";
+
+interface Member {
+  id: number;
+  userId: number;
+  email: string;
+  nickname: string;
+  profileImageUrl: string;
+  createdAt: string; // Assuming this is a timestamp string
+  updatedAt: string; // Assuming this is a timestamp string
+  isOwner: boolean;
+}
+
+interface MemberListData {
+  members: Member[];
+  totalCount: number;
+}
+
+interface Invitation {
+  id: number;
+  inviter: {
+    nickname: string;
+    email: string;
+    id: number;
+  };
+  teamId: string;
+  dashboard: {
+    title: string;
+    id: number;
+  };
+  invitee: {
+    nickname: string;
+    email: string;
+    id: number;
+  };
+  inviteAccepted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface EmailInvitationListData {
+  totalCount: number;
+  invitations: Invitation[];
+}
+
+interface DashboardData {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+  userId: number;
+}
 
 export default function Edit() {
   const { setSide } = useSideStore();
-  // const [headerData, setHeaderData] = useState<any>();
-  // const [sidemenuData, setSidemenuData] = useState<any>();
-  const [memberListData, setMemberListData] = useState<any>();
-  const [emailListData, setEmailListData] = useState<any>();
-  const [dashboardData, setDashboardData] = useState<any>();
-  const [inviteEmailInput, setInviteEmailInput] = useState<string>("");
+  const [memberListData, setMemberListData] = useState<MemberListData>();
+  const [emailListData, setEmailListData] = useState<EmailInvitationListData>();
+  const [dashboardData, setDashboardData] = useState<DashboardData>();
   const { inputState, colorState, inviteModalState } = useEditStore();
 
   const router = useRouter();
