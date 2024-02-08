@@ -13,10 +13,11 @@ import { useTodoModalStore } from "@/store/todoModal";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
+  const [cards, setCards] = useState<CardProps[]>([]);
 
   const {
-    cards,
-    setCards,
+    // cards,
+    // setCards,
     isCreateCardOpen,
     setIsCreateCardOpen,
     isCreateColumnOpen,
@@ -213,7 +214,12 @@ export default function boardsById() {
         return cardsForColumn;
       }) || [],
     );
-    setCards(cardsForColumns);
+    // console.log("cardsForColumns", cardsForColumns);
+    // setCards(cardsForColumns);
+    const allCards = cardsForColumns.reduce((result, columnData) => {
+      return result.concat(columnData.cards);
+    }, []);
+    setCards(allCards);
   };
 
   useEffect(() => {
@@ -247,7 +253,6 @@ export default function boardsById() {
           `members?dashboardId=${Number(id)}`,
         );
         setMemberListData(memberListResponse.data);
-        console.log("id 값이 뭔데", id, Number(id));
       } catch (error) {
         console.log("memberListResponse =>", error);
       }
@@ -265,7 +270,9 @@ export default function boardsById() {
             <S.Column key={index}>
               <CardItem
                 column={column}
-                cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
+                cards={cards.filter(
+                  (cards: CardProps) => cards.columnId === column.id,
+                )} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
                 openEditColumnModal={openEditColumnModal}
                 openCreateCardModal={() => openCreateCardModal(column.id)}
               />

@@ -19,6 +19,7 @@ const toDoModalOption = () => {
         <EditModal
           closeEditCardModal={closeEditCardModal}
           editCard={editCard}
+          columnId={0} // 임시로 초기값 0으로 해놓음. 나중에 삭제.
         />,
       );
     }
@@ -65,6 +66,7 @@ const toDoModalOption = () => {
         <EditModal
           closeEditCardModal={closeEditCardModal}
           editCard={editCard}
+          columnId={0} // 임시로 초기값 0으로 해놓음. 나중에 삭제.
         />
       )}
     </S.ModalOption>

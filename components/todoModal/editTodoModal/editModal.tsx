@@ -22,7 +22,7 @@ interface EditModalProps {
   columnId: number;
 }
 
-function EditModal({ closeEditModal, editCard, columnId }: EditModalProps) {
+function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
 
