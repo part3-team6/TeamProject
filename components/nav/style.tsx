@@ -30,7 +30,7 @@ export const LogoContainer = styled.div`
   padding: 0.4rem 0.4rem 0rem 0.4rem;
   position: relative;
   @media (max-width: 767px) {
-    width: 2.36rem;
+    width: 7rem;
     height: 2.71rem;
     padding: 0 0 0 0;
   }

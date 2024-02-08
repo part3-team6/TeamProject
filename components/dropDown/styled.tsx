@@ -8,7 +8,7 @@ export const drop = styled.div`
   position: absolute;
   top: 6rem;
   right: 1rem;
-  font-size: 2rem;
+  font-size: 1.6rem;
   border: 1px solid var(--gray-9FA6B2);
   border-radius: 8px;
   background-color: #fff;
@@ -27,15 +27,12 @@ export const btn = styled.div`
   }
 `;
 export const btns = styled.div`
-  padding: 2rem 5rem;
+  padding: 1.5rem 3rem;
   flex: 1;
 
   cursor: pointer;
   &:hover {
     background-color: whitesmoke;
-  }
-  @media all and (max-width: 767px) {
-    padding: 1.5rem 3rem;
   }
 `;
 
