@@ -288,7 +288,7 @@ function Mydashboard() {
               </S.pageNation>
             </S.pageNationFlex>
           </S.dashboardGrid>
-          <InviteDash mock={invited} />
+          <InviteDash inviteList={invited} />
         </S.mainContainer>
       </S.background>
     </>
