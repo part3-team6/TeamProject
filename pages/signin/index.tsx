@@ -19,13 +19,16 @@ interface IFormInput {
 }
 
 function SignIn() {
-  const { user, setUser } = useUserStore();
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const { setUser } = useUserStore();
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = (data: {
+    email: string;
+    password: string;
+  }) => {
     const loginData = {
       email: data.email,
       password: data.password,

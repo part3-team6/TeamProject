@@ -51,7 +51,7 @@ function MyPage() {
     handleSubmit: handleSubmit1,
     watch: watch1,
   } = useForm<IFormInput>();
-  const onSubmit1: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit1: SubmitHandler<IFormInput> = (data: { nickname: string }) => {
     const postData = {
       nickname: data.nickname,
       profileImageUrl: profileValue.profileImageUrl,
@@ -65,7 +65,11 @@ function MyPage() {
     handleSubmit: handleSubmit2,
     watch: watch2,
   } = useForm<PwdChange>();
-  const onSubmit2: SubmitHandler<PwdChange> = (data) => {
+  const onSubmit2: SubmitHandler<PwdChange> = (data: {
+    password: number;
+    newPassword: number;
+    newPasswordCheck: number;
+  }) => {
     const pwdValue = {
       password: String(data.password),
       newPassword: String(data.newPassword),
@@ -219,7 +223,7 @@ function MyPage() {
         showPwdToggle();
 
         router.push("/mypage");
-      } catch (err) {
+      } catch (err: any) {
         setModalText(err.response.data.message);
         showPwdToggle();
       }
