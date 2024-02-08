@@ -50,7 +50,7 @@ export const button = styled.button`
     props.disabled ? "var(--violet-8-percent)" : "var(--violet-5534DA)"};
   color: var(--white-FFFFFF);
   text-align: center;
-  /* font-family: Pretendard; */
+
   font-size: 1.5rem;
   font-weight: 500;
 
@@ -71,7 +71,6 @@ export const cancelButton = styled.button`
   border: 1px solid var(--gray-D9D9D9);
   color: var(--gray-787486);
   text-align: center;
-  /* font-family: Pretendard; */
   font-size: 1.6rem;
   font-weight: 500;
 
@@ -82,7 +81,6 @@ export const cancelButton = styled.button`
 `;
 
 export const title = styled.p`
-  /* font-family: Pretendard; */
   font-size: 2.4rem;
   font-style: normal;
   font-weight: 700;
@@ -95,7 +93,6 @@ export const title = styled.p`
 `;
 
 export const name = styled.p`
-  /* font-family: Pretendard; */
   font-size: 1.8rem;
   font-style: normal;
   font-weight: 500;
@@ -126,7 +123,6 @@ export const input = styled.input`
 
 export const errText = styled.p`
   color: var(--red-D6173A);
-  /* font-family: Pretendard; */
   font-size: 1.4rem;
   font-style: normal;
   font-weight: 400;
@@ -171,7 +167,7 @@ export const colorEllipse = styled.li<{ backgroundColor: string }>`
 
 export const deleteText = styled.p`
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
+
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -185,7 +181,7 @@ export const description = styled.p`
   margin-top: 7rem;
   color: var(--black-333236);
   text-align: center;
-  /* font-family: Pretendard; */
+
   font-size: 1.8rem;
   font-style: normal;
   font-weight: 500;

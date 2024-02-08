@@ -27,7 +27,7 @@ function Input({
   name,
   disabled,
   defaultValue,
-  handleFocus: handleFocusEmail,
+  handleFocus,
 }: InputProps) {
   const [pwd, setPwd] = useState(true);
 
@@ -47,7 +47,7 @@ function Input({
             id={data}
             placeholder={placeholder}
             value={value}
-            onFocus={handleFocusEmail}
+            onFocus={handleFocus}
             wrong={wrong}
             name={name}
             disabled={disabled}
@@ -71,7 +71,7 @@ function Input({
               placeholder={placeholder}
               onBlur={handleBlur}
               value={value}
-              onFocus={handleFocusEmail}
+              onFocus={handleFocus}
               wrong={wrong}
               name={name}
             ></S.input>

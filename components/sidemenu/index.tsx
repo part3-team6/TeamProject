@@ -6,6 +6,7 @@ import Modal from "../modal/modal";
 import axios from "@/lib/axios";
 import ColorData from "@/components/modal/newDashboardColor";
 import useSideStore from "@/store/side";
+import useModalToggle from "@/hooks/useModal";
 
 interface Dashboard {
   id: number;
@@ -18,11 +19,6 @@ interface Dashboard {
 }
 
 interface SidemenuProps {
-  // mock: {
-  //   cursorId: number;
-  //   totalCount: number;
-  //   dashboards: Dashboard[];
-  // };
   myDashboard?: () => void;
   id?: number;
 }
@@ -32,7 +28,8 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
   const [isTablet, setIsTablet] = useState(false);
   const [tablet, setTablet] = useState(false); // 이게 진짜 태블릿
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
-  const [createDashboardModal, setCreateDashboardModal] = useState(false); // 모달창 토글
+  const [isModalOpen, openModal, closeModal, toggleModal] =
+    useModalToggle(false); // 모달창 토글
   const [choiceColor, setChoiceColor] = useState(""); // 모달창 컬러 선택 스테이트
   const [sideList, setSideList] = useState<{
     cursorId: number;
@@ -45,11 +42,17 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
   }, [side]);
 
   const handleModalCancel = () => {
-    setCreateDashboardModal(false);
+    closeModal();
   };
 
   const handleNewDashboardClick = () => {
-    setCreateDashboardModal(true);
+    openModal();
+  };
+
+  const handleModalEsc = (event: KeyboardEvent) => {
+    if (event?.key === "Escape") {
+      closeModal();
+    }
   };
 
   // 사이드바 대쉬보드
@@ -83,7 +86,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
     } catch (error: any) {
       console.error("대쉬보드 생성 오류.", error);
     }
-    setCreateDashboardModal(false);
+    closeModal();
   };
 
   // 컬러 값 가져오는거
@@ -123,11 +126,17 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       return text;
     }
   };
-  console.log(id);
-  console.log(sideList);
+
+  useEffect(() => {
+    // ColorData 배열에서 랜덤한 인덱스 선택
+    const randomIndex = Math.floor(Math.random() * ColorData.length);
+    // 선택된 인덱스의 색상을 가져와서 상태로 설정
+    const randomColor = ColorData[randomIndex].backgroundColor;
+    setChoiceColor(randomColor);
+  }, [isModalOpen]);
   return (
     <>
-      {createDashboardModal && (
+      {isModalOpen && (
         <Modal
           title="새로운 대시보드"
           submitButton="생성"
@@ -137,6 +146,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
           cancel={handleModalCancel}
           value={setValues}
           submit={createDashboard}
+          handleModalEsc={handleModalEsc}
         >
           <S.EllipseUl>
             {ColorData.map((color) => (

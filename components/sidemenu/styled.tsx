@@ -150,7 +150,6 @@ export const colorEllipse = styled.li<{ backgroundColor: string }>`
 
 export const deleteText = styled.p`
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
