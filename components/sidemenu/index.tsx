@@ -20,7 +20,7 @@ interface Dashboard {
 
 interface SidemenuProps {
   myDashboard?: () => void;
-  id?: number;
+  id?: string | string[];
 }
 
 function Sidemenu({ myDashboard, id }: SidemenuProps) {
@@ -80,7 +80,9 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       });
       if (res.status === 201) {
         sideBarDashboards();
-        myDashboard();
+        if (myDashboard) {
+          myDashboard();
+        }
       }
       // router.push("/boardid");
     } catch (error: any) {
