@@ -1,6 +1,6 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import * as S from "./styled";
+import * as S from "../../components/buildTest/styled";
 import Image from "next/image";
 import { MouseEventHandler, useEffect, useState } from "react";
 import Modal from "@/components/modal/modal";
