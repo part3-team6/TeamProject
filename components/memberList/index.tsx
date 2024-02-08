@@ -3,7 +3,7 @@ import * as S from "./styled";
 import Image from "next/image";
 import Member from "./Member";
 import Email from "./Email";
-import useEditStore from "@/store/edit";
+import useInviteModalStore from "@/store/inviteModal";
 
 interface Member {
   id: number;
@@ -73,7 +73,8 @@ function List({
     invitations: [],
     totalCount: 0,
   });
-  const { setInviteModalState } = useEditStore();
+
+  const { setInviteModalState } = useInviteModalStore();
 
   const handleSetInviteModalStateTrue = () => {
     setInviteModalState(true);
