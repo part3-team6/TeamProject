@@ -3,7 +3,7 @@ import styled from "styled-components";
 // newDashboardColor (children) 부분
 interface colorEllipseInnerProps {
   backgroundColor: string;
-  choiceColor: string;
+  choiceColor: string | null;
 }
 
 export const colorEllipseInner = styled.div<colorEllipseInnerProps>`

@@ -7,6 +7,7 @@ import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 import { useForm, SubmitHandler } from "react-hook-form";
+import useModalToggle from "@/hooks/useModal";
 
 interface Inputs {
   email: string;
@@ -15,28 +16,17 @@ interface Inputs {
   passwordCheck: string;
 }
 
-interface valuesType {
-  이메일: string;
-  닉네임: string;
-  pwd비밀번호: string;
-  pwd비밀번호확인: string;
-}
-
 function Signup() {
   const router = useRouter();
   const [showSuccessModal, setShowSuccessModal] = useState<boolean>(false); // 회원가입 성공 모달
-  const [showErrorModal, setShowErrorModal] = useState<boolean>(false); // 회원가입 실패 모달
+  const [isModalOpen, openModal, closeModal, toggleModal] =
+    useModalToggle(false); // 회원가입 실패 모달
   const [isChecked, setIsChecked] = useState<boolean>(false); // 이용약관 체크
   const [emailError, setemailError] = useState<boolean>(false); // 각종 에러 문구
   const [pwdError, setpwdError] = useState<boolean>(false);
   const [pwdCheckError, setpwdCheckError] = useState<boolean>(false);
   const [nicknameError, setNicknameError] = useState<boolean>(false);
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit, watch } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const signupData = {
       email: data.email,
@@ -44,13 +34,11 @@ function Signup() {
       password: data.password,
     };
     handleSubmits(signupData);
-
-    console.log(data);
   };
-  const em = watch("email");
-  const nick = watch("nickname");
-  const pwd = watch("password");
-  const pwdCheck = watch("passwordCheck");
+  const email = watch("email");
+  const nickname = watch("nickname");
+  const password = watch("password");
+  const passwordCheck = watch("passwordCheck");
 
   // 이용약관 체크 확인
   const handleCheckBoxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,8 +51,6 @@ function Signup() {
     nickname: string;
     password: string;
   }) => {
-    // e.preventDefault();
-
     try {
       if (isChecked && !emailError && !pwdCheckError && !nicknameError) {
         const response = await axios.post("users", data);
@@ -75,7 +61,7 @@ function Signup() {
       }
     } catch (error: any) {
       if (error.response && error.response.status === 409) {
-        setShowErrorModal(true);
+        openModal();
       } else {
         console.error("회원가입 요청 오류:", error);
       }
@@ -83,8 +69,7 @@ function Signup() {
   };
 
   const handleModalToggle = () => {
-    // setShowSuccessModal(false);
-    setShowErrorModal(false);
+    toggleModal();
   };
 
   // 유효성검사 true 나오게끔
@@ -109,52 +94,52 @@ function Signup() {
   };
 
   useEffect(() => {
-    if (em !== "") {
-      validateEmail(em);
-    } else if (em === "") {
+    if (email !== "") {
+      validateEmail(email);
+    } else if (email === "") {
       setemailError(false);
     }
-  }, [em]);
+  }, [email]);
 
   useEffect(() => {
-    if (nick !== "") {
-      validateNickname(nick);
-    } else if (nick === "") {
+    if (nickname !== "") {
+      validateNickname(nickname);
+    } else if (nickname === "") {
       setNicknameError(false);
     }
-  }, [nick]);
+  }, [nickname]);
 
   useEffect(() => {
-    if (pwd !== "") {
-      validatePassword(pwd);
-    } else if (pwd === "") {
+    if (password !== "") {
+      validatePassword(password);
+    } else if (password === "") {
       setpwdError(false);
     }
-  }, [pwd]);
+  }, [password]);
 
   useEffect(() => {
-    if (pwdCheck !== "") {
-      validatePasswordCheck(pwdCheck, pwd);
-    } else if (pwdCheck === "") {
+    if (passwordCheck !== "") {
+      validatePasswordCheck(passwordCheck, password);
+    } else if (passwordCheck === "") {
       setpwdCheckError(false);
     }
-  }, [pwdCheck, pwd]);
+  }, [passwordCheck, password]);
 
   // foucs out
   const handleBlur = (field: string) => {
     return () => {
       switch (field) {
         case "email":
-          validateEmail(em);
+          validateEmail(email);
           break;
         case "nickname":
-          validateNickname(nick);
+          validateNickname(nickname);
           break;
         case "password":
-          validatePassword(pwd);
+          validatePassword(password);
           break;
         case "passwordCheck":
-          validatePasswordCheck(pwdCheck, pwd);
+          validatePasswordCheck(passwordCheck, password);
           break;
         default:
           break;
@@ -184,10 +169,6 @@ function Signup() {
     };
   };
 
-  // 이후 Input 컴포넌트의 handleFocus 프로퍼티를 이 함수로 설정합니다.
-
-  // 이후 Input 컴포넌트의 handleFocus 프로퍼티를 이 함수로 설정합니다.
-
   // 에러메세지가 없고 모든값이 빈값이 아닐때 버튼 활성화
   const lastCheck =
     isChecked &&
@@ -195,10 +176,10 @@ function Signup() {
     !nicknameError &&
     !pwdError &&
     !pwdCheckError &&
-    em !== "" &&
-    pwd !== "" &&
-    nick !== "" &&
-    pwdCheck == pwd;
+    email !== "" &&
+    password !== "" &&
+    nickname !== "" &&
+    passwordCheck == password;
   // password.length >= 8 &&
   // /\S+@\S+\.\S+/.test(email) &&
   // nickname.length <= 10;
@@ -212,7 +193,7 @@ function Signup() {
           wrong={handleModalToggle}
         />
       )}
-      {showErrorModal && (
+      {isModalOpen && (
         <ModalCheckIt
           text="이미 사용 중인 이메일입니다."
           submitButton="확인"
