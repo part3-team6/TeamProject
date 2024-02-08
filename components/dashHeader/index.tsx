@@ -78,8 +78,8 @@ function Header({ member, title }: HeaderProps) {
     setCurrentUser(user);
   }, [user]);
 
-  const dropdownRef = useRef<HTMLDivElement>();
-  const myNameRef = useRef<HTMLDivElement>();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const myNameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
