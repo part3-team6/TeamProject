@@ -10,6 +10,7 @@ import List from "@/components/memberList";
 import EditName from "@/components/editName";
 import useEditStore from "@/store/edit";
 import useSideStore from "@/store/side";
+import useInviteModalStore from "@/store/inviteModal";
 
 interface Member {
   id: number;
@@ -67,9 +68,9 @@ interface DashboardData {
 export default function Edit() {
   const { setSide } = useSideStore();
   const [memberListData, setMemberListData] = useState<MemberListData>();
-  const [emailListData, setEmailListData] = useState<EmailInvitationListData>();
   const [dashboardData, setDashboardData] = useState<DashboardData>();
-  const { inputState, colorState, inviteModalState } = useEditStore();
+  const { inputState, colorState } = useEditStore();
+  const { emailListData, setEmailListData } = useInviteModalStore();
 
   const router = useRouter();
   const { id } = router.query;

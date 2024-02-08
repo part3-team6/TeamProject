@@ -35,7 +35,6 @@ export const ColorEllipse = styled.li<{ backgroundColor: string }>`
 
 export const DeleteText = styled.p`
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
@@ -46,7 +45,7 @@ export const DeleteText = styled.p`
 /// 끝
 
 export const Background = styled.div`
-  height: calc(100vh - 7rem);
+  height: 100%;
   margin-left: 30rem;
   display: flex;
   background: var(--gray-FAFAFA);
