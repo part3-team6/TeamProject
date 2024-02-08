@@ -14,8 +14,6 @@ import Input from "@/components/input";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
 import * as S from "./styled";
 
-import mocks from "@/components/dashHeader/mock";
-
 interface Member {
   id: number;
   userId: number;
@@ -100,7 +98,7 @@ function MyPage() {
     } else {
       setProfileBtn(false);
     }
-  }, [profile1, profile2]);
+  }, [profile1]);
 
   useEffect(() => {
     if (pwd1.length === 0 || pwd2.length === 0 || pwd3.length === 0) {
@@ -150,13 +148,12 @@ function MyPage() {
         },
       });
       if (response.status === 201) {
-        fetchProfileImage();
+        return response.data.profileImageUrl;
       }
-      return response.data;
     } catch (err) {
       console.error(err);
-      return null;
     }
+    return null;
   };
 
   const handleChangeProfile = async (data: {
@@ -186,11 +183,10 @@ function MyPage() {
         if (imageUrl) {
           setProfileValue((prev) => ({
             ...prev,
-            profileImageUrl: imageUrl.profileImageUrl,
+            profileImageUrl: imageUrl,
           }));
 
-          setPreviewUrl(imageUrl.profileImageUrl);
-          router.push("/mypage");
+          setPreviewUrl(imageUrl);
 
           setProfileBtn(false);
         }
@@ -256,7 +252,7 @@ function MyPage() {
           wrong={showPwdToggle}
         />
       )}
-      <Header mock={mocks[0]} title="계정관리"></Header>
+      <Header title="계정관리"></Header>
       <Sidemenu></Sidemenu>
       <S.mypage>
         <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
