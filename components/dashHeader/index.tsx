@@ -26,13 +26,13 @@ interface HeaderProps {
     members: Member[];
     totalCount: number;
   };
-  title: string;
+  title?: string;
 }
 
 function Header({ member, title }: HeaderProps) {
   const { user } = useUserStore();
   // const [member, setMember] = useState(true);
-  const [totalMember, setTotalMember] = useState<number>();
+  const [totalMember, setTotalMember] = useState<number>(0);
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
@@ -69,7 +69,9 @@ function Header({ member, title }: HeaderProps) {
     : member?.members.slice(0, 5);
 
   useEffect(() => {
-    setTotalMember(member?.totalCount - sliceMember?.length);
+    if (member && sliceMember) {
+      setTotalMember(member.totalCount - sliceMember.length);
+    }
   }, [sliceMember]);
 
   useEffect(() => {
@@ -80,23 +82,23 @@ function Header({ member, title }: HeaderProps) {
   const myNameRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
+        !dropdownRef.current.contains(event.target as Node) &&
         myNameRef.current &&
-        !myNameRef.current.contains(event.target)
+        !myNameRef.current.contains(event.target as Node)
       ) {
         setShowMymenu(false);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setShowMymenu, dropdownRef, myNameRef]);
 
   return (
     <>
@@ -137,7 +139,7 @@ function Header({ member, title }: HeaderProps) {
                       key={index}
                       style={{ backgroundImage: item.profileImageUrl }}
                     >
-                      {item.nickname.slice(0, 1).toUpperCase()}
+                      {item.nickname?.slice(0, 1).toUpperCase()}
                     </S.headerCircle>
                   ),
                 )}
@@ -154,7 +156,7 @@ function Header({ member, title }: HeaderProps) {
           <S.myName onClick={showMymenuToggle} ref={myNameRef}>
             <S.headerCircle>
               {currentUser && !currentUser.profileImageUrl ? (
-                currentUser.nickname.slice(0, 1).toUpperCase()
+                currentUser.nickname?.slice(0, 1).toUpperCase()
               ) : (
                 <Image
                   src={currentUser?.profileImageUrl || ""}

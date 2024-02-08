@@ -3,23 +3,21 @@ import * as S from "./styled";
 import { ChangeEvent, useEffect, useState, KeyboardEvent } from "react";
 import useEditStore from "@/store/edit.js";
 
-interface MyObject {
-  data: {
-    id: number;
-    title: string;
-    color: string;
-    createdAt: string; // 날짜 형식에 대한 세부 사항에 따라 적절한 타입으로 변경할 수 있습니다.
-    updatedAt: string; // 날짜 형식에 대한 세부 사항에 따라 적절한 타입으로 변경할 수 있습니다.
-    createdByMe: boolean;
-    userId: number;
-  };
+interface DashboardData {
+  id: number;
+  title: string;
+  color: string;
+  createdAt: string;
+  updatedAt: string;
+  createdByMe: boolean;
+  userId: number;
 }
 
 function EditName({
   data,
   handleEditDashboard,
 }: {
-  data: MyObject;
+  data?: DashboardData;
   handleEditDashboard: () => Promise<void>;
 }) {
   const [windowWidth, setWindowWidth] = useState<number>(1700);
