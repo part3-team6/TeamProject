@@ -3,21 +3,26 @@ import Sidemenu from "@/components/sidemenu";
 import * as S from "../../../styles/boards/[id]/styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
-import EditModal from "@/components/todoModal/editTodoModal/editModal";
 import CardItem from "@/components/card";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
 import { ColumnsProps, CardProps, NewCard } from "./props";
+import { useTodoModalStore } from "@/store/todoModal";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
-  const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
-  const [isEditCardOpen, setIsEditCardOpen] = useState(false);
-  const [isEditColumnOpen, setIsEditColumnOpen] = useState(false);
-  const [isCreateColumnOpen, setIsCreateColumnOpen] = useState(false);
+
+  const {
+    isCreateCardOpen,
+    setIsCreateCardOpen,
+    isCreateColumnOpen,
+    setIsCreateColumnOpen,
+    isEditColumnOpen,
+    setIsEditColumnOpen,
+  } = useTodoModalStore();
 
   const [inputValue, setInputValue] = useState<string>("");
   const [editedColumnId, setEditedColumnId] = useState<number>(0);
@@ -54,22 +59,13 @@ export default function boardsById() {
   };
 
   // Card Create 모달
-  const openCreateModal = (columnId: number) => {
+  const openCreateCardModal = (columnId: number) => {
     setIsCreateCardOpen(true);
     setColumnIdOfCard(columnId);
   };
 
-  const closeCreateModal = () => {
+  const closeCreateCardModal = () => {
     setIsCreateCardOpen(false);
-  };
-
-  // Card Edit 모달
-  const openEditModal = () => {
-    setIsEditCardOpen(true);
-  };
-
-  const closeEditModal = () => {
-    setIsEditCardOpen(false);
   };
 
   const getDashboardData = async (link: string) => {
@@ -80,16 +76,7 @@ export default function boardsById() {
       if (e.response.status === 404) {
         router.push("/404");
       }
-      throw Error(`겟 에러 ${e} 발생`);
-    }
-  };
-
-  const getData = async (link: string) => {
-    try {
-      const response = await axiosInstance.get(link);
-      return response;
-    } catch (e) {
-      throw Error(`겟 에러 ${e} 발생`);
+      throw Error(`getDashboardData 에러 ${e}`);
     }
   };
 
@@ -108,23 +95,6 @@ export default function boardsById() {
     } catch (error) {
       console.log("addCard API 호출 오류", error);
     }
-  };
-
-  const editCard = async (newCard: CardProps) => {
-    try {
-      const response = await axiosInstance.post("", newCard);
-    } catch (error) {
-      console.log("editCard API 호출 오류", error);
-    }
-
-    setCards((prevCard) => {
-      return prevCard.map((card) => {
-        if (card.id === newCard.id) {
-          return newCard;
-        }
-        return card;
-      });
-    });
   };
 
   const getColumns = async () => {
@@ -242,25 +212,15 @@ export default function boardsById() {
     setCards(cardsForColumns);
   };
 
-  // const getCards = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/cards?dashboardId=${id}&size=100`,
-  //     );
-  //     setCards(response.data);
-  //     console.log("API 데이터:", response.data);
-  //   } catch (error) {
-  //     console.log("API 호출 오류", error);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const dashboardResponse = await getDashboardData(`dashboards/${id}`);
+        const dashboardResponse = await getDashboardData(
+          `dashboards/${Number(id)}`,
+        );
         setDashboardData(dashboardResponse?.data);
       } catch (error) {
-        console.log(error);
+        console.log("dashboardResponse =>", error);
       }
     };
     fetchData();
@@ -279,10 +239,13 @@ export default function boardsById() {
   useEffect(() => {
     const fetchMemberList = async () => {
       try {
-        const memberListResponse = await getData(`members?dashboardId=${id}`); //`members?dashboardId=${id}`
+        const memberListResponse = await getDashboardData(
+          `members?dashboardId=${Number(id)}`,
+        ); //`members?dashboardId=${id}`
         setMemberListData(memberListResponse.data);
+        console.log("id 값이 뭔데", id, Number(id));
       } catch (error) {
-        console.log(error);
+        console.log("memberListResponse =>", error);
       }
     };
     fetchMemberList();
@@ -299,8 +262,8 @@ export default function boardsById() {
               <CardItem
                 column={column}
                 cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
-                openCreateModal={() => openCreateModal(column.id)}
-                openEditModal={openEditColumnModal}
+                openEditColumnModal={openEditColumnModal}
+                openCreateCardModal={() => openCreateCardModal(column.id)}
               />
             </S.Column>
           ))}
@@ -314,13 +277,10 @@ export default function boardsById() {
       </S.DashboardContainer>
       {isCreateCardOpen && ( // card 생성 버튼 눌렀을때
         <CreateModal
-          closeCreateModal={closeCreateModal}
+          closeCreateCardModal={closeCreateCardModal}
           addCard={addCard}
           columnId={ColumnIdOfCard}
         />
-      )}
-      {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때
-        <EditModal closeEditModal={closeEditModal} editCard={editCard} />
       )}
       {isEditColumnOpen && ( // column 설정 눌렀을때
         <S.EditColumnModal>

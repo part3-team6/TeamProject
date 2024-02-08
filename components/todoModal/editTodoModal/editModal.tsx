@@ -17,11 +17,11 @@ interface ColorMap {
 }
 
 interface EditModalProps {
-  closeEditModal: () => void;
+  closeEditCardModal: () => void;
   editCard: (newCard: any) => void;
 }
 
-function EditModal({ closeEditModal, editCard }: EditModalProps) {
+function EditModal({ closeEditCardModal, editCard }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -173,7 +173,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
 
     const newCard = {};
     editCard(newCard);
-    closeEditModal();
+    closeEditCardModal();
   };
 
   return (
@@ -330,7 +330,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton onClick={closeEditModal}>취소</S.cancelButton>
+              <S.cancelButton onClick={closeEditCardModal}>취소</S.cancelButton>
               <Button submit={editCard}>생성</Button>
             </S.buttonContainer>
           </form>

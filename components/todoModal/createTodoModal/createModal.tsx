@@ -17,16 +17,16 @@ interface ColorMap {
 }
 
 interface createModalProps {
-  closeCreateModal: () => void;
+  closeCreateCardModal: () => void;
   addCard: (newCard: NewCard) => void;
   columnId: number;
 }
 
-function CreateModal({
-  closeCreateModal,
+const CreateModal = ({
+  closeCreateCardModal,
   addCard,
   columnId,
-}: createModalProps) {
+}: createModalProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [managerDropDown, setManagerDropDown] = useState(false);
@@ -143,16 +143,11 @@ function CreateModal({
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
-      console.log("memberList!!!!", memberList);
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
     }
   };
-
-  useEffect(() => {
-    fetchMembers();
-  }, []);
 
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
@@ -179,6 +174,11 @@ function CreateModal({
       backgroundColor: tagColor,
     };
   };
+
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
   return (
     <>
       <S.layer>
@@ -299,7 +299,9 @@ function CreateModal({
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton onClick={closeCreateModal}>취소</S.cancelButton>
+              <S.cancelButton onClick={closeCreateCardModal}>
+                취소
+              </S.cancelButton>
               <Button
                 children="생성"
                 submit={() =>
@@ -321,6 +323,6 @@ function CreateModal({
       </S.layer>
     </>
   );
-}
+};
 
 export default CreateModal;

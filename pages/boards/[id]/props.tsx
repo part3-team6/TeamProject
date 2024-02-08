@@ -45,3 +45,16 @@ export interface NewCard {
   tags: string[];
   imageUrl?: string;
 }
+
+export interface ModalProps {
+  columnName: string;
+  user: {
+    name: string;
+    image?: string;
+  };
+  title: string;
+  content: string;
+  deadline: string;
+  tags?: string[];
+  img?: string;
+}
