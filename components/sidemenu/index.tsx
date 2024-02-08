@@ -1,39 +1,35 @@
 import Image from "next/image";
 import * as S from "./styled";
-import { useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import Link from "next/link";
 import Modal from "../modal/modal";
 import axios from "@/lib/axios";
 import ColorData from "@/components/modal/newDashboardColor";
 import useSideStore from "@/store/side";
+import useModalToggle from "@/hooks/useModal";
 
 interface Dashboard {
   id: number;
   title: string;
   color: string;
-  createdAt: string; // 혹은 Date 형식으로 바꿀 수도 있어, 라이브러리에 맞게
-  updatedAt: string; // 마찬가지로 Date 형식 고려해봐
+  createdAt: string;
+  updatedAt: string;
   createdByMe: boolean;
   userId: number;
 }
 
 interface SidemenuProps {
-  // mock: {
-  //   cursorId: number;
-  //   totalCount: number;
-  //   dashboards: Dashboard[];
-  // };
   myDashboard?: () => void;
-  id: number;
+  id?: string | string[];
 }
 
 function Sidemenu({ myDashboard, id }: SidemenuProps) {
   const { side, setSide } = useSideStore();
-  const [isTablet, setIsTablet] = useState(false);
-  const [tablet, setTablet] = useState(false); // 이게 진짜 태블릿
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [tablet, setTablet] = useState<boolean>(false);
   const [values, setValues] = useState<string>(""); // 모달 인풋창 스테이트
-  const [createDashboardModal, setCreateDashboardModal] = useState(false); // 모달창 토글
-  const [choiceColor, setChoiceColor] = useState(""); // 모달창 컬러 선택 스테이트
+  const [isModalOpen, openModal, closeModal] = useModalToggle(false); // 모달창 토글
+  const [choiceColor, setChoiceColor] = useState<string | null>(""); // 모달창 컬러 선택 스테이트
   const [sideList, setSideList] = useState<{
     cursorId: number;
     totalCount: number;
@@ -45,11 +41,17 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
   }, [side]);
 
   const handleModalCancel = () => {
-    setCreateDashboardModal(false);
+    closeModal();
   };
 
   const handleNewDashboardClick = () => {
-    setCreateDashboardModal(true);
+    openModal();
+  };
+
+  const handleModalEsc = (event: KeyboardEvent) => {
+    if (event?.key === "Escape") {
+      closeModal();
+    }
   };
 
   // 사이드바 대쉬보드
@@ -77,17 +79,18 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       });
       if (res.status === 201) {
         sideBarDashboards();
-        myDashboard();
+        if (myDashboard) {
+          myDashboard();
+        }
       }
-      // router.push("/boardid");
     } catch (error: any) {
       console.error("대쉬보드 생성 오류.", error);
     }
-    setCreateDashboardModal(false);
+    closeModal();
   };
 
   // 컬러 값 가져오는거
-  const handleColor = (e: any) => {
+  const handleColor = (e: MouseEvent) => {
     const colors = e.currentTarget.getAttribute("data-color");
     setChoiceColor(colors);
   };
@@ -98,7 +101,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
     };
 
     const handleResize = () => {
-      setIsTablet(window.innerWidth <= 767);
+      setIsMobile(window.innerWidth <= 767);
     };
 
     // 이벤트 리스너 등록
@@ -123,11 +126,17 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       return text;
     }
   };
-  console.log(id);
-  console.log(sideList);
+
+  useEffect(() => {
+    // ColorData 배열에서 랜덤한 인덱스 선택
+    const randomIndex = Math.floor(Math.random() * ColorData.length);
+    // 선택된 인덱스의 색상을 가져와서 상태로 설정
+    const randomColor = ColorData[randomIndex].backgroundColor;
+    setChoiceColor(randomColor);
+  }, [isModalOpen]);
   return (
     <>
-      {createDashboardModal && (
+      {isModalOpen && (
         <Modal
           title="새로운 대시보드"
           submitButton="생성"
@@ -137,6 +146,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
           cancel={handleModalCancel}
           value={setValues}
           submit={createDashboard}
+          handleModalEsc={handleModalEsc}
         >
           <S.EllipseUl>
             {ColorData.map((color) => (
@@ -165,10 +175,10 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
       <S.sidemenu>
         <Link href={`/`}>
           <S.sideLogo>
-            {isTablet ? (
+            {isMobile ? (
               <Image src={"/images/logoNavMobile.svg"} alt="logo" fill />
             ) : (
-              <Image src={"/images/logoNavPC.svg"} alt="logo" fill />
+              <Image src={"/images/logoNavPc.svg"} alt="logo" fill />
             )}
           </S.sideLogo>
         </Link>

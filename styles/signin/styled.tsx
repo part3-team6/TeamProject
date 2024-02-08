@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
-export const signinback = styled.div`
+export const Signinback = styled.div`
   width: 100%;
   height: 100vh;
   background: var(--gray-FAFAFA);
 `;
-export const signin = styled.div`
+export const Signin = styled.div`
   width: 100%;
   max-width: 52rem;
   position: absolute;
@@ -13,7 +13,7 @@ export const signin = styled.div`
   top: 50%;
   transform: translate(-50%, -50%);
 `;
-export const logoWrap = styled.div`
+export const LogoWrap = styled.div`
   margin-bottom: 3.8rem;
   text-align: center;
   & p {
@@ -23,7 +23,7 @@ export const logoWrap = styled.div`
     margin-top: 1rem;
   }
 `;
-export const logo = styled.div`
+export const Logo = styled.div`
   width: 20rem;
   height: 27.9rem;
   position: relative;
@@ -34,7 +34,7 @@ export const logo = styled.div`
     height: 16.5rem;
   }
 `;
-export const loginForm = styled.form`
+export const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -42,7 +42,7 @@ export const loginForm = styled.form`
     padding: 0 1.2rem;
   }
 `;
-export const submit = styled.input`
+export const Submit = styled.input`
   display: flex;
   width: 100%;
   max-width: 52rem;
@@ -58,7 +58,7 @@ export const submit = styled.input`
   cursor: pointer;
 `;
 
-export const signup = styled.div`
+export const Signup = styled.div`
   color: var(--black-333236);
   text-align: center;
   font-size: 1.6rem;

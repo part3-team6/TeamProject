@@ -4,7 +4,6 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import Image from "next/image";
 
 import useUserStore from "@/store/user";
-import useSideStore from "@/store/side";
 import useToggle from "@/hooks/useToggle";
 import axios from "@/lib/axios";
 
@@ -12,9 +11,7 @@ import Sidemenu from "@/components/sidemenu";
 import Header from "@/components/dashHeader";
 import Input from "@/components/input";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
-import * as S from "./styled";
-
-import mocks from "@/components/dashHeader/mock";
+import * as S from "../../styles/mypage/styled";
 
 interface Member {
   id: number;
@@ -41,11 +38,11 @@ interface PwdChange {
 function MyPage() {
   const { user, setUser } = useUserStore();
   const [currentUser, setCurrentUser] = useState<Member | null>(null);
-  const [previewUrl, setPreviewUrl] = useState("/images/more.svg");
-  const [pwdWrong, setPwdWrong] = useState(false);
-  const [modalText, setModalText] = useState("");
-  const [profileBtn, setProfileBtn] = useState(false);
-  const [pwdBtn, setPwdBtn] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string>("/images/more.svg");
+  const [pwdWrong, setPwdWrong] = useState<boolean>(false);
+  const [modalText, setModalText] = useState<string>("");
+  const [profileBtn, setProfileBtn] = useState<boolean>(false);
+  const [pwdBtn, setPwdBtn] = useState<boolean>(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
   // profile
@@ -54,7 +51,7 @@ function MyPage() {
     handleSubmit: handleSubmit1,
     watch: watch1,
   } = useForm<IFormInput>();
-  const onSubmit1: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit1: SubmitHandler<IFormInput> = (data: { nickname: string }) => {
     const postData = {
       nickname: data.nickname,
       profileImageUrl: profileValue.profileImageUrl,
@@ -68,10 +65,14 @@ function MyPage() {
     handleSubmit: handleSubmit2,
     watch: watch2,
   } = useForm<PwdChange>();
-  const onSubmit2: SubmitHandler<PwdChange> = (data) => {
+  const onSubmit2: SubmitHandler<PwdChange> = (data: {
+    password: number;
+    newPassword: number;
+    newPasswordCheck: number;
+  }) => {
     const pwdValue = {
-      password: data.password,
-      newPassword: data.newPassword,
+      password: String(data.password),
+      newPassword: String(data.newPassword),
     };
 
     if (data.newPasswordCheck !== data.newPassword) {
@@ -100,7 +101,7 @@ function MyPage() {
     } else {
       setProfileBtn(false);
     }
-  }, [profile1, profile2]);
+  }, [profile1]);
 
   useEffect(() => {
     if (pwd1.length === 0 || pwd2.length === 0 || pwd3.length === 0) {
@@ -139,7 +140,7 @@ function MyPage() {
     setCurrentUser(user);
   }, [user]);
 
-  const uploadImage = async (file: string | Blob) => {
+  const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
 
@@ -150,13 +151,12 @@ function MyPage() {
         },
       });
       if (response.status === 201) {
-        fetchProfileImage();
+        return response.data.profileImageUrl;
       }
-      return response.data;
     } catch (err) {
       console.error(err);
-      return null;
     }
+    return null;
   };
 
   const handleChangeProfile = async (data: {
@@ -186,11 +186,10 @@ function MyPage() {
         if (imageUrl) {
           setProfileValue((prev) => ({
             ...prev,
-            profileImageUrl: imageUrl.profileImageUrl,
+            profileImageUrl: imageUrl,
           }));
 
-          setPreviewUrl(imageUrl.profileImageUrl);
-          router.push("/mypage");
+          setPreviewUrl(imageUrl);
 
           setProfileBtn(false);
         }
@@ -215,7 +214,7 @@ function MyPage() {
   // -- 이미지 / 닉네임 변경 끝
 
   // 비밀번호 변경 시작
-  const pwdChange = async (data: { password: any; newPassword: any }) => {
+  const pwdChange = async (data: { password: string; newPassword: string }) => {
     if (!pwdWrong && data.password !== "" && data.newPassword !== "") {
       try {
         const res = await axios.put("/auth/password", data);
@@ -224,7 +223,7 @@ function MyPage() {
         showPwdToggle();
 
         router.push("/mypage");
-      } catch (err) {
+      } catch (err: any) {
         setModalText(err.response.data.message);
         showPwdToggle();
       }
@@ -248,7 +247,7 @@ function MyPage() {
     }
   };
   return (
-    <S.wrap>
+    <S.Wrap>
       {showPwdError && (
         <ModalCheckIt
           text={modalText}
@@ -256,15 +255,15 @@ function MyPage() {
           wrong={showPwdToggle}
         />
       )}
-      <Header mock={mocks[0]} title="계정관리"></Header>
+      <Header title="계정관리"></Header>
       <Sidemenu></Sidemenu>
-      <S.mypage>
-        <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
+      <S.Mypage>
+        <S.Back onClick={() => router.back()}>{"<"} 뒤로가기</S.Back>
 
-        <S.box onSubmit={handleSubmit1(onSubmit1)}>
-          <S.boxTitle>프로필</S.boxTitle>
-          <S.inputBox>
-            <S.boxImg>
+        <S.Box onSubmit={handleSubmit1(onSubmit1)}>
+          <S.BoxTitle>프로필</S.BoxTitle>
+          <S.InputBox>
+            <S.BoxImg>
               <Image
                 key={previewUrl}
                 src={previewUrl}
@@ -273,12 +272,12 @@ function MyPage() {
                 placeholder="blur"
                 blurDataURL={"/images/more.svg"}
               />
-              <S.changeImg>
-                <S.changeImginner htmlFor="file">
-                  <S.imgEdit>
+              <S.ChangeImg>
+                <S.ChangeImgInner htmlFor="file">
+                  <S.ImgEdit>
                     <Image src={"/images/imgEdit.svg"} alt="이미지 변경" fill />
-                  </S.imgEdit>
-                </S.changeImginner>
+                  </S.ImgEdit>
+                </S.ChangeImgInner>
 
                 <input
                   {...register1("profileImageUrl")}
@@ -287,9 +286,9 @@ function MyPage() {
                   id="file"
                   onChange={handleFileChange}
                 />
-              </S.changeImg>
-            </S.boxImg>
-            <S.inputs>
+              </S.ChangeImg>
+            </S.BoxImg>
+            <S.Inputs>
               {currentUser && (
                 <>
                   <Input
@@ -308,23 +307,23 @@ function MyPage() {
                   />
                 </>
               )}
-            </S.inputs>
-          </S.inputBox>
-          <S.btnBox>
-            <S.deleteImg onClick={handleDeleteImg}>이미지 삭제</S.deleteImg>
-            <S.submit
+            </S.Inputs>
+          </S.InputBox>
+          <S.BtnBox>
+            <S.DeleteImg onClick={handleDeleteImg}>이미지 삭제</S.DeleteImg>
+            <S.Submit
               type="submit"
               value={"저장"}
               null={profileBtn}
               disabled={profileBtn ? true : false}
             />
-          </S.btnBox>
-        </S.box>
+          </S.BtnBox>
+        </S.Box>
 
-        <S.box onSubmit={handleSubmit2(onSubmit2)}>
-          <S.boxTitle>비밀번호 변경</S.boxTitle>
-          <S.inputBox>
-            <S.inputs>
+        <S.Box onSubmit={handleSubmit2(onSubmit2)}>
+          <S.BoxTitle>비밀번호 변경</S.BoxTitle>
+          <S.InputBox>
+            <S.Inputs>
               <Input
                 hookform={register2("password")}
                 title="현재 비밀번호"
@@ -349,17 +348,17 @@ function MyPage() {
                 name="newPasswordCheck"
                 handleBlur={handleNewPasswordBlur}
               />
-            </S.inputs>
-          </S.inputBox>
-          <S.submit
+            </S.Inputs>
+          </S.InputBox>
+          <S.Submit
             type="submit"
             value="변경"
             null={pwdBtn}
             disabled={pwdBtn ? true : false}
           />
-        </S.box>
-      </S.mypage>
-    </S.wrap>
+        </S.Box>
+      </S.Mypage>
+    </S.Wrap>
   );
 }
 

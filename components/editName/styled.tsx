@@ -145,7 +145,6 @@ export const SubmitButton = styled.button<{ isEmpty: boolean }>`
   text-align: center;
   border-radius: 4px;
   border: 0px;
-
   color: var(--white-FFFFFF);
   font-size: 1.4rem;
   font-weight: 500;

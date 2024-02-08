@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 import * as S from "@/components/todoModal/styled";
 import Image from "next/image";
@@ -9,9 +9,12 @@ import DropDownModal from "../dropDownModal";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
-
 import Button from "@/components/modal/modalButton";
 import { NewCard } from "@/pages/boards/[id]/props";
+
+interface ColorMap {
+  [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐
+}
 
 interface createModalProps {
   closeCreateModal: () => void;
@@ -33,8 +36,8 @@ function CreateModal({
   const [deadline, setDeadline] = useState<Date>();
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
-  const [image, setImage] = useState<string>("");
-  const [imagePreview, setImagePreview] = useState<string>("");
+  const [image, setImage] = useState<string | null>("");
+  const [imagePreview, setImagePreview] = useState<any>("");
 
   const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
 
@@ -71,7 +74,7 @@ function CreateModal({
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview(reader.result.toString());
+        setImagePreview(reader.result?.toString());
       };
       reader.readAsDataURL(file);
     } else {
@@ -151,14 +154,31 @@ function CreateModal({
     fetchMembers();
   }, []);
 
-  const handleTitleChange = (e: unknown) => {
+  const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
   };
 
-  const handleDescriptionChange = (e: unknown) => {
+  const handleDescriptionChange = (e: any) => {
     setDescription(e.target.value);
   };
 
+  const hangeulColorMap: ColorMap = {
+    ㄱ: "#f44336",
+    ㄴ: "#e91e63",
+    ㄷ: "#9c27b0",
+  };
+
+  const getHangeulColor = (tag: string): string => {
+    const firstLetter = tag[0]; // 태그 첫 글자 가져옴
+    return hangeulColorMap[firstLetter] || "#F1EFFD"; // 기본값 흰색
+  };
+  // 태그 색상 지정 함수
+  const getTagStyle = (tag: string): React.CSSProperties => {
+    const tagColor = getHangeulColor(tag);
+    return {
+      backgroundColor: tagColor,
+    };
+  };
   return (
     <>
       <S.layer>
@@ -227,9 +247,17 @@ function CreateModal({
             <S.inputTitle>태그</S.inputTitle>
             <S.TagContainer>
               {tags.map((tag, index) => (
-                <S.Tag key={index}>
+                <S.Tag key={index} style={getTagStyle(tag)}>
                   {tag}
-                  <button type="button" onClick={() => removeTag(index)}>
+                  <button
+                    style={{
+                      marginLeft: "1rem",
+                      width: "1rem",
+                      height: "1.3rem",
+                    }}
+                    type="button"
+                    onClick={() => removeTag(index)}
+                  >
                     x
                   </button>
                 </S.Tag>

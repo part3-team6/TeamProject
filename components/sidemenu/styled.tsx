@@ -68,13 +68,12 @@ export const sideLists = styled.div`
   }
 `;
 export const sideList = styled.div<{ selectId: number; itemID: number }>`
-  /* width: 100%; */
   height: 4.5rem;
   color: var(--gray-787486);
   font-size: 1.8rem;
   font-weight: 500;
   background-color: ${(props) =>
-    props.selectId === props.itemID ? "#e9e5ff" : ""};
+    props.selectId == props.itemID ? "#e9e5ff" : ""};
   cursor: pointer;
   border-radius: 10px;
   & a {
@@ -118,7 +117,7 @@ export const crown = styled.div`
 // newDashboardColor (children) 부분
 interface colorEllipseInnerProps {
   backgroundColor: string;
-  choiceColor: string;
+  choiceColor: string | null;
 }
 
 export const colorEllipseInner = styled.div<colorEllipseInnerProps>`
@@ -150,7 +149,6 @@ export const colorEllipse = styled.li<{ backgroundColor: string }>`
 
 export const deleteText = styled.p`
   color: var(--gray-9FA6B2);
-  /* font-family: Pretendard; */
   font-size: 14px;
   font-style: normal;
   font-weight: 400;

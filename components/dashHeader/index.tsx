@@ -7,6 +7,8 @@ import useToggle from "@/hooks/useToggle";
 import Link from "next/link";
 import useEditStore from "@/store/edit";
 import { useRouter } from "next/router";
+import InviteModal from "../inviteModal";
+import useInviteModalStore from "@/store/inviteModal";
 
 interface Member {
   id?: number;
@@ -24,17 +26,17 @@ interface HeaderProps {
     members: Member[];
     totalCount: number;
   };
-  title: string;
+  title?: string;
 }
 
 function Header({ member, title }: HeaderProps) {
   const { user } = useUserStore();
   // const [member, setMember] = useState(true);
-  const [totalMember, setTotalMember] = useState<number>();
+  const [totalMember, setTotalMember] = useState<number>(0);
   const [isTablet, setIsTablet] = useState(true);
-  const [currentUser, setCurrentUser] = useState<Member | null>(null);
+  const [currentUser, setCurrentUser] = useState<Member | null>();
   const [showMymenu, setShowMymenu, showMymenuToggle] = useToggle(false);
-  const { setInviteModalState } = useEditStore(); //주스탄드에서 초대모달창 상태관리
+  const { setInviteModalState } = useInviteModalStore(); //주스탄드에서 초대모달창 상태관리
 
   const router = useRouter();
   const { id } = router.query;
@@ -67,38 +69,41 @@ function Header({ member, title }: HeaderProps) {
     : member?.members.slice(0, 5);
 
   useEffect(() => {
-    setTotalMember(member?.totalCount - sliceMember?.length);
+    if (member && sliceMember) {
+      setTotalMember(member.totalCount - sliceMember.length);
+    }
   }, [sliceMember]);
 
   useEffect(() => {
     setCurrentUser(user);
   }, [user]);
 
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const myNameRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<any>(null);
+  const myNameRef = useRef<any>(null);
 
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target) &&
+        !dropdownRef.current.contains(event.target as Node) &&
         myNameRef.current &&
-        !myNameRef.current.contains(event.target)
+        !myNameRef.current.contains(event.target as Node)
       ) {
         setShowMymenu(false);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [setShowMymenu, dropdownRef, myNameRef]);
 
   return (
     <>
       <S.headerWrap>
+        {title !== "계정관리" && title !== "내 대시보드" && <InviteModal />}
         <S.dashBoard>{title}</S.dashBoard>
         <S.headerData>
           {title !== "계정관리" && title !== "내 대시보드" && (
@@ -134,7 +139,7 @@ function Header({ member, title }: HeaderProps) {
                       key={index}
                       style={{ backgroundImage: item.profileImageUrl }}
                     >
-                      {item.nickname.slice(0, 1).toUpperCase()}
+                      {item.nickname?.slice(0, 1).toUpperCase()}
                     </S.headerCircle>
                   ),
                 )}
@@ -151,7 +156,7 @@ function Header({ member, title }: HeaderProps) {
           <S.myName onClick={showMymenuToggle} ref={myNameRef}>
             <S.headerCircle>
               {currentUser && !currentUser.profileImageUrl ? (
-                currentUser.nickname.slice(0, 1).toUpperCase()
+                currentUser.nickname?.slice(0, 1).toUpperCase()
               ) : (
                 <Image
                   src={currentUser?.profileImageUrl || ""}

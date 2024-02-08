@@ -14,7 +14,7 @@ interface InputProps {
   name?: string;
   disabled?: boolean;
   defaultValue?: string;
-  handleFocus: (event: React.FocusEvent<HTMLInputElement>) => void;
+  handleFocus?: (event: React.FocusEvent<HTMLInputElement>) => void;
 }
 function Input({
   data,
@@ -27,9 +27,9 @@ function Input({
   name,
   disabled,
   defaultValue,
-  handleFocus: handleFocusEmail,
+  handleFocus,
 }: InputProps) {
-  const [pwd, setPwd] = useState(true);
+  const [pwd, setPwd] = useState<boolean>(true);
 
   const handlePwd = () => {
     setPwd((prev) => !prev);
@@ -47,7 +47,7 @@ function Input({
             id={data}
             placeholder={placeholder}
             value={value}
-            onFocus={handleFocusEmail}
+            onFocus={handleFocus}
             wrong={wrong}
             name={name}
             disabled={disabled}
@@ -71,7 +71,7 @@ function Input({
               placeholder={placeholder}
               onBlur={handleBlur}
               value={value}
-              onFocus={handleFocusEmail}
+              onFocus={handleFocus}
               wrong={wrong}
               name={name}
             ></S.input>

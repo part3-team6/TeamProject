@@ -11,7 +11,7 @@ import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useUserStore from "@/store/user";
 import useToggle from "@/hooks/useToggle";
 
-import * as S from "./styled";
+import * as S from "../../styles/signin/styled";
 
 interface IFormInput {
   email: string;
@@ -19,13 +19,16 @@ interface IFormInput {
 }
 
 function SignIn() {
-  const { user, setUser } = useUserStore();
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
+  const { setUser } = useUserStore();
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
   const [showPwdError, setShowPwdError, showPwdToggle] = useToggle(false);
 
   const { register, handleSubmit } = useForm<IFormInput>();
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {
+  const onSubmit: SubmitHandler<IFormInput> = (data: {
+    email: string;
+    password: string;
+  }) => {
     const loginData = {
       email: data.email,
       password: data.password,
@@ -75,18 +78,18 @@ function SignIn() {
           wrong={showPwdToggle}
         />
       )}
-      <S.signinback>
-        <S.signin>
-          <S.logoWrap>
-            <S.logo>
+      <S.Signinback>
+        <S.Signin>
+          <S.LogoWrap>
+            <S.Logo>
               <Link href={"/"}>
                 <Image src={"/images/logoLogin.svg"} alt="로고" fill />
               </Link>
-            </S.logo>
+            </S.Logo>
             <p>오늘도 만나서 반가워요!</p>
-          </S.logoWrap>
+          </S.LogoWrap>
 
-          <S.loginForm onSubmit={handleSubmit(onSubmit)}>
+          <S.LoginForm onSubmit={handleSubmit(onSubmit)}>
             <Input
               hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}
               title="이메일"
@@ -94,7 +97,6 @@ function SignIn() {
               data="이메일"
               wrong={emailError}
               name="email"
-              // handleBlur={handleFocusOut}
             />
             <Input
               hookform={register("password")}
@@ -103,21 +105,19 @@ function SignIn() {
               data="pwd"
               wrong={passwordError}
               name="password"
-              // handleBlur={handleFocusOut}
             />
 
-            <S.submit type="submit" value="로그인" />
-          </S.loginForm>
-          <S.signup>
+            <S.Submit type="submit" value="로그인" />
+          </S.LoginForm>
+          <S.Signup>
             회원이 아니신가요?
             <span>
               <Link href={"/signup"}>회원가입하기</Link>
             </span>
-          </S.signup>
-        </S.signin>
-      </S.signinback>
+          </S.Signup>
+        </S.Signin>
+      </S.Signinback>
     </>
   );
 }
-
 export default SignIn;

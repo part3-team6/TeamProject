@@ -1,6 +1,6 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import * as S from "./styled";
+import * as S from "../../../styles/boards/[id]/styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
 import EditModal from "@/components/todoModal/editTodoModal/editModal";
@@ -291,7 +291,7 @@ export default function boardsById() {
   return (
     <S.DashboardWrap>
       <Header member={memberListData} title={dashboardData?.title} />
-      <Sidemenu id={Number(id)} />
+      <Sidemenu id={id} />
       <S.DashboardContainer>
         <S.DashboardMain>
           {columns?.data?.map((column, index) => (

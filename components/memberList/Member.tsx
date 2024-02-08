@@ -26,15 +26,17 @@ function Member({
   return (
     <S.MemberOfDashboard>
       <S.NameAndImg>
-        <Image
-          alt="프로필사진"
-          src={
-            profileImageUrl === null ? "/images/codeit.svg" : profileImageUrl
-          }
-          width={38}
-          height={38}
-          style={{ borderRadius: "50%" }}
-        />
+        {profileImageUrl === null ? (
+          <S.headerCircle>{nickname.slice(0, 1).toUpperCase()}</S.headerCircle>
+        ) : (
+          <Image
+            alt="프로필사진"
+            src={profileImageUrl}
+            width={38}
+            height={38}
+            style={{ borderRadius: "50%" }}
+          />
+        )}
         <S.Name>{nickname}</S.Name>
       </S.NameAndImg>
       {isOwner ? (

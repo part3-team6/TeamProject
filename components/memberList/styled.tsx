@@ -217,6 +217,26 @@ export const NameAndImg = styled.div`
   gap: 1.2rem;
 `;
 
+export const headerCircle = styled.div`
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 10rem;
+  background-color: skyblue;
+  color: var(--white-FFFFFF);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  @media all and (max-width: 767px) {
+    width: 3.4rem;
+    height: 3.4rem;
+  }
+`;
+
 export const Name = styled.p`
   color: var(--black-333236);
   font-size: 1.6rem;
