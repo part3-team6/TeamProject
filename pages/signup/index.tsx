@@ -1,4 +1,4 @@
-import * as S from "./styled";
+import * as S from "../../styles/signup/styled";
 import Input from "@/components/input";
 import Image from "next/image";
 import Link from "next/link";

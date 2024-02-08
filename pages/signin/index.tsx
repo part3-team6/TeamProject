@@ -11,7 +11,7 @@ import ModalCheckIt from "@/components/modal/modalCheckIt";
 import useUserStore from "@/store/user";
 import useToggle from "@/hooks/useToggle";
 
-import * as S from "./styled";
+import * as S from "../../styles/signin/styled";
 
 interface IFormInput {
   email: string;

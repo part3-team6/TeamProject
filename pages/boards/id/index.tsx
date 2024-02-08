@@ -1,6 +1,6 @@
 import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
-import * as S from "./styled";
+import * as S from "../../../styles/boards/[id]/styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
 import EditModal from "@/components/todoModal/editTodoModal/editModal";

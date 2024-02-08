@@ -11,7 +11,7 @@ import Sidemenu from "@/components/sidemenu";
 import Header from "@/components/dashHeader";
 import Input from "@/components/input";
 import ModalCheckIt from "@/components/modal/modalCheckIt";
-import * as S from "./styled";
+import * as S from "../../styles/mypage/styled";
 
 interface Member {
   id: number;

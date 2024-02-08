@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "@/lib/axios";
-import * as S from "./styled";
+import * as S from "../../../../styles/boards/[id]/edit/styled";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import Link from "next/link";
