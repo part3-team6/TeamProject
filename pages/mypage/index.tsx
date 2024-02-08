@@ -247,7 +247,7 @@ function MyPage() {
     }
   };
   return (
-    <S.wrap>
+    <S.Wrap>
       {showPwdError && (
         <ModalCheckIt
           text={modalText}
@@ -257,13 +257,13 @@ function MyPage() {
       )}
       <Header title="계정관리"></Header>
       <Sidemenu></Sidemenu>
-      <S.mypage>
-        <S.back onClick={() => router.back()}>{"<"} 뒤로가기</S.back>
+      <S.Mypage>
+        <S.Back onClick={() => router.back()}>{"<"} 뒤로가기</S.Back>
 
-        <S.box onSubmit={handleSubmit1(onSubmit1)}>
-          <S.boxTitle>프로필</S.boxTitle>
-          <S.inputBox>
-            <S.boxImg>
+        <S.Box onSubmit={handleSubmit1(onSubmit1)}>
+          <S.BoxTitle>프로필</S.BoxTitle>
+          <S.InputBox>
+            <S.BoxImg>
               <Image
                 key={previewUrl}
                 src={previewUrl}
@@ -272,12 +272,12 @@ function MyPage() {
                 placeholder="blur"
                 blurDataURL={"/images/more.svg"}
               />
-              <S.changeImg>
-                <S.changeImginner htmlFor="file">
-                  <S.imgEdit>
+              <S.ChangeImg>
+                <S.ChangeImgInner htmlFor="file">
+                  <S.ImgEdit>
                     <Image src={"/images/imgEdit.svg"} alt="이미지 변경" fill />
-                  </S.imgEdit>
-                </S.changeImginner>
+                  </S.ImgEdit>
+                </S.ChangeImgInner>
 
                 <input
                   {...register1("profileImageUrl")}
@@ -286,9 +286,9 @@ function MyPage() {
                   id="file"
                   onChange={handleFileChange}
                 />
-              </S.changeImg>
-            </S.boxImg>
-            <S.inputs>
+              </S.ChangeImg>
+            </S.BoxImg>
+            <S.Inputs>
               {currentUser && (
                 <>
                   <Input
@@ -307,23 +307,23 @@ function MyPage() {
                   />
                 </>
               )}
-            </S.inputs>
-          </S.inputBox>
-          <S.btnBox>
-            <S.deleteImg onClick={handleDeleteImg}>이미지 삭제</S.deleteImg>
-            <S.submit
+            </S.Inputs>
+          </S.InputBox>
+          <S.BtnBox>
+            <S.DeleteImg onClick={handleDeleteImg}>이미지 삭제</S.DeleteImg>
+            <S.Submit
               type="submit"
               value={"저장"}
               null={profileBtn}
               disabled={profileBtn ? true : false}
             />
-          </S.btnBox>
-        </S.box>
+          </S.BtnBox>
+        </S.Box>
 
-        <S.box onSubmit={handleSubmit2(onSubmit2)}>
-          <S.boxTitle>비밀번호 변경</S.boxTitle>
-          <S.inputBox>
-            <S.inputs>
+        <S.Box onSubmit={handleSubmit2(onSubmit2)}>
+          <S.BoxTitle>비밀번호 변경</S.BoxTitle>
+          <S.InputBox>
+            <S.Inputs>
               <Input
                 hookform={register2("password")}
                 title="현재 비밀번호"
@@ -348,17 +348,17 @@ function MyPage() {
                 name="newPasswordCheck"
                 handleBlur={handleNewPasswordBlur}
               />
-            </S.inputs>
-          </S.inputBox>
-          <S.submit
+            </S.Inputs>
+          </S.InputBox>
+          <S.Submit
             type="submit"
             value="변경"
             null={pwdBtn}
             disabled={pwdBtn ? true : false}
           />
-        </S.box>
-      </S.mypage>
-    </S.wrap>
+        </S.Box>
+      </S.Mypage>
+    </S.Wrap>
   );
 }
 

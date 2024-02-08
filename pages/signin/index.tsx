@@ -78,18 +78,18 @@ function SignIn() {
           wrong={showPwdToggle}
         />
       )}
-      <S.signinback>
-        <S.signin>
-          <S.logoWrap>
-            <S.logo>
+      <S.Signinback>
+        <S.Signin>
+          <S.LogoWrap>
+            <S.Logo>
               <Link href={"/"}>
                 <Image src={"/images/logoLogin.svg"} alt="로고" fill />
               </Link>
-            </S.logo>
+            </S.Logo>
             <p>오늘도 만나서 반가워요!</p>
-          </S.logoWrap>
+          </S.LogoWrap>
 
-          <S.loginForm onSubmit={handleSubmit(onSubmit)}>
+          <S.LoginForm onSubmit={handleSubmit(onSubmit)}>
             <Input
               hookform={register("email", { pattern: /\S+@\S+\.\S+/ })}
               title="이메일"
@@ -107,18 +107,17 @@ function SignIn() {
               name="password"
             />
 
-            <S.submit type="submit" value="로그인" />
-          </S.loginForm>
-          <S.signup>
+            <S.Submit type="submit" value="로그인" />
+          </S.LoginForm>
+          <S.Signup>
             회원이 아니신가요?
             <span>
               <Link href={"/signup"}>회원가입하기</Link>
             </span>
-          </S.signup>
-        </S.signin>
-      </S.signinback>
+          </S.Signup>
+        </S.Signin>
+      </S.Signinback>
     </>
   );
 }
-
 export default SignIn;

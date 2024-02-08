@@ -175,11 +175,11 @@ function Mydashboard() {
         >
           <S.EllipseUl>
             {ColorData.map((color) => (
-              <S.colorEllipseInner
+              <S.ColorEllipseInner
                 choiceColor={choiceColor}
                 backgroundColor={color.backgroundColor}
               >
-                <S.colorEllipse
+                <S.ColorEllipse
                   key={color.id}
                   data-color={color.backgroundColor}
                   backgroundColor={color.backgroundColor}
@@ -192,7 +192,7 @@ function Mydashboard() {
                     fill
                   />
                 )}
-              </S.colorEllipseInner>
+              </S.ColorEllipseInner>
             ))}
           </S.EllipseUl>
         </Modal>
@@ -200,54 +200,54 @@ function Mydashboard() {
       <Sidemenu myDashboard={() => myDashboard(currentPage, sizePages)} />
       <Header title="내 대시보드" />
 
-      <S.background>
-        <S.mainContainer>
-          <S.dashboardGrid>
+      <S.Background>
+        <S.MainContainer>
+          <S.DashboardGrid>
             <S.Dashboard onClick={handleNewDashboardClick}>
               <S.DashboardText>새로운 대시보드</S.DashboardText>
-              <S.newDashBoardButton>
+              <S.NewDashBoardButton>
                 <Image src={"/images/chip+.svg"} alt="+버튼" fill />
-              </S.newDashBoardButton>
+              </S.NewDashBoardButton>
             </S.Dashboard>
             {newDashboard?.dashboards?.map((data: any) => (
               <S.Dashboard
                 onClick={() => handleThisDashboard(data.id)}
                 key={data.id}
               >
-                <S.dashboardColor
+                <S.DashboardColor
                   backgroundColor={data.color}
-                ></S.dashboardColor>
+                ></S.DashboardColor>
                 <S.DashboardText>{data.title}</S.DashboardText>
                 {data.createdByMe && (
-                  <S.crown>
+                  <S.Crown>
                     <Image src={"/images/crown.svg"} alt="왕관" fill />
-                  </S.crown>
+                  </S.Crown>
                 )}
               </S.Dashboard>
             ))}
-            <S.pageNationFlex>
+            <S.PageNationFlex>
               <S.NpagesN>
                 {totalPages} 페이지중 {currentPage}
               </S.NpagesN>
-              <S.pageNation onClick={handlePreviousPage}>
+              <S.PageNation onClick={handlePreviousPage}>
                 <Image
                   src={"images/arrowPagenationLeft.svg"}
                   alt="이전페이지"
                   fill
                 />
-              </S.pageNation>
-              <S.pageNation onClick={handleNextPage}>
+              </S.PageNation>
+              <S.PageNation onClick={handleNextPage}>
                 <Image
                   src={"images/arrowPagenationRight.svg"}
                   alt="다음페이지"
                   fill
                 />
-              </S.pageNation>
-            </S.pageNationFlex>
-          </S.dashboardGrid>
+              </S.PageNation>
+            </S.PageNationFlex>
+          </S.DashboardGrid>
           <InviteDash inviteList={invited} />
-        </S.mainContainer>
-      </S.background>
+        </S.MainContainer>
+      </S.Background>
     </>
   );
 }

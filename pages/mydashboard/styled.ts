@@ -6,7 +6,7 @@ interface colorEllipseInnerProps {
   choiceColor: string | null;
 }
 
-export const colorEllipseInner = styled.div<colorEllipseInnerProps>`
+export const ColorEllipseInner = styled.div<colorEllipseInnerProps>`
   position: relative;
   & img {
     display: ${(props) =>
@@ -25,7 +25,7 @@ export const EllipseUl = styled.ul`
   }
 `;
 
-export const colorEllipse = styled.li<{ backgroundColor: string }>`
+export const ColorEllipse = styled.li<{ backgroundColor: string }>`
   width: 2.4rem;
   height: 2.4rem;
   background-color: ${(props) => props?.backgroundColor || "#7AC555"};
@@ -33,7 +33,7 @@ export const colorEllipse = styled.li<{ backgroundColor: string }>`
   cursor: pointer;
 `;
 
-export const deleteText = styled.p`
+export const DeleteText = styled.p`
   color: var(--gray-9FA6B2);
   /* font-family: Pretendard; */
   font-size: 14px;
@@ -45,7 +45,7 @@ export const deleteText = styled.p`
 
 /// 끝
 
-export const background = styled.div`
+export const Background = styled.div`
   height: calc(100vh - 7rem);
   margin-left: 30rem;
   display: flex;
@@ -60,7 +60,7 @@ export const background = styled.div`
   }
 `;
 
-export const dashboardGrid = styled.div`
+export const DashboardGrid = styled.div`
   display: grid;
   grid-template-columns: 24.7rem 24.7rem 24.7rem;
   gap: 1.3rem;
@@ -104,7 +104,7 @@ export const DashboardText = styled.p`
   font-weight: 600;
 `;
 
-export const newDashBoardButton = styled.div`
+export const NewDashBoardButton = styled.div`
   position: relative;
   display: flex;
   width: 2.2rem;
@@ -112,7 +112,7 @@ export const newDashBoardButton = styled.div`
   border: none;
 `;
 
-export const mainContainer = styled.main`
+export const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
   padding: 1rem 0 0 1rem;
@@ -120,26 +120,26 @@ export const mainContainer = styled.main`
 
 //dashboard styles
 
-export const dashboardColor = styled.div<{ backgroundColor: string }>`
+export const DashboardColor = styled.div<{ backgroundColor: string }>`
   width: 0.8rem;
   height: 0.8rem;
   background-color: ${(props) => props?.backgroundColor};
   border-radius: 50%;
 `;
 
-export const crown = styled.div`
+export const Crown = styled.div`
   position: relative;
   width: 2rem;
   height: 1.6rem;
 `;
-export const pageNationFlex = styled.div`
+export const PageNationFlex = styled.div`
   align-items: center;
   display: flex;
   grid-column: -2;
   justify-self: end;
 `;
 
-export const pageNation = styled.button`
+export const PageNation = styled.button`
   position: relative;
   border-radius: 4px 0px 0px 4px;
   border: 1px solid var(--gray-D9D9D9);
