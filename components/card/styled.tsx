@@ -31,6 +31,9 @@ export const cardImg = styled.div`
     width: 10rem;
     height: 5.3rem;
   }
+  & img {
+    object-fit: contain;
+  }
 `;
 export const cardTitle = styled.div`
   font-size: 1.6rem;

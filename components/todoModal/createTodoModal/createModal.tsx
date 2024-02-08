@@ -30,7 +30,11 @@ function CreateModal({
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [managerDropDown, setManagerDropDown] = useState(false);
-  const [selectedManager, setSelectedManager] = useState("");
+  const [selectedManager, setSelectedManager] = useState<{
+    nickname: string;
+    id: number;
+    imgUrl?: string;
+  } | null>(null);
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
   const [memberList, setMemberList] = useState<any[]>([]);
   const [deadline, setDeadline] = useState<Date>();
@@ -138,7 +142,7 @@ function CreateModal({
       );
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
-        id: member.id,
+        id: member.userId,
         email: member.email,
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
@@ -179,6 +183,8 @@ function CreateModal({
       backgroundColor: tagColor,
     };
   };
+  console.log(columnId);
+
   return (
     <>
       <S.layer>
@@ -189,15 +195,35 @@ function CreateModal({
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput
                 placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
-                value={selectedManager}
-                onChange={(e) => setSelectedManager(e.target.value)}
+                value={selectedManager ? selectedManager.nickname : ""}
+                readOnly
               />
+              {selectedManager?.imgUrl ? (
+                <S.selectImgSrap>
+                  <Image
+                    src={selectedManager?.imgUrl}
+                    alt="선택된이미지프로필"
+                    fill
+                  />
+                </S.selectImgSrap>
+              ) : (
+                <S.selectImgSrap>
+                  <S.selectedNick>
+                    {selectedManager?.nickname.slice(0, 1).toUpperCase()}
+                  </S.selectedNick>
+                </S.selectImgSrap>
+              )}
+
               {managerDropDown && (
                 <DropDownModal
                   members={memberList || []}
                   selectedMemberIndex={selectedMemberIndex}
                   onSelectMember={(member) => {
-                    setSelectedManager(member.nickname); // 멤버의 닉네임을 상태에 저장
+                    setSelectedManager({
+                      nickname: member.nickname,
+                      id: member.id,
+                      imgUrl: member.profileImageUrl,
+                    });
                     setManagerDropDown(false); // 드롭다운 닫기
                   }}
                 />
@@ -304,7 +330,7 @@ function CreateModal({
                 children="생성"
                 submit={() =>
                   addCard({
-                    assigneeUserId: memberList[selectedMemberIndex]?.id,
+                    assigneeUserId: selectedManager?.id,
                     dashboardId: Number(id),
                     columnId: columnId,
                     title,

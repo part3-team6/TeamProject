@@ -36,7 +36,7 @@ export interface CardProps {
 }
 
 export interface NewCard {
-  assigneeUserId: number;
+  assigneeUserId?: number;
   dashboardId: number;
   columnId: number;
   title: string;
