@@ -17,11 +17,12 @@ interface ColorMap {
 }
 
 interface EditModalProps {
-  closeEditModal: () => void;
+  closeEditCardModal: () => void;
   editCard: (newCard: any) => void;
+  columnId: number;
 }
 
-function EditModal({ closeEditModal, editCard }: EditModalProps) {
+function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -29,14 +30,18 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const [description, setDescription] = useState("");
   const [statusDropDown, setStatusDropDown] = useState(false);
   const [managerDropDown, setManagerDropDown] = useState(false);
-  const [selectedManager, setSelectedManager] = useState("");
+  const [selectedManager, setSelectedManager] = useState<{
+    nickname: string;
+    id: number;
+    imgUrl?: string;
+  } | null>(null);
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
-  const [memberList, setMemberList] = useState([]);
-  const [deadline, setDeadline] = useState<Date | null>(null);
+  const [memberList, setMemberList] = useState<any[]>([]);
+  const [deadline, setDeadline] = useState<Date>();
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
   const [image, setImage] = useState<string | null>("");
-  const [imagePreview, setImagePreview] = useState<string | undefined>("");
+  const [imagePreview, setImagePreview] = useState<any>("");
 
   const [statusTitles, setStatusTitles] = useState([]);
   const [selectedStatusTitle, setSelectedStatusTitle] = useState("");
@@ -59,11 +64,11 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   };
 
   // 이미지를 선택했을 때 호출될 함수
-  const handleImageChange = (e: any) => {
+  const handleImageChange = async (e: any) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
-      setImage(file);
-
+      const imageUrl = await uploadImage(file);
+      setImage(imageUrl);
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -71,8 +76,33 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
       };
       reader.readAsDataURL(file);
     } else {
-      setImage(null);
+      setImage("");
       setImagePreview("");
+    }
+  };
+
+  const uploadImage = async (file: string | Blob) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        `columns/${columnId}/card-image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      if (response.status === 201) {
+        // const response = await axios.get(`columns/${columnId}/`);
+        // return response.data.imageUrl;
+        return response.data.imageUrl;
+      }
+    } catch (err) {
+      console.error(err);
+      return null;
     }
   };
 
@@ -99,31 +129,26 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
   const handleManagerDropDownClick = () => {
     setManagerDropDown(!managerDropDown);
   };
-  // 담당자 클릭시 멤버선택 함수
-  const handleSelectMember = (index: any) => {
-    setSelectedMemberIndex(index);
-    setManagerDropDown(false); // 멤버를 선택하면 드롭다운을 닫을 수 있도록
-  };
 
   // 대시보드 멤버 목록 조회
-  async function fetchMembers() {
+  const fetchMembers = async () => {
     try {
       const response = await axios.get(
         `members?page=1&size=20&dashboardId=${id}`,
       );
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
-        id: member.id,
+        id: member.userId,
         email: member.email,
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
-      console.log(memberList);
+      console.log("memberList!!!!", memberList);
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
     }
-  }
+  };
 
   // 컬럼 목록 조회
   async function fetchColumn() {
@@ -173,7 +198,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
 
     const newCard = {};
     editCard(newCard);
-    closeEditModal();
+    closeEditCardModal();
   };
 
   return (
@@ -212,15 +237,35 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
                 <div style={{ position: "relative" }}>
                   <S.managerInput
                     placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
-                    value={selectedManager}
-                    onChange={(e) => setSelectedManager(e.target.value)}
-                  ></S.managerInput>
+                    value={selectedManager ? selectedManager.nickname : ""}
+                    readOnly
+                  />
+                  {selectedManager?.imgUrl ? (
+                    <S.selectImgSrap>
+                      <Image
+                        src={selectedManager?.imgUrl}
+                        alt="선택된이미지프로필"
+                        fill
+                      />
+                    </S.selectImgSrap>
+                  ) : (
+                    <S.selectImgSrap>
+                      <S.selectedNick>
+                        {selectedManager?.nickname.slice(0, 1).toUpperCase()}
+                      </S.selectedNick>
+                    </S.selectImgSrap>
+                  )}
+
                   {managerDropDown && (
                     <DropDownModal
                       members={memberList || []}
                       selectedMemberIndex={selectedMemberIndex}
                       onSelectMember={(member) => {
-                        setSelectedManager(member.nickname); // 멤버의 닉네임을 상태에 저장
+                        setSelectedManager({
+                          nickname: member.nickname,
+                          id: member.id,
+                          imgUrl: member.profileImageUrl,
+                        });
                         setManagerDropDown(false); // 드롭다운 닫기
                       }}
                     />
@@ -272,7 +317,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
             <DatePicker
               placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
-              onChange={(date: Date | null) => setDeadline(date)}
+              onChange={(date: Date) => setDeadline(date)}
               dateFormat="yyyy.MM.dd"
               customInput={<S.input style={{ paddingLeft: "3rem" }} />}
             />
@@ -330,7 +375,7 @@ function EditModal({ closeEditModal, editCard }: EditModalProps) {
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton onClick={closeEditModal}>취소</S.cancelButton>
+              <S.cancelButton onClick={closeEditCardModal}>취소</S.cancelButton>
               <Button submit={editCard}>생성</Button>
             </S.buttonContainer>
           </form>

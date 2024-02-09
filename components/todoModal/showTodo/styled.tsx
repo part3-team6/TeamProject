@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import "../../styles/global-style.ts";
 
 export const StyledButton = styled.button`
   display: flex;
@@ -12,6 +11,7 @@ export const StyledButton = styled.button`
 `;
 
 export const ModalBG = styled.div`
+  z-index: 999;
   width: 100%;
   height: 100%;
   display: flex;

@@ -3,132 +3,115 @@ import Sidemenu from "@/components/sidemenu";
 import * as S from "../../../styles/boards/[id]/styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
 import { useEffect, useState } from "react";
-import EditModal from "@/components/todoModal/editTodoModal/editModal";
 import CardItem from "@/components/card";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
-
-export interface ColumnsProps {
-  result: string;
-  data: ColumnProps[];
-}
-
-export interface ColumnProps {
-  id: number;
-  title: string;
-  teamId: string;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CardsProps {
-  cursorId?: number;
-  totalCount?: number;
-  cards: CardProps[];
-}
-
-export interface CardProps {
-  id: number;
-  title: string;
-  description: string;
-  tags: string[];
-  dueDate: string;
-  assignee: {
-    porfileImageUrl: string;
-    nickname: string;
-    id: number;
-  };
-  imageUrl: string;
-  teamId: string;
-  columnId: number;
-  createdAt: string;
-  updatedAt: string;
-}
+import { ColumnsProps, CardProps, NewCard } from "./props";
+import { useTodoModalStore } from "@/store/todoModal";
 
 export default function boardsById() {
   const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
-  const [isCreateModalOpen, setisCreateModalOpen] = useState(false);
-  const [isEditModalOpen, setisEditModalOpen] = useState(false);
-  const [isEditColumnOpen, setisEditColumnOpen] = useState(false);
-  const [isCreateColumnOpen, setisCreateColumnOpen] = useState(false);
+
+  const {
+    // cards,
+    // setCards,
+    isCreateCardOpen,
+    setIsCreateCardOpen,
+    isCreateColumnOpen,
+    setIsCreateColumnOpen,
+    isEditColumnOpen,
+    setIsEditColumnOpen,
+  } = useTodoModalStore();
 
   const [inputValue, setInputValue] = useState<string>("");
+  const [editedColumnId, setEditedColumnId] = useState<number>(0);
+  const [ColumnIdOfCard, setColumnIdOfCard] = useState<number>(0);
+
+  const [memberListData, setMemberListData] = useState<any>();
+  const [dashboardData, setDashboardData] = useState<any>();
 
   const router = useRouter();
   const { id } = router.query;
 
-  // Column 모달
+  // Column Create 모달
   const openCreateColumnModal = () => {
-    setisCreateColumnOpen(true);
+    setIsCreateColumnOpen(true);
   };
 
   const closeCreateColumnModal = () => {
-    setisCreateColumnOpen(false);
+    setIsCreateColumnOpen(false);
   };
 
-  const openEditColumnModal = () => {
-    setisEditColumnOpen(true);
+  // Column Edit 모달
+  const openEditColumnModal = (columnId: number) => {
+    setIsEditColumnOpen(true);
+    setEditedColumnId(columnId);
   };
 
   const closeEditColumnModal = () => {
-    setisEditColumnOpen(false);
+    setIsEditColumnOpen(false);
   };
 
+  // Column의 Input 값 변화
   const handleInputChange = (newValue: string) => {
     setInputValue(newValue);
   };
 
-  // Create 모달
-  const openCreateModal = () => {
-    setisCreateModalOpen(true);
+  // Card Create 모달
+  const openCreateCardModal = (columnId: number) => {
+    setIsCreateCardOpen(true);
+    setColumnIdOfCard(columnId);
   };
 
-  const closeCreateModal = () => {
-    setisCreateModalOpen(false);
+  const closeCreateCardModal = () => {
+    setIsCreateCardOpen(false);
   };
 
-  // Edit 모달
-  const openEditModal = () => {
-    setisEditModalOpen(true);
+  const getDashboardData = async (link: string) => {
+    try {
+      const response = await axiosInstance.get(link);
+      return response;
+    } catch (e: any) {
+      if (e.response.status === 404) {
+        router.push("/404");
+      }
+      throw Error(`getDashboardData 에러 ${e}`);
+    }
   };
 
-  const closeEditModal = () => {
-    setisEditModalOpen(false);
-  };
-
-  const addCard = (newCard: CardProps) => {
-    setCards((prevCard) => {
-      return [...prevCard, newCard];
-    });
-  };
-
-  const editCard = (newCard: CardProps) => {
-    setCards((prevCard) => {
-      return prevCard.map((card) => {
-        if (card.id === newCard.id) {
-          return newCard;
-        }
-        return card;
-      });
-    });
+  const addCard = async (newCard: NewCard) => {
+    try {
+      const response = await axiosInstance.post(`cards`, newCard);
+      console.log("test", response);
+      if (response.status === 201) {
+        setCards((prevCards: CardProps[]) => {
+          if (!prevCards) {
+            return [response.data];
+          }
+          return [...prevCards, response.data];
+        });
+      } else if (response.status === 400) {
+        console.log("test");
+      }
+      setIsCreateCardOpen(false);
+    } catch (error) {
+      console.log("addCard API 호출 오류", error);
+    }
   };
 
   const getColumns = async () => {
     try {
       const response = await axiosInstance.get(`columns?dashboardId=${id}`);
       setColumns(response.data);
-      console.log("getColumns", response.data);
     } catch (error) {
       console.log("getColumns API 호출 오류", error);
     }
   };
 
-  const addColumn = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
+  const addColumn = async () => {
     try {
       const response = await axiosInstance.post("columns", {
         title: inputValue,
@@ -148,20 +131,75 @@ export default function boardsById() {
             data: [...prevColumn.data, response.data],
           };
         });
-        setisCreateColumnOpen(false);
+        setIsCreateColumnOpen(false);
       }
-      console.log("addColumn", response.data);
     } catch (error) {
       console.log("addColumn API 호출 오류", error);
     }
   };
 
-  const editColumn = async () => {};
+  const editColumn = async () => {
+    try {
+      const response = await axiosInstance.put(`columns/${editedColumnId}`, {
+        title: inputValue,
+      });
+
+      if (response.status === 200) {
+        setColumns((prevColumns: ColumnsProps | undefined) => {
+          if (!prevColumns) {
+            return prevColumns; // 만약 이전 컬럼이 없다면 그대로 반환
+          }
+
+          const updatedColumns = prevColumns.data.map((col) => {
+            if (col.id === editedColumnId) {
+              return { ...col, title: inputValue }; // 수정된 컬럼만 제목 업데이트
+            }
+            return col;
+          });
+
+          return {
+            result: prevColumns.result,
+            data: updatedColumns,
+          };
+        });
+
+        setIsEditColumnOpen(false);
+      }
+    } catch (error) {
+      console.log("editColumn API 호출 오류", error);
+    }
+  };
+
+  const deleteColumn = async () => {
+    try {
+      const response = await axiosInstance.delete(`columns/${editedColumnId}`);
+
+      if (response.status === 204) {
+        setColumns((prevColumns: ColumnsProps | undefined) => {
+          if (!prevColumns) {
+            return;
+          }
+
+          const updatedColumns = prevColumns.data.filter(
+            (col) => col.id !== editedColumnId,
+          );
+
+          return {
+            result: prevColumns.result,
+            data: updatedColumns,
+          };
+        });
+
+        setIsEditColumnOpen(false);
+      }
+    } catch (error) {
+      console.log("deleteColumn API 호출 오류", error);
+    }
+  };
 
   const getCardsForColumn = async (columnId: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
-      console.log("response1", response.data);
       return response.data;
     } catch (error) {
       console.log("getCardsForColumn API 호출 오류", error);
@@ -173,24 +211,34 @@ export default function boardsById() {
     const cardsForColumns = await Promise.all(
       columns?.data?.map(async (column) => {
         const cardsForColumn = await getCardsForColumn(Number(column.id));
-        console.log("cardsForColumn", cardsForColumn);
         return cardsForColumn;
       }) || [],
     );
-    setCards(cardsForColumns);
+    // console.log("cardsForColumns", cardsForColumns);
+    // setCards(cardsForColumns);
+    const allCards = cardsForColumns.reduce((result, columnData) => {
+      return result.concat(columnData.cards);
+    }, []);
+    setCards(allCards);
   };
 
-  // const getCards = async () => {
-  //   try {
-  //     const response = await axiosInstance.get(
-  //       `/cards?dashboardId=${id}&size=100`,
-  //     );
-  //     setCards(response.data);
-  //     console.log("API 데이터:", response.data);
-  //   } catch (error) {
-  //     console.log("API 호출 오류", error);
-  //   }
-  // };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const dashboardResponse = await getDashboardData(
+          `dashboards/${Number(id)}`,
+        );
+        setDashboardData(dashboardResponse?.data);
+      } catch (error) {
+        console.log("dashboardResponse =>", error);
+      }
+    };
+    fetchData();
+
+    if (id) {
+      getColumns();
+    }
+  }, [id, isCreateColumnOpen]);
 
   useEffect(() => {
     if (columns?.data && columns.data.length > 0) {
@@ -199,15 +247,22 @@ export default function boardsById() {
   }, [columns]);
 
   useEffect(() => {
-    if (id) {
-      getColumns();
-    }
-    console.log("useEffect 호출 - id:", id);
-  }, [id, isCreateColumnOpen]);
+    const fetchMemberList = async () => {
+      try {
+        const memberListResponse = await getDashboardData(
+          `members?dashboardId=${Number(id)}`,
+        );
+        setMemberListData(memberListResponse.data);
+      } catch (error) {
+        console.log("memberListResponse =>", error);
+      }
+    };
+    fetchMemberList();
+  }, [id]);
 
   return (
     <S.DashboardWrap>
-      <Header title="대시보드 Test" />
+      <Header member={memberListData} title={dashboardData?.title} />
       <Sidemenu id={id} />
       <S.DashboardContainer>
         <S.DashboardMain>
@@ -215,9 +270,11 @@ export default function boardsById() {
             <S.Column key={index}>
               <CardItem
                 column={column}
-                cards={cards.filter((card) => card.columnId === column.id)} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
-                openCreateModal={openCreateModal}
-                openEditModal={openEditColumnModal}
+                cards={cards.filter(
+                  (cards: CardProps) => cards.columnId === column.id,
+                )} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
+                openEditColumnModal={openEditColumnModal}
+                openCreateCardModal={() => openCreateCardModal(column.id)}
               />
             </S.Column>
           ))}
@@ -229,16 +286,24 @@ export default function boardsById() {
           </S.ColumnButton>
         </S.DashboardMain>
       </S.DashboardContainer>
-      {isCreateModalOpen && (
-        <CreateModal closeCreateModal={closeCreateModal} addCard={addCard} />
+      {isCreateCardOpen && ( // card 생성 버튼 눌렀을때
+        <CreateModal
+          closeCreateCardModal={closeCreateCardModal}
+          addCard={addCard}
+          columnId={ColumnIdOfCard}
+        />
       )}
-      {isEditColumnOpen && (
+      {isEditColumnOpen && ( // column 설정 눌렀을때
         <S.EditColumnModal>
           <Modal
             title="컬럼 관리"
             name="이름"
             submitButton="변경"
-            children="삭제하기"
+            children={
+              <S.DeleteColumnButton onClick={deleteColumn}>
+                삭제하기
+              </S.DeleteColumnButton>
+            }
             Placeholder=""
             cancelButton="취소"
             cancel={closeEditColumnModal}
@@ -247,7 +312,7 @@ export default function boardsById() {
           />
         </S.EditColumnModal>
       )}
-      {isCreateColumnOpen && (
+      {isCreateColumnOpen && ( // column 생성 버튼 눌렀을 때
         <S.CreateColumnModal>
           <Modal
             title="새 컬럼 생성"

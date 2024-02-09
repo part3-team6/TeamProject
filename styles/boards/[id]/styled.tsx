@@ -81,6 +81,15 @@ export const EditColumnModal = styled.div`
   z-index: 2;
 `;
 
+export const DeleteColumnButton = styled.button`
+  background: none;
+  width: 50px;
+  font-size: 12px;
+  color: var(--gray-787486);
+  border: none;
+  border-bottom: 1px solid var(--gray-787486);
+`;
+
 export const CreateColumnModal = styled.div`
   width: 100vw;
   height: 100vh;

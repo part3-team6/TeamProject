@@ -10,33 +10,49 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import Button from "@/components/modal/modalButton";
+import { NewCard } from "@/pages/boards/[id]/props";
 
 interface ColorMap {
   [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐
 }
 
 interface createModalProps {
-  closeCreateModal: () => void;
-  addCard: (newCard: any) => void;
+  closeCreateCardModal: () => void;
+  addCard: (newCard: NewCard) => void;
+  columnId: number;
 }
 
-function CreateModal({ closeCreateModal, addCard }: createModalProps) {
-  const router = useRouter();
-  const { id } = router.query;
-
+const CreateModal = ({
+  closeCreateCardModal,
+  addCard,
+  columnId,
+}: createModalProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [managerDropDown, setManagerDropDown] = useState(false);
-  const [selectedManager, setSelectedManager] = useState("");
+  const [selectedManager, setSelectedManager] = useState<{
+    nickname: string;
+    id: number;
+    imgUrl?: string;
+  } | null>(null);
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
-  const [memberList, setMemberList] = useState([]);
-  const [deadline, setDeadline] = useState<Date | null>(null);
+  const [memberList, setMemberList] = useState<any[]>([]);
+  const [deadline, setDeadline] = useState<Date>();
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
   const [image, setImage] = useState<string | null>("");
   const [imagePreview, setImagePreview] = useState<any>("");
 
   const imageInputRef = useRef<HTMLInputElement>(null); // 이미지 입력을 위한 ref 생성
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  const formatDate = (date: string) => {
+    return `${date.split("T")[0]} ${
+      date.split("T")[1].split(".")[0].split(":")[0]
+    }:${date.split("T")[1].split(".")[0].split(":")[1]}`;
+  };
 
   // 태그 추가 함수
   const addTag = (e: React.KeyboardEvent) => {
@@ -54,10 +70,11 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
   };
 
   // 이미지를 선택했을 때 호출될 함수
-  const handleImageChange = (e: any) => {
+  const handleImageChange = async (e: any) => {
     const file = e.target.files[0];
     if (file && file.type.substr(0, 5) === "image") {
-      setImage(file);
+      const imageUrl = await uploadImage(file);
+      setImage(imageUrl);
       // 이미지 미리보기
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -65,8 +82,42 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       };
       reader.readAsDataURL(file);
     } else {
-      setImage(null);
+      setImage("");
       setImagePreview("");
+    }
+  };
+
+  // const fetchCardImage = async () => {
+  //   try {
+  //     const response = await axios.get(`columns/${columnId}/card-image`);
+  //     setImage(response.data.imageUrl);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const uploadImage = async (file: string | Blob) => {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      const response = await axios.post(
+        `columns/${columnId}/card-image`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        },
+      );
+      if (response.status === 201) {
+        // const response = await axios.get(`columns/${columnId}/`);
+        // return response.data.imageUrl;
+        return response.data.imageUrl;
+      }
+    } catch (err) {
+      console.error(err);
+      return null;
     }
   };
 
@@ -84,14 +135,14 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
   };
 
   // 대시보드 멤버 목록 조회
-  async function fetchMembers() {
+  const fetchMembers = async () => {
     try {
       const response = await axios.get(
         `members?page=1&size=20&dashboardId=${id}`,
       );
       const memberList = response.data.members.map((member: any) => ({
         nickname: member.nickname,
-        id: member.id,
+        id: member.userId,
         email: member.email,
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
@@ -100,11 +151,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
     }
-  }
-
-  useEffect(() => {
-    fetchMembers();
-  }, []);
+  };
 
   const handleTitleChange = (e: any) => {
     setTitle(e.target.value);
@@ -131,6 +178,11 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
       backgroundColor: tagColor,
     };
   };
+
+  useEffect(() => {
+    fetchMembers();
+  }, []);
+
   return (
     <>
       <S.layer>
@@ -141,15 +193,35 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <S.arrowDropContainer onClick={handleManagerDropDownClick}>
               <S.managerInput
                 placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
-                value={selectedManager}
-                onChange={(e) => setSelectedManager(e.target.value)}
+                value={selectedManager ? selectedManager.nickname : ""}
+                readOnly
               />
+              {selectedManager?.imgUrl ? (
+                <S.selectImgSrap>
+                  <Image
+                    src={selectedManager?.imgUrl}
+                    alt="선택된이미지프로필"
+                    fill
+                  />
+                </S.selectImgSrap>
+              ) : (
+                <S.selectImgSrap>
+                  <S.selectedNick>
+                    {selectedManager?.nickname.slice(0, 1).toUpperCase()}
+                  </S.selectedNick>
+                </S.selectImgSrap>
+              )}
+
               {managerDropDown && (
                 <DropDownModal
                   members={memberList || []}
                   selectedMemberIndex={selectedMemberIndex}
                   onSelectMember={(member) => {
-                    setSelectedManager(member.nickname); // 멤버의 닉네임을 상태에 저장
+                    setSelectedManager({
+                      nickname: member.nickname,
+                      id: member.id,
+                      imgUrl: member.profileImageUrl,
+                    });
                     setManagerDropDown(false); // 드롭다운 닫기
                   }}
                 />
@@ -190,7 +262,7 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
             <DatePicker
               placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
-              onChange={(date: Date | null) => {
+              onChange={(date: Date) => {
                 setDeadline(date);
               }}
               dateFormat="yyyy.MM.dd"
@@ -251,14 +323,30 @@ function CreateModal({ closeCreateModal, addCard }: createModalProps) {
               />
             </S.ImageContainer>
             <S.buttonContainer>
-              <S.cancelButton onClick={closeCreateModal}>취소</S.cancelButton>
-              <Button submit={addCard}>생성</Button>
+              <S.cancelButton onClick={closeCreateCardModal}>
+                취소
+              </S.cancelButton>
+              <Button
+                children="생성"
+                submit={() =>
+                  addCard({
+                    assigneeUserId: selectedManager?.id,
+                    dashboardId: Number(id),
+                    columnId: columnId,
+                    title,
+                    description,
+                    dueDate: formatDate(deadline?.toISOString() || ""), // 날짜를 ISO 문자열로
+                    tags,
+                    imageUrl: image ? image : "", // 미리보기 이미지 URL 사용
+                  })
+                }
+              />
             </S.buttonContainer>
           </form>
         </S.container>
       </S.layer>
     </>
   );
-}
+};
 
 export default CreateModal;

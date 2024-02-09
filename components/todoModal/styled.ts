@@ -73,6 +73,7 @@ export const managerInput = styled.input`
   background: var(--white-FFFFFF);
   padding: 0 3rem 0 1.6rem;
   cursor: pointer;
+  padding-left: 3.5rem;
 
   @media (max-width: 767px) {
     width: 28.7rem;
@@ -81,6 +82,29 @@ export const managerInput = styled.input`
   }
 `;
 
+export const selectImgSrap = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 1rem;
+  border-radius: 99px;
+  overflow: hidden;
+  width: 2rem;
+  height: 2rem;
+  & img {
+    object-fit: cover;
+  }
+`;
+export const selectedNick = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #eee;
+  text-align: center;
+  font-size: 1.4rem;
+`;
 export const arrowDropContainer = styled.div`
   position: relative;
 `;
@@ -306,22 +330,31 @@ export const circle = styled.div`
   border: 1px solid #d9d9d9;
   margin-left: 3rem;
   cursor: pointer;
+  overflow: hidden;
 
   stroke-width: 2rem;
   stroke: var(--white-white);
   flex-shrink: 0;
+
+  position: relative;
 `;
 
 export const nickName = styled.p`
   color: var(--black-black_333236);
   font-size: 1.3rem;
   font-weight: 400;
+  cursor: pointer;
 `;
 
 export const memberWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 6px;
+  cursor: pointer;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+  &:hover {
+    background-color: #e6e6fa;
+  }
 `;
 
 export const DatePick = styled.input`

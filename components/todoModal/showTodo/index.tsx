@@ -6,21 +6,10 @@ import ToDoModalTag from "./ToDoModalTag";
 import ToDoModalUser from "./ToDoModalUser";
 import Image from "next/image";
 import * as S from "./styled";
+import { useTodoModalStore } from "@/store/todoModal";
+import { ModalProps } from "@/pages/boards/[id]/props";
 
-interface ModalProps {
-  columnName: string;
-  user: {
-    name: string;
-    image?: string;
-  };
-  title: string;
-  content: string;
-  deadline: string;
-  tags?: string[];
-  img?: string;
-}
-
-const ToDoModal: React.FC<ModalProps> = ({
+const ToDoModal = ({
   columnName,
   user,
   title,
@@ -28,8 +17,8 @@ const ToDoModal: React.FC<ModalProps> = ({
   deadline,
   tags,
   img,
-}) => {
-  const [column, setColumn] = useState("todo");
+}: ModalProps) => {
+  const [column, setColumn] = useState("");
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<{ text: string; time: string }[]>(
     [],
@@ -37,6 +26,17 @@ const ToDoModal: React.FC<ModalProps> = ({
   const [renderedOption, setRenderedOption] = useState<ReactElement | null>(
     null,
   );
+  const { setIsEditCardOpen, setIsShowCardOpen } = useTodoModalStore();
+
+  // Card Edit 모달
+  const openEditCardModal = () => {
+    setIsEditCardOpen(true);
+  };
+
+  // Card 상세보기 닫기
+  const closeShowCardModal = () => {
+    setIsShowCardOpen(false);
+  };
 
   const handleCommentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setComment(e.target.value);
@@ -65,12 +65,9 @@ const ToDoModal: React.FC<ModalProps> = ({
     if (renderedOption) {
       setRenderedOption(null);
     } else {
+      openEditCardModal();
       setRenderedOption(<ToDoModalOption />);
     }
-  };
-
-  const onClickModalClose = () => {
-    return;
   };
 
   const handleEditComment = (id: number, editedComment: string) => {
@@ -100,7 +97,7 @@ const ToDoModal: React.FC<ModalProps> = ({
             <button onClick={onClickModalOption}>
               <Image src={"/images/3dot.svg"} alt="3dot" fill />
             </button>
-            <button onClick={onClickModalClose}>
+            <button onClick={closeShowCardModal}>
               <Image src={"/images/closeX.svg"} alt="closeX" fill />
             </button>
             {renderedOption}
