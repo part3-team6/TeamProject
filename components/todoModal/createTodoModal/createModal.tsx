@@ -10,7 +10,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import Button from "@/components/modal/modalButton";
-import { NewCard } from "@/pages/boards/[id]/props";
+import { NewCard } from "@/public/prop/props";
 
 interface ColorMap {
   [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐

@@ -8,7 +8,7 @@ import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
-import { ColumnsProps, CardProps, NewCard } from "./props";
+import { ColumnsProps, CardProps, NewCard } from "../../../public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
 
 export default function boardsById() {

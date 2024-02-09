@@ -7,7 +7,7 @@ import ToDoModalUser from "./ToDoModalUser";
 import Image from "next/image";
 import * as S from "./styled";
 import { useTodoModalStore } from "@/store/todoModal";
-import { ModalProps } from "@/pages/boards/[id]/props";
+import { ModalProps } from "@/public/prop/props";
 
 const ToDoModal = ({
   columnName,

@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
 import ToDoModal from "@/components/todoModal/showTodo";
-import { CardProps, ColumnProps } from "@/pages/boards/[id]/props";
+import { CardProps, ColumnProps } from "@/public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
 
 export default function CardItem({
