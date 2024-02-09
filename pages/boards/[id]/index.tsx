@@ -171,29 +171,34 @@ export default function boardsById() {
   };
 
   const deleteColumn = async () => {
-    try {
-      const response = await axiosInstance.delete(`columns/${editedColumnId}`);
+    const deleteGo = confirm("정말 삭제 하시겠습니까?");
+    if (deleteGo) {
+      try {
+        const response = await axiosInstance.delete(
+          `columns/${editedColumnId}`,
+        );
 
-      if (response.status === 204) {
-        setColumns((prevColumns: ColumnsProps | undefined) => {
-          if (!prevColumns) {
-            return;
-          }
+        if (response.status === 204) {
+          setColumns((prevColumns: ColumnsProps | undefined) => {
+            if (!prevColumns) {
+              return;
+            }
 
-          const updatedColumns = prevColumns.data.filter(
-            (col) => col.id !== editedColumnId,
-          );
+            const updatedColumns = prevColumns.data.filter(
+              (col) => col.id !== editedColumnId,
+            );
 
-          return {
-            result: prevColumns.result,
-            data: updatedColumns,
-          };
-        });
+            return {
+              result: prevColumns.result,
+              data: updatedColumns,
+            };
+          });
 
-        setIsEditColumnOpen(false);
+          setIsEditColumnOpen(false);
+        }
+      } catch (error) {
+        console.log("deleteColumn API 호출 오류", error);
       }
-    } catch (error) {
-      console.log("deleteColumn API 호출 오류", error);
     }
   };
 
@@ -279,9 +284,14 @@ export default function boardsById() {
             </S.Column>
           ))}
           <S.ColumnButton onClick={openCreateColumnModal}>
-            새로운 컬럼 추가하기
+            새로운 컬럼 추가하기 &nbsp;
             <div>
-              <Image src={"/images/chip+.svg"} alt="plus" fill />
+              <Image
+                src={"/images/chip+.svg"}
+                alt="plus"
+                width={20}
+                height={20}
+              />
             </div>
           </S.ColumnButton>
         </S.DashboardMain>

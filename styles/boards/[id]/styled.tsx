@@ -12,43 +12,37 @@ export const DashboardContainer = styled.div`
   margin-left: 30rem;
   overflow: scroll;
 
-  /* 스크롤바의 Track(전체 길이) 스타일 */
-  ::-webkit-scrollbar {
-    width: 12px; /* 스크롤바의 너비 */
+  &::-webkit-scrollbar {
+    width: 0.3rem;
   }
 
-  /* 스크롤바의 Thumb(드래그할 부분) 스타일 */
-  ::-webkit-scrollbar-thumb {
-    background-color: #888; /* 스크롤바 색상 */
-    border-radius: 6px; /* 스크롤바 모양을 둥글게 만듭니다. */
+  &::-webkit-scrollbar-thumb {
+    background: var(--violet-5534DA);
+    border-radius: 6px;
   }
 
-  /* 스크롤바의 Track에 Hover 효과 */
-  ::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
+  @media all and (max-width: 1199px) {
+    width: calc(100% - 16rem);
+    margin-left: 16rem;
   }
-
-  /* 스크롤바의 Track에 Hover 효과 */
-  ::-webkit-scrollbar-track {
-    background-color: #eee; /* 스크롤바 트랙 배경 색상 */
-    border-radius: 6px; /* 트랙의 모양을 둥글게 만듭니다. */
-  }
-
-  /* 스크롤바의 Track에 Shadow 효과 */
-  ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  @media all and (max-width: 767px) {
+    width: calc(100% - 7rem);
+    margin-left: 7rem;
   }
 `;
 
 export const DashboardMain = styled.div`
   height: calc(100vh - 7rem);
   display: flex;
+  @media all and (max-width: 1199px) {
+    flex-direction: column;
+  }
 `;
 
 export const Column = styled.div``;
 
 export const ColumnButton = styled.button`
-  border: 1px solid var(--gray-D9D9D9);
+  /* border: 1px solid var(--gray-D9D9D9);
   border-radius: 0.5rem;
   width: 340px;
   height: 70px;
@@ -70,6 +64,26 @@ export const ColumnButton = styled.button`
     width: 20px;
     height: 20px;
     position: relative;
+  }
+
+  @media all and (max-width: 1199px) {
+    left: 64.8rem;
+  } */
+  min-width: 35.4rem;
+  height: 5rem;
+  border-radius: 6px;
+  border: 1px solid var(--gray-D9D9D9);
+  background: var(--white-FFFFFF);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  margin: 2rem;
+  @media all and (max-width: 1199px) {
+    min-width: auto;
+    width: 100%;
+    margin: 2rem 0 0;
+    padding: 2rem;
   }
 `;
 

@@ -19,6 +19,7 @@ export const ModalBG = styled.div`
   align-items: center;
   position: fixed;
   top: 0;
+  left: 0;
   background-color: rgba(0, 0, 0, 0.7);
 `;
 
@@ -220,6 +221,9 @@ export const ModalContentImage = styled.div`
   width: 450px;
   height: 200px;
   position: relative;
+  & img {
+    object-fit: cover;
+  }
 `;
 
 export const ModalCommentInput = styled.div`
