@@ -24,6 +24,7 @@ export interface CardProps {
   tags: string[];
   dueDate: string;
   assignee: {
+    profileImageUrl: string;
     porfileImageUrl: string;
     nickname: string;
     id: number;
@@ -50,7 +51,7 @@ export interface ModalProps {
   columnName: string;
   user: {
     name: string;
-    image?: string;
+    image: string;
   };
   title: string;
   content: string;

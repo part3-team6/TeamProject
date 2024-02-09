@@ -2,7 +2,7 @@ import Image from "next/image";
 import * as S from "./styled";
 import Tag from "../tag";
 import ToDoModal from "@/components/todoModal/showTodo";
-import { CardProps, ColumnProps } from "@/pages/boards/[id]/props";
+import { CardProps, ColumnProps } from "@/public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
 
 export default function CardItem({
@@ -16,15 +16,16 @@ export default function CardItem({
   openEditColumnModal: (columnId: number) => void;
   openCreateCardModal: (columnId: number) => void;
 }) {
-  const { isShowCardOpen, setIsShowCardOpen, setEditedCardId } =
+  const { isShowCardOpen, setIsShowCardOpen, editedCardId, setEditedCardId } =
     useTodoModalStore();
 
-  // card 상세보기 모달
   const openShowCardModal = (cardId: number) => {
-    setIsShowCardOpen(true);
     setEditedCardId(cardId);
+    setIsShowCardOpen(true);
   };
 
+  const selectedCard = cards.find((card) => card.id === editedCardId);
+  console.log(selectedCard);
   return (
     <S.cards>
       <S.cardsTitle>
@@ -46,64 +47,46 @@ export default function CardItem({
         </S.cardMore>
       </S.card>
 
-      {cards &&
-        cards.map((item, index) => (
-          <S.card key={index} onClick={() => openShowCardModal(item.id)}>
-            {item.imageUrl && (
-              <S.cardImg>
-                <Image src={item.imageUrl} alt="카드이미지" fill />
-              </S.cardImg>
-            )}
+      {cards.map((item) => (
+        <S.card key={item.id} onClick={() => openShowCardModal(item.id)}>
+          {item.imageUrl && (
+            <S.cardImg>
+              <Image src={item.imageUrl} alt="카드 이미지" fill />
+            </S.cardImg>
+          )}
 
-            <S.text>
-              <S.cardTitle>{item.title}</S.cardTitle>
-              <div>{item.description}</div>
-              <S.tagDate>
-                <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
-                <S.dateWrap>
-                  <S.date>
-                    <S.dateImg>
-                      <Image
-                        src={"/images/calendarToday.svg"}
-                        alt="날짜"
-                        fill
-                      />
-                    </S.dateImg>
-                    <span>{item.dueDate}</span>
-                  </S.date>
+          <S.text>
+            <S.cardTitle>{item.title}</S.cardTitle>
+            <div>{item.description}</div>
+            <S.tagDate>
+              <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
+              <S.dateWrap>
+                <S.date>
+                  <S.dateImg>
+                    <Image src={"/images/calendarToday.svg"} alt="날짜" fill />
+                  </S.dateImg>
+                  <span>{item.dueDate}</span>
+                </S.date>
 
-                  <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
-                </S.dateWrap>
-              </S.tagDate>
-            </S.text>
-          </S.card>
-        ))}
+                <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
+              </S.dateWrap>
+            </S.tagDate>
+          </S.text>
+        </S.card>
+      ))}
 
-      {isShowCardOpen && (
+      {isShowCardOpen && selectedCard && (
         <ToDoModal
-          columnName="To Do"
+          columnName={column.title}
           user={{
-            name: "김범승",
-            image: "/images/chip+.svg",
+            name: selectedCard.assignee?.nickname || "Unknown",
+            image: selectedCard.assignee?.profileImageUrl || "",
           }}
-          title="새로운 일정 관리 Taskify"
-          content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley."
-          deadline="2022.12.30 19:00"
-          tags={[
-            "프로젝트",
-            "일반",
-            "백엔드",
-            "네모네모상자",
-            "도움",
-            "프로젝트2",
-            "스페셜",
-            "김동규",
-            "김범승",
-            "문필겸",
-            "김윤수",
-            "조욱희",
-          ]}
-          img="/images/codeit.svg"
+          title={selectedCard.title}
+          content={selectedCard.description}
+          deadline={selectedCard.dueDate}
+          tags={selectedCard.tags}
+          img={selectedCard.imageUrl}
         />
       )}
     </S.cards>

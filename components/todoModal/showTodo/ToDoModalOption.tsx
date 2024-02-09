@@ -4,7 +4,7 @@ import * as S from "./styled";
 import EditModal from "../editTodoModal/editModal";
 import { useTodoModalStore } from "@/store/todoModal";
 import axiosInstance from "@/lib/axios";
-import { CardProps } from "@/pages/boards/[id]/props";
+import { CardProps } from "@/public/prop/props";
 
 const toDoModalOption = () => {
   const [rendered, setRendered] = useState<ReactElement | null>(null);

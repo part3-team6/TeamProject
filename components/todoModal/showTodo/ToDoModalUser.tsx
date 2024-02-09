@@ -16,19 +16,19 @@ const ToDoModalUser: React.FC<ToDoModalUserProps> = ({ user, deadline }) => {
   useEffect(() => {
     setDate(deadline);
   }, [deadline]);
-
+  console.log(user);
   return (
     <S.ToDoModalUser>
       <div>
         <h3>담당자</h3>
         <div>
-          <Image
-            src={user?.image || ""}
-            alt="img"
-            layout="intrinsic"
-            width={20}
-            height={20}
-          />
+          <S.ToDoImg>
+            {user.image ? (
+              <Image src={user?.image || ""} alt="img" fill />
+            ) : (
+              <div>{user.name.slice(0, 1).toUpperCase()}</div>
+            )}
+          </S.ToDoImg>
           <p>{user?.name}</p>
         </div>
       </div>

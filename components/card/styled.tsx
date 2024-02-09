@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 export const card = styled.div`
   width: 31.4rem;
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  cursor: pointer;
 
   & a {
     width: 100%;
@@ -15,10 +19,15 @@ export const card = styled.div`
     gap: 1.2rem;
   }
   @media all and (max-width: 1199px) {
-    width: 54.4rem;
+    width: 100%;
+    flex-direction: row;
+
     & a {
       flex-direction: row;
     }
+  }
+  @media all and (max-width: 767px) {
+    flex-direction: column;
   }
 `;
 export const cardImg = styled.div`
@@ -32,7 +41,10 @@ export const cardImg = styled.div`
     height: 5.3rem;
   }
   & img {
-    object-fit: contain;
+    object-fit: cover;
+  }
+  @media all and (max-width: 767px) {
+    width: 100%;
   }
 `;
 export const cardTitle = styled.div`
@@ -108,6 +120,12 @@ export const tagDate = styled.div`
 `;
 export const text = styled.div`
   width: 100%;
+  @media all and (max-width: 1199px) {
+    width: 80%;
+  }
+  @media all and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 export const cards = styled.div`
   width: 35.4rem;
@@ -118,7 +136,7 @@ export const cards = styled.div`
   gap: 1.6rem;
   border-bottom: 1px solid var(--gray-D9D9D9);
   @media all and (max-width: 1199px) {
-    width: 58.4rem;
+    width: 100%;
   }
 `;
 export const cardsTitle = styled.div`
