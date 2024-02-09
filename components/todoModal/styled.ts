@@ -26,9 +26,10 @@ export const layer = styled.div`
   width: 100vw;
   height: 100vh;
   overflow: scroll;
-  position: absolute;
+  position: fixed;
   padding-top: 13rem;
   top: 0;
+  left: 0;
   z-index: 2;
 `;
 

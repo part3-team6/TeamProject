@@ -25,7 +25,7 @@ export default function CardItem({
   };
 
   const selectedCard = cards.find((card) => card.id === editedCardId);
-
+  console.log(selectedCard);
   return (
     <S.cards>
       <S.cardsTitle>
@@ -80,7 +80,7 @@ export default function CardItem({
           columnName={column.title}
           user={{
             name: selectedCard.assignee?.nickname || "Unknown",
-            image: selectedCard.assignee?.porfileImageUrl || null,
+            image: selectedCard.assignee?.profileImageUrl || "",
           }}
           title={selectedCard.title}
           content={selectedCard.description}

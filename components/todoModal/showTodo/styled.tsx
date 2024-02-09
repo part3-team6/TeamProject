@@ -95,6 +95,17 @@ export const ModalOption = styled.div`
   }
 `;
 
+export const ToDoImg = styled.div`
+  width: 2rem;
+  height: 2rem;
+  position: relative;
+  & > div {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+`;
 export const ToDoModalUser = styled.div`
   width: 200px;
   height: 155px;
@@ -124,11 +135,13 @@ export const ToDoModalUser = styled.div`
     font-size: 14px;
   }
 
-  & div div {
+  & > div > div {
     display: flex;
     align-items: center;
     gap: 8px;
     position: relative;
+    border-radius: 99px;
+    overflow: hidden;
   }
 
   @media (max-width: 768px) {
