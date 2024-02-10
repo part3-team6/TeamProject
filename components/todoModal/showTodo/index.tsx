@@ -68,6 +68,7 @@ const ToDoModal = ({
       // 댓글 하나 생성해보시면 바로 알수있습니다.)
       commentList();
       console.log("댓글 보낼때POST", response);
+      setComment("");
     } catch (error: any) {
       console.error("댓글 생성에러", error);
     }
@@ -108,7 +109,6 @@ const ToDoModal = ({
     if (renderedOption) {
       setRenderedOption(null);
     } else {
-      // openEditCardModal();
       setRenderedOption(
         <ToDoModalOption
           closeShowCardModal={closeShowCardModal}
@@ -130,11 +130,6 @@ const ToDoModal = ({
     } catch (err) {
       console.log(err);
     }
-    // setComments((prevComments) => {
-    //   return prevComments.map((comment, i) =>
-    //     i === id ? { ...comment, text: editedComment } : comment,
-    //   );
-    // });
   };
 
   const handleDeleteComment = async (id: any) => {

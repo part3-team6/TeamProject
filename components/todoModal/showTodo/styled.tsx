@@ -350,16 +350,16 @@ export const ModalCommentInput = styled.div`
 
   & > ul {
     width: 100%;
-    max-height: 180px;
+    max-height: 120px;
     margin-top: 20px;
     margin-bottom: 20px;
     overflow-x: hidden;
     overflow-y: auto;
     @media all and (max-width: 1199px) {
-      max-height: 150px;
+      max-height: 105px;
     }
     @media all and (max-width: 767px) {
-      max-height: 111px;
+      max-height: 105px;
     }
   }
 `;

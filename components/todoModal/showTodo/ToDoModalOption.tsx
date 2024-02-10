@@ -66,6 +66,11 @@ const toDoModalOption = ({
       }
     } catch (error) {
       console.log("editCard API 호출 오류", error);
+    } finally {
+      const getResponse = await axiosInstance.get(
+        `columns?dashboardId=${pageId}`,
+      );
+      setColumns(getResponse.data);
     }
   };
 

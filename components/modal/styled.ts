@@ -48,11 +48,19 @@ export const button = styled.button`
   border-radius: 8px;
   background: ${(props) =>
     props.disabled ? "var(--violet-8-percent)" : "var(--violet-5534DA)"};
-  color: var(--white-FFFFFF);
+  color: var(--white-FFFFFF) !important;
   text-align: center;
 
   font-size: 1.5rem;
   font-weight: 500;
+
+  &:hover {
+    background: ${(props) =>
+      props.disabled
+        ? "var(--violet-8-percent)"
+        : "var(--violet-5534DA)"} !important;
+    color: var(--white-FFFFFF) !important;
+  }
 
   @media (max-width: 767px) {
     padding: 1.2rem 5.6rem;
