@@ -34,6 +34,17 @@ export const DashboardContainer = styled.div`
 export const DashboardMain = styled.div`
   height: calc(100vh - 7rem);
   display: flex;
+  overflow: scroll;
+
+  &::-webkit-scrollbar {
+    height: 0.7rem;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--violet-5534DA);
+    border-radius: 6px;
+  }
+
   @media all and (max-width: 1199px) {
     flex-direction: column;
   }
