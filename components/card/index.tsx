@@ -61,7 +61,7 @@ export default function CardItem({
 
           <S.text>
             <S.cardTitle>{item.title}</S.cardTitle>
-            <div>{item.description}</div>
+            <S.cardDescription>{item.description}</S.cardDescription>
             <S.tagDate>
               <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
               <S.dateWrap>

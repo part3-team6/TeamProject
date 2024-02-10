@@ -69,6 +69,7 @@ const ToDoModal = ({
       commentList();
       setComment("");
       console.log("댓글 보낼때POST", response);
+      setComment("");
     } catch (error: any) {
       console.error("댓글 생성에러", error);
     }
@@ -130,7 +131,6 @@ const ToDoModal = ({
     if (renderedOption) {
       setRenderedOption(null);
     } else {
-      // openEditCardModal();
       setRenderedOption(
         <ToDoModalOption
           closeShowCardModal={closeShowCardModal}
@@ -142,18 +142,25 @@ const ToDoModal = ({
     }
   };
 
-  const handleEditComment = (id: number, editedComment: string) => {
-    setComments((prevComments) => {
-      return prevComments.map((comment, i) =>
-        i === id ? { ...comment, text: editedComment } : comment,
-      );
-    });
+  const handleEditComment = async (id: any, editedComment: string) => {
+    const edit = {
+      content: editedComment,
+    };
+    try {
+      const res = await axios.put(`/comments/${id}`, edit);
+      commentList();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const handleDeleteComment = (id: number) => {
-    const updatedComments = [...comments];
-    updatedComments.splice(id, 1);
-    setComments(updatedComments);
+  const handleDeleteComment = async (id: any) => {
+    try {
+      const res = await axios.delete(`/comments/${id}`);
+      commentList();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
@@ -207,13 +214,12 @@ const ToDoModal = ({
               {commentLists?.map((commentItem: any, index: number) => (
                 <ToDoModalComment
                   key={index}
-                  id={index}
+                  id={commentItem.id}
                   user={commentItem.author}
                   comment={commentItem}
-                  commentEdit={(editedComment: string) =>
-                    commentEdit(commentItem.id, editedComment)
-                  }
-                  commentDelete={() => commentDelete(commentItem.id)}
+                  content={commentItem.content}
+                  onEditComment={handleEditComment}
+                  onDeleteComment={handleDeleteComment}
                 />
               ))}
             </ul>

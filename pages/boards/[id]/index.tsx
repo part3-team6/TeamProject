@@ -2,19 +2,24 @@ import Header from "@/components/dashHeader";
 import Sidemenu from "@/components/sidemenu";
 import * as S from "../../../styles/boards/[id]/styled";
 import CreateModal from "@/components/todoModal/createTodoModal/createModal";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import CardItem from "@/components/card";
 import axiosInstance from "@/lib/axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/modal/modal";
 import Image from "next/image";
-import { ColumnsProps, CardProps, NewCard } from "../../../public/prop/props";
+import {
+  ColumnsProps,
+  CardProps,
+  NewCard,
+  ColumnProps,
+} from "../../../public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
+import useColumnsStore from "../../../store/boards";
 
 export default function boardsById() {
-  const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
-
+  const { columns, setColumns, setPageId } = useColumnsStore();
   const {
     // cards,
     // setCards,
@@ -215,7 +220,7 @@ export default function boardsById() {
 
   const getCardsForAllColumns = async () => {
     const cardsForColumns = await Promise.all(
-      columns?.data?.map(async (column) => {
+      columns?.data?.map(async (column: { id: number }) => {
         const cardsForColumn = await getCardsForColumn(Number(column?.id));
         return cardsForColumn;
       }) || [],
@@ -244,12 +249,14 @@ export default function boardsById() {
     if (id) {
       getColumns();
     }
+    setPageId(id);
   }, [id, isCreateColumnOpen]);
 
   useEffect(() => {
     if (columns?.data && columns.data.length > 0) {
       getCardsForAllColumns();
     }
+    console.log("columns", columns);
   }, [columns]);
 
   useEffect(() => {
@@ -272,7 +279,7 @@ export default function boardsById() {
       <Sidemenu id={id} />
       <S.DashboardContainer>
         <S.DashboardMain>
-          {columns?.data?.map((column, index) => (
+          {columns?.data?.map((column: ColumnProps, index: number) => (
             <S.Column key={index}>
               <CardItem
                 column={column}

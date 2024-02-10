@@ -16,7 +16,7 @@ const ToDoModalUser: React.FC<ToDoModalUserProps> = ({ user, deadline }) => {
   useEffect(() => {
     setDate(deadline);
   }, [deadline]);
-  console.log(user);
+
   return (
     <S.ToDoModalUser>
       <div>

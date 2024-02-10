@@ -6,6 +6,7 @@ import { useTodoModalStore } from "@/store/todoModal";
 import axiosInstance from "@/lib/axios";
 import { CardProps } from "@/public/prop/props";
 import axios from "@/lib/axios";
+import useColumnsStore from "../../../store/boards";
 
 // id 프롭은 cardId입니다.
 const toDoModalOption = ({
@@ -17,6 +18,7 @@ const toDoModalOption = ({
   const [rendered, setRendered] = useState<ReactElement | null>(null);
   const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
+  const { setColumns, pageId } = useColumnsStore();
 
   const onModifyCard = () => {
     if (rendered) {
@@ -48,7 +50,7 @@ const toDoModalOption = ({
   // 이거 할일 수정카드 모달입니다.
   const editCard = async (newCard: CardProps) => {
     try {
-      const response = await axiosInstance.post(`cards/${id}`, newCard);
+      const response = await axiosInstance.put(`cards/${id}`, newCard);
       console.log("editCard라는함수", response);
 
       if (response.status === 200) {
@@ -64,6 +66,11 @@ const toDoModalOption = ({
       }
     } catch (error) {
       console.log("editCard API 호출 오류", error);
+    } finally {
+      const getResponse = await axiosInstance.get(
+        `columns?dashboardId=${pageId}`,
+      );
+      setColumns(getResponse.data);
     }
   };
 
@@ -73,9 +80,13 @@ const toDoModalOption = ({
 
   // 카드 삭제 기능인데 랜더링을 어떻게 시켜야할지 모르겠음.
   const onDeleteCard = async (id: any) => {
+    console.log("버튼누름!", id);
     const response = await axios.delete(`cards/${id}`);
     closeShowCardModal();
-    console.log(`새로고침하면 삭제가 되어있을겁니다.`);
+    const getResponse = await axiosInstance.get(
+      `columns?dashboardId=${pageId}`,
+    );
+    setColumns(getResponse.data);
   };
 
   return (
