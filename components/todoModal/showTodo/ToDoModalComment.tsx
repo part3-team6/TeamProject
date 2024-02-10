@@ -7,8 +7,8 @@ interface CommentProps {
   id: number;
   user: any;
   comment: any;
-  onEditComment: (id: number, editedComment: string) => void;
-  onDeleteComment: (id: number) => void;
+  commentEdit: (editedComment: string) => void;
+  commentDelete: (id: number) => void;
 }
 
 // 이게 댓글 ui입니다.
@@ -16,28 +16,28 @@ const ToDoModalComment = ({
   id,
   user,
   comment,
-  onEditComment,
-  onDeleteComment,
+  commentEdit,
+  commentDelete,
 }: CommentProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editedComment, setEditedComment] = useState(comment.text || "");
 
   const handleEditComment = () => {
+    setEditedComment(comment.text || "");
     setIsEditing(true);
   };
 
   const handleSaveEdit = () => {
-    onEditComment(id, editedComment);
+    commentEdit(editedComment);
     setIsEditing(false);
   };
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedComment(comment.text || "");
   };
 
   const handleDeleteComment = () => {
-    onDeleteComment(id);
+    commentDelete(id);
   };
 
   return (

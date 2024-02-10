@@ -67,6 +67,7 @@ const ToDoModal = ({
       // 필요한 데이터 빼내서 ui그리시면 됩니다 commentList();이 함수로 (콘솔까지 찍어둿으니 테스트해보실려면
       // 댓글 하나 생성해보시면 바로 알수있습니다.)
       commentList();
+      setComment("");
       console.log("댓글 보낼때POST", response);
     } catch (error: any) {
       console.error("댓글 생성에러", error);
@@ -80,6 +81,27 @@ const ToDoModal = ({
       console.log("댓글목록GET", response);
     } catch (error: any) {
       console.error("댓글 목록 조회 에러", error);
+    }
+  };
+
+  const commentEdit = async (commentId: number, editedComment: string) => {
+    try {
+      const response = await axios.put(`comments/${commentId}`, {
+        content: editedComment,
+      });
+      commentList();
+    } catch (error: any) {
+      console.error("댓글 수정에러", error);
+    }
+  };
+
+  const commentDelete = async (commentId: number) => {
+    try {
+      const response = await axios.delete(`comments/${commentId}`);
+      console.log("댓글 삭제", response);
+      commentList();
+    } catch (error: any) {
+      console.error("댓글 삭제에러", error);
     }
   };
 
@@ -133,6 +155,7 @@ const ToDoModal = ({
     updatedComments.splice(id, 1);
     setComments(updatedComments);
   };
+
   useEffect(() => {
     commentList();
   }, []);
@@ -181,14 +204,16 @@ const ToDoModal = ({
               <Button children="입력" onClick={commnetNew} />
             </div>
             <ul>
-              {commentLists?.map((commentItem: any, index: any) => (
+              {commentLists?.map((commentItem: any, index: number) => (
                 <ToDoModalComment
                   key={index}
                   id={index}
                   user={commentItem.author}
                   comment={commentItem}
-                  onEditComment={handleEditComment}
-                  onDeleteComment={() => handleDeleteComment(index)}
+                  commentEdit={(editedComment: string) =>
+                    commentEdit(commentItem.id, editedComment)
+                  }
+                  commentDelete={() => commentDelete(commentItem.id)}
                 />
               ))}
             </ul>
