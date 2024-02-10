@@ -91,7 +91,7 @@ export const colors = styled.div`
   justify-content: center;
   color: #fff;
 
-  background-color: green;
+  background-color: skyblue;
 `;
 export const date = styled.div`
   display: flex;

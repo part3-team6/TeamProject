@@ -29,6 +29,7 @@ export default function CardItem({
 
   const selectedCard = cards.find((card) => card.id === editedCardId);
   console.log("이게 카드클릭시나오는 id값인가..?", selectedCard);
+  console.log("cards", cards);
   return (
     <S.cards>
       <S.cardsTitle>
@@ -71,7 +72,13 @@ export default function CardItem({
                   <span>{item.dueDate}</span>
                 </S.date>
                 {/* 여기가 동규님이 말한 작성자 프로필입니다. */}
-                <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
+                {item.assignee?.porfileImageUrl ? (
+                  <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
+                ) : (
+                  <S.colors>
+                    {item.assignee?.nickname.slice(0, 1).toUpperCase()}
+                  </S.colors>
+                )}
               </S.dateWrap>
             </S.tagDate>
           </S.text>
