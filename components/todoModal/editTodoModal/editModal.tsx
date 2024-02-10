@@ -193,10 +193,25 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
     };
   };
 
-  const handleEditCard = (e: any) => {
-    if (e.key === "Enter") e.preventDefault();
+  // {
+  //   "columnId": 0,
+  //   "assigneeUserId": 0,
+  //   "title": "string",
+  //   "description": "string",
+  //   "dueDate": "string",
+  //   "tags": [
+  //     "string"
+  //   ],
+  //   "imageUrl": "string"
+  // }
 
-    const newCard = {};
+  // 이걸로 한번 만들어보겠습니다.
+  const handleEditCard = (title: string, description: string) => {
+    const newCard = {
+      columnId: columnId,
+      title: title,
+      description: description,
+    };
     editCard(newCard);
     closeEditCardModal();
   };
@@ -376,7 +391,9 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
             </S.ImageContainer>
             <S.buttonContainer>
               <S.cancelButton onClick={closeEditCardModal}>취소</S.cancelButton>
-              <Button submit={editCard}>생성</Button>
+              <Button submit={() => handleEditCard(title, description)}>
+                생성
+              </Button>
             </S.buttonContainer>
           </form>
         </S.container>

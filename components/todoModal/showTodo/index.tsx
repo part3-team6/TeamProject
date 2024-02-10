@@ -8,6 +8,8 @@ import Image from "next/image";
 import * as S from "./styled";
 import { useTodoModalStore } from "@/store/todoModal";
 import { ModalProps } from "@/public/prop/props";
+import axios from "@/lib/axios";
+import { useRouter } from "next/router";
 
 const ToDoModal = ({
   columnName,
@@ -17,7 +19,11 @@ const ToDoModal = ({
   deadline,
   tags,
   img,
+  cardid,
+  columnId,
 }: ModalProps) => {
+  const router = useRouter();
+  const { id } = router.query;
   const [column, setColumn] = useState("");
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<{ text: string; time: string }[]>(
@@ -27,6 +33,8 @@ const ToDoModal = ({
     null,
   );
   const { setIsEditCardOpen, setIsShowCardOpen } = useTodoModalStore();
+  // console.log(comments);
+  console.log(comment);
 
   // Card Edit 모달
   const openEditCardModal = () => {
@@ -42,6 +50,38 @@ const ToDoModal = ({
     setComment(e.target.value);
   };
 
+  // 값 확인하는건데 나중에 지우시면됩니다.
+  // console.log(comment, cardid, columnId, id);
+
+  // 댓글 생성기능. 댓글 ui는 api 따로 있습니다. 그걸로 ui그려야하는데 ui잡기엔 시간이 부족해서 우선 생성기능만 만들게요
+  const commnetNew = async () => {
+    try {
+      const response = await axios.post(`comments`, {
+        content: comment,
+        cardId: cardid,
+        columnId: columnId,
+        dashboardId: Number(id),
+      });
+      // 이 밑에 commentList();이 함수는 댓글 목록조회인데 잘 실행되는지 우선 넣어봤는데 정상작동함.
+      // 필요한 데이터 빼내서 ui그리시면 됩니다 commentList();이 함수로 (콘솔까지 찍어둿으니 테스트해보실려면
+      // 댓글 하나 생성해보시면 바로 알수있습니다.)
+      commentList();
+      console.log("댓글 생성된거 다 짜고 지워줘요", response);
+    } catch (error: any) {
+      console.error("댓글 생성에러", error);
+    }
+  };
+
+  const commentList = async () => {
+    try {
+      const response = await axios.get(`comments?size=10&cardId=3004`);
+      console.log("댓글목록 다 짜고 지워줘요", response);
+    } catch (error: any) {
+      console.error("댓글 목록 조회 에러", error);
+    }
+  };
+
+  // onClick에서 이거 빼고 위에 댓글생성기능 넣은건데 나중에 확인해보고 빼야합니다.
   const handleCommentSubmit = () => {
     try {
       const currentTime = new Date().toLocaleString();
@@ -60,13 +100,16 @@ const ToDoModal = ({
 
     setComment("");
   };
+  // 여기까지에요 댓글생성기능빼놓은거
 
-  const onClickModalOption = () => {
+  const onClickModalOption = (cardid: any) => {
     if (renderedOption) {
       setRenderedOption(null);
     } else {
       openEditCardModal();
-      setRenderedOption(<ToDoModalOption />);
+      setRenderedOption(
+        <ToDoModalOption closeShowCardModal={closeShowCardModal} id={cardid} />,
+      );
     }
   };
 
@@ -94,7 +137,7 @@ const ToDoModal = ({
         <S.ModalHeader>
           <h1>{title}</h1>
           <div>
-            <button onClick={onClickModalOption}>
+            <button onClick={() => onClickModalOption(cardid)}>
               <Image src={"/images/3dot.svg"} alt="3dot" fill />
             </button>
             <button onClick={closeShowCardModal}>
@@ -125,7 +168,7 @@ const ToDoModal = ({
                 value={comment}
                 onChange={handleCommentChange}
               />
-              <Button children="입력" onClick={handleCommentSubmit} />
+              <Button children="입력" onClick={commnetNew} />
             </div>
             <ul>
               {comments.map((commentItem, index) => (
