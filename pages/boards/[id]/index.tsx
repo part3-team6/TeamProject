@@ -212,7 +212,6 @@ export default function boardsById() {
       return [];
     }
   };
-  console.log("함수밖에서찍은카드목록콘솔", getCardsForColumn());
 
   const getCardsForAllColumns = async () => {
     const cardsForColumns = await Promise.all(
