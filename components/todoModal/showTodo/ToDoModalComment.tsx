@@ -7,8 +7,9 @@ interface CommentProps {
   id: number;
   user: any;
   comment: any;
-  onEditComment: (id: number, editedComment: string) => void;
-  onDeleteComment: (id: number) => void;
+  content: string;
+  onEditComment: (id: any, editedComment: string) => void;
+  onDeleteComment: (id: any) => void;
 }
 
 // 이게 댓글 ui입니다.
@@ -16,6 +17,7 @@ const ToDoModalComment = ({
   id,
   user,
   comment,
+  content,
   onEditComment,
   onDeleteComment,
 }: CommentProps) => {
@@ -26,7 +28,7 @@ const ToDoModalComment = ({
     setIsEditing(true);
   };
 
-  const handleSaveEdit = () => {
+  const handleSaveEdit = (id: any, editedComment: string) => {
     onEditComment(id, editedComment);
     setIsEditing(false);
   };
@@ -36,10 +38,10 @@ const ToDoModalComment = ({
     setEditedComment(comment.text || "");
   };
 
-  const handleDeleteComment = () => {
+  const handleDeleteComment = (id: any) => {
     onDeleteComment(id);
   };
-
+  console.log("댓글id", id);
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
@@ -59,11 +61,17 @@ const ToDoModalComment = ({
         {isEditing ? (
           <S.ModalEditComment>
             <textarea
-              value={editedComment}
+              defaultValue={content}
               onChange={(e) => setEditedComment(e.target.value)}
             />
             <div>
-              <Button onClick={handleSaveEdit}>저장</Button>
+              <Button
+                onClick={() => {
+                  handleSaveEdit(id, editedComment);
+                }}
+              >
+                저장
+              </Button>
               <Button onClick={handleCancelEdit}>취소</Button>
             </div>
           </S.ModalEditComment>
@@ -72,7 +80,7 @@ const ToDoModalComment = ({
             <span>{comment.content}</span>
             <ul>
               <li onClick={handleEditComment}>수정</li>
-              <li onClick={handleDeleteComment}>삭제</li>
+              <li onClick={() => handleDeleteComment(id)}>삭제</li>
             </ul>
           </div>
         )}
