@@ -36,7 +36,7 @@ export const cardImg = styled.div`
   overflow: hidden;
   position: relative;
   @media all and (max-width: 1199px) {
-    width: 10rem;
+    min-width: 10rem;
     height: 5.3rem;
   }
   & img {
@@ -117,6 +117,12 @@ export const tagDate = styled.div`
     flex-direction: row;
     align-items: center; // 자식들이 세로 중앙에 오도록 조정
   }
+`;
+export const cardDescription = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 30rem;
 `;
 export const text = styled.div`
   width: 100%;

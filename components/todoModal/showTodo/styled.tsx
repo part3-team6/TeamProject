@@ -21,15 +21,35 @@ export const ModalBG = styled.div`
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
 `;
 
 export const ModalContainer = styled.div`
-  width: 730px;
+  width: 73rem;
+  height: 100%;
+  max-width: 730px;
   max-height: 763px;
   position: relative;
   border: 1px solid var(--gray-D9D9D9);
   border-radius: 10px;
   background-color: var(--white-FFFFFF);
+
+  @media all and (max-width: 1199px) {
+    width: 68rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 36.7rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0.3rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--violet-5534DA);
+      border-radius: 6px;
+    }
+  }
 `;
 
 export const ModalHeader = styled.div`
@@ -120,6 +140,13 @@ export const ToDoModalUser = styled.div`
   top: 85px;
   right: 28px;
 
+  @media all and (max-width: 767px) {
+    width: 100%;
+    height: auto;
+    flex-direction: row;
+    position: static;
+  }
+
   & > div {
     height: 45px;
     display: flex;
@@ -153,6 +180,9 @@ export const ModalContent = styled.div`
   max-height: 663px;
   padding: 0 28px;
   position: relative;
+  @media all and (max-width: 767px) {
+    margin-top: 2rem;
+  }
 `;
 
 export const ModalTag = styled.div`
@@ -197,6 +227,9 @@ export const ModalTag = styled.div`
     height: 22px;
     padding: 0 20px;
     color: var(--gray-D9D9D9);
+    @media all and (max-width: 767px) {
+      padding: 0 1rem;
+    }
   }
 
   & ul li {
@@ -228,20 +261,44 @@ export const ModalWords = styled.p`
   font-weight: 400;
   line-height: 24px;
   padding: 16px 0;
+  word-wrap: break-word;
+  @media all and (max-width: 1199px) {
+    width: 41rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 28.7rem;
+  }
 `;
 
 export const ModalContentImage = styled.div`
   width: 450px;
   height: 200px;
   position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
   & img {
     object-fit: cover;
+  }
+  @media all and (max-width: 1199px) {
+    width: 41rem;
+    height: 24.5rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 28.7rem;
+    height: 16.7rem;
   }
 `;
 
 export const ModalCommentInput = styled.div`
   width: 450px;
   margin-top: 24px;
+
+  @media all and (max-width: 1199px) {
+    width: 41rem;
+  }
+  @media all and (max-width: 767px) {
+    width: 28.7rem;
+  }
 
   & h3 {
     font-size: 16px;
@@ -256,7 +313,7 @@ export const ModalCommentInput = styled.div`
   }
 
   & textarea {
-    width: 450px;
+    width: 100%;
     height: 110px;
     padding: 16px;
     border: 1px solid var(--gray-D9D9D9);
@@ -292,12 +349,18 @@ export const ModalCommentInput = styled.div`
   }
 
   & > ul {
-    width: 450px;
-    max-height: 120px;
+    width: 100%;
+    max-height: 180px;
     margin-top: 20px;
     margin-bottom: 20px;
     overflow-x: hidden;
     overflow-y: auto;
+    @media all and (max-width: 1199px) {
+      max-height: 150px;
+    }
+    @media all and (max-width: 767px) {
+      max-height: 111px;
+    }
   }
 `;
 
