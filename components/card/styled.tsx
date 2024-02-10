@@ -31,7 +31,6 @@ export const card = styled.div`
   }
 `;
 export const cardImg = styled.div`
-  width: 27.4rem;
   height: 16rem;
   border-radius: 6px;
   overflow: hidden;
@@ -45,6 +44,7 @@ export const cardImg = styled.div`
   }
   @media all and (max-width: 767px) {
     width: 100%;
+    height: 16rem;
   }
 `;
 export const cardTitle = styled.div`
@@ -120,9 +120,6 @@ export const tagDate = styled.div`
 `;
 export const text = styled.div`
   width: 100%;
-  @media all and (max-width: 1199px) {
-    width: 80%;
-  }
   @media all and (max-width: 767px) {
     width: 100%;
   }
