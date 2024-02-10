@@ -5,8 +5,10 @@ import EditModal from "../editTodoModal/editModal";
 import { useTodoModalStore } from "@/store/todoModal";
 import axiosInstance from "@/lib/axios";
 import { CardProps } from "@/public/prop/props";
+import axios from "@/lib/axios";
 
-const toDoModalOption = () => {
+// id 프롭은 cardId입니다.
+const toDoModalOption = ({ closeShowCardModal, id, columnId }: any) => {
   const [rendered, setRendered] = useState<ReactElement | null>(null);
   const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
@@ -25,12 +27,23 @@ const toDoModalOption = () => {
     }
   };
 
+  // 이 형식으로 보내야함
+  // {
+  //   "columnId": 0,
+  //   "assigneeUserId": 0,
+  //   "title": "string",
+  //   "description": "string",
+  //   "dueDate": "string",
+  //   "tags": [
+  //     "string"
+  //   ],
+  //   "imageUrl": "string"
+  // }
+
   const editCard = async (newCard: CardProps) => {
     try {
-      const response = await axiosInstance.post(
-        `cards/${editedCardId}`,
-        newCard,
-      );
+      const response = await axiosInstance.post(`cards/${id}`, newCard);
+      console.log("editCard라는함수", response);
 
       if (response.status === 200) {
         setCards((prevCard: CardProps[]) => {
@@ -52,15 +65,18 @@ const toDoModalOption = () => {
     setIsEditCardOpen(false);
   };
 
-  const onDeleteCard = () => {
-    console.log(`delete button clicked`);
+  // 카드 삭제 기능인데 랜더링을 어떻게 시켜야할지 모르겠음.
+  const onDeleteCard = async (id: any) => {
+    const response = await axios.delete(`cards/${id}`);
+    closeShowCardModal();
+    console.log(`새로고침하면 삭제가 되어있을겁니다.`);
   };
 
   return (
     <S.ModalOption>
       <div>
         <Button children="수정하기" onClick={onModifyCard} />
-        <Button children="삭제하기" onClick={onDeleteCard} />
+        <Button children="삭제하기" onClick={() => onDeleteCard(id)} />
       </div>
       {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때
         <EditModal

@@ -47,6 +47,10 @@ export interface NewCard {
   imageUrl?: string;
 }
 
+export interface columnId {
+  columnId: number;
+}
+
 export interface ModalProps {
   columnName: string;
   user: {
@@ -58,4 +62,6 @@ export interface ModalProps {
   deadline: string;
   tags?: string[];
   img?: string;
+  cardid: number;
+  columnId: columnId;
 }

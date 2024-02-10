@@ -6,6 +6,7 @@ import { CardProps, ColumnProps } from "@/public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
 
 export default function CardItem({
+  columnId,
   column,
   cards,
   openEditColumnModal,
@@ -15,6 +16,7 @@ export default function CardItem({
   cards: CardProps[];
   openEditColumnModal: (columnId: number) => void;
   openCreateCardModal: (columnId: number) => void;
+  columnId: any;
 }) {
   const { isShowCardOpen, setIsShowCardOpen, editedCardId, setEditedCardId } =
     useTodoModalStore();
@@ -23,9 +25,11 @@ export default function CardItem({
     setEditedCardId(cardId);
     setIsShowCardOpen(true);
   };
+  console.log("ddd", cards);
 
   const selectedCard = cards.find((card) => card.id === editedCardId);
-  console.log(selectedCard);
+  // console.log("이게 카드클릭시나오는 id값인가..?",selectedCard?.id);
+  console.log("이게 카드클릭시나오는 id값인가..?", selectedCard);
   return (
     <S.cards>
       <S.cardsTitle>
@@ -87,6 +91,8 @@ export default function CardItem({
           deadline={selectedCard.dueDate}
           tags={selectedCard.tags}
           img={selectedCard.imageUrl}
+          cardid={selectedCard.id}
+          columnId={columnId}
         />
       )}
     </S.cards>
