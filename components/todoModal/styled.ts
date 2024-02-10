@@ -27,7 +27,6 @@ export const layer = styled.div`
   height: 100vh;
   overflow: scroll;
   position: fixed;
-  padding-top: 13rem;
   top: 0;
   left: 0;
   z-index: 2;
