@@ -161,7 +161,7 @@ export const ModalTag = styled.div`
   justify-content: flex-start;
   align-items: center;
 
-  & div {
+  & > div {
     height: 22px;
     display: flex;
     align-items: center;
@@ -313,9 +313,12 @@ export const ModalCommentImg = styled.div`
   margin-right: 10px;
   position: relative;
 
-  & div {
+  & > div {
     width: 34px;
     height: 34px;
+    text-align: center;
+    line-height: 34px;
+    font-size: 1.6rem;
   }
 `;
 

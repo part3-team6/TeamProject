@@ -8,7 +8,12 @@ import { CardProps } from "@/public/prop/props";
 import axios from "@/lib/axios";
 
 // id 프롭은 cardId입니다.
-const toDoModalOption = ({ closeShowCardModal, id, columnId }: any) => {
+const toDoModalOption = ({
+  closeShowCardModal,
+  id,
+  columnId,
+  openEditCardModal,
+}: any) => {
   const [rendered, setRendered] = useState<ReactElement | null>(null);
   const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
@@ -21,7 +26,7 @@ const toDoModalOption = ({ closeShowCardModal, id, columnId }: any) => {
         <EditModal
           closeEditCardModal={closeEditCardModal}
           editCard={editCard}
-          columnId={columnId} // 임시로 초기값 0으로 해놓음. 나중에 삭제.
+          columnId={columnId}
         />,
       );
     }
@@ -76,7 +81,7 @@ const toDoModalOption = ({ closeShowCardModal, id, columnId }: any) => {
   return (
     <S.ModalOption>
       <div>
-        <Button children="수정하기" onClick={onModifyCard} />
+        <Button children="수정하기" onClick={() => openEditCardModal()} />
         <Button children="삭제하기" onClick={() => onDeleteCard(id)} />
       </div>
       {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때

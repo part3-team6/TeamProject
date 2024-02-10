@@ -108,12 +108,13 @@ const ToDoModal = ({
     if (renderedOption) {
       setRenderedOption(null);
     } else {
-      openEditCardModal();
+      // openEditCardModal();
       setRenderedOption(
         <ToDoModalOption
           closeShowCardModal={closeShowCardModal}
           id={cardid}
           columnId={columnId}
+          openEditCardModal={openEditCardModal}
         />,
       );
     }

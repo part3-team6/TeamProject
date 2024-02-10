@@ -44,7 +44,11 @@ const ToDoModalComment = ({
     <S.ModalComment>
       <S.ModalCommentImg>
         <div>
-          <Image src={user?.profileImageUrl || ""} alt="img" fill />
+          {user?.profileImageUrl ? (
+            <Image src={user?.profileImageUrl || ""} alt="img" fill />
+          ) : (
+            <div>{user?.nickname.slice(0, 1).toUpperCase()}</div>
+          )}
         </div>
       </S.ModalCommentImg>
       <S.ModalCommentContainer>

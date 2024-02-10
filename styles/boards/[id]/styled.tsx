@@ -12,15 +12,6 @@ export const DashboardContainer = styled.div`
   margin-left: 30rem;
   overflow: scroll;
 
-  &::-webkit-scrollbar {
-    width: 0.3rem;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background: var(--violet-5534DA);
-    border-radius: 6px;
-  }
-
   @media all and (max-width: 1199px) {
     width: calc(100% - 16rem);
     margin-left: 16rem;
@@ -37,6 +28,7 @@ export const DashboardMain = styled.div`
   overflow: scroll;
 
   &::-webkit-scrollbar {
+    width: 0.7rem;
     height: 0.7rem;
   }
 
