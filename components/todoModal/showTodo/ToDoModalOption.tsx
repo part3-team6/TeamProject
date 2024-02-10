@@ -6,7 +6,7 @@ import { useTodoModalStore } from "@/store/todoModal";
 import axiosInstance from "@/lib/axios";
 import { CardProps } from "@/public/prop/props";
 import axios from "@/lib/axios";
-import useColumnsStore from "../../../store/columns";
+import useColumnsStore from "../../../store/boards";
 
 // id 프롭은 cardId입니다.
 const toDoModalOption = ({
@@ -50,7 +50,7 @@ const toDoModalOption = ({
   // 이거 할일 수정카드 모달입니다.
   const editCard = async (newCard: CardProps) => {
     try {
-      const response = await axiosInstance.post(`cards/${id}`, newCard);
+      const response = await axiosInstance.put(`cards/${id}`, newCard);
       console.log("editCard라는함수", response);
 
       if (response.status === 200) {

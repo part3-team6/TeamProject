@@ -6,11 +6,12 @@ import arrowDropDown from "@/public/images/arrowDropDown.svg";
 import calenderToday from "@/public/images/calendarToday.svg";
 import DropDownModal from "@/components/todoModal/dropDownModal";
 import StatusDropDownModal from "./status";
-import DatePicker from "react-datepicker";
+import DatePicker, { registerLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "@/lib/axios";
 import { useRouter } from "next/router";
 import Button from "@/components/modal/modalButton";
+import ko from "date-fns/locale/ko";
 
 interface ColorMap {
   [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐
@@ -337,7 +338,10 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
               placeholderText={"날짜를 선택해 주세요"}
               selected={deadline}
               onChange={(date: Date) => setDeadline(date)}
-              dateFormat="yyyy.MM.dd"
+              dateFormat="yyyy.MM.dd HH:mm"
+              showTimeSelect
+              timeFormat="HH:mm"
+              timeIntervals={30}
               customInput={<S.input style={{ paddingLeft: "3rem" }} />}
             />
             <S.inputTitle>태그</S.inputTitle>
@@ -398,7 +402,7 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
               <Button
                 submit={() => handleEditCard(title, description, columnId)}
               >
-                생성
+                수정
               </Button>
             </S.buttonContainer>
           </form>

@@ -10,7 +10,7 @@ import Modal from "@/components/modal/modal";
 import Image from "next/image";
 import { ColumnsProps, CardProps, NewCard } from "../../../public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
-import useColumnsStore from "../../../store/columns";
+import useColumnsStore from "../../../store/boards";
 
 export default function boardsById() {
   const [cards, setCards] = useState<CardProps[]>([]);
