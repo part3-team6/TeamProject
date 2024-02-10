@@ -342,11 +342,13 @@ const CreateModal = ({
                     columnId: columnId,
                     title,
                     description,
-                    dueDate: formatDate(
-                      new Date(
-                        deadline?.getTime() + 9 * 60 * 60 * 1000,
-                      )?.toISOString() || "",
-                    ), // 날짜를 ISO 문자열로
+                    dueDate: deadline
+                      ? formatDate(
+                          new Date(
+                            deadline.getTime() + 9 * 60 * 60 * 1000,
+                          ).toISOString(),
+                        )
+                      : "", // 날짜를 ISO 문자열로
                     tags,
                     imageUrl: image ? image : "", // 미리보기 이미지 URL 사용
                   })
