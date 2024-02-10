@@ -28,7 +28,6 @@ export default function CardItem({
   console.log("ddd", cards);
 
   const selectedCard = cards.find((card) => card.id === editedCardId);
-  // console.log("이게 카드클릭시나오는 id값인가..?",selectedCard?.id);
   console.log("이게 카드클릭시나오는 id값인가..?", selectedCard);
   return (
     <S.cards>

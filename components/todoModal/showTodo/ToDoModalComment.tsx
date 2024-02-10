@@ -5,18 +5,13 @@ import { useState } from "react";
 
 interface CommentProps {
   id: number;
-  user: {
-    name: string;
-    image?: string;
-  };
-  comment: {
-    text: string;
-    time: string;
-  };
+  user: any;
+  comment: any;
   onEditComment: (id: number, editedComment: string) => void;
   onDeleteComment: (id: number) => void;
 }
 
+// 이게 댓글 ui입니다.
 const ToDoModalComment = ({
   id,
   user,
@@ -49,13 +44,13 @@ const ToDoModalComment = ({
     <S.ModalComment>
       <S.ModalCommentImg>
         <div>
-          <Image src={user?.image || ""} alt="img" fill />
+          <Image src={user?.profileImageUrl || ""} alt="img" fill />
         </div>
       </S.ModalCommentImg>
       <S.ModalCommentContainer>
         <div>
-          <h1>{user.name}</h1>
-          <p>{comment.time}</p>
+          <h1>{user.nickname}</h1>
+          <p>{comment.createdAt}</p>
         </div>
         {isEditing ? (
           <S.ModalEditComment>
@@ -70,7 +65,7 @@ const ToDoModalComment = ({
           </S.ModalEditComment>
         ) : (
           <div>
-            <span>{comment.text}</span>
+            <span>{comment.content}</span>
             <ul>
               <li onClick={handleEditComment}>수정</li>
               <li onClick={handleDeleteComment}>삭제</li>

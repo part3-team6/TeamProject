@@ -206,7 +206,11 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   // }
 
   // 이걸로 한번 만들어보겠습니다.
-  const handleEditCard = (title: string, description: string) => {
+  const handleEditCard = (
+    title: string,
+    description: string,
+    columnId: number,
+  ) => {
     const newCard = {
       columnId: columnId,
       title: title,
@@ -391,7 +395,9 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
             </S.ImageContainer>
             <S.buttonContainer>
               <S.cancelButton onClick={closeEditCardModal}>취소</S.cancelButton>
-              <Button submit={() => handleEditCard(title, description)}>
+              <Button
+                submit={() => handleEditCard(title, description, columnId)}
+              >
                 생성
               </Button>
             </S.buttonContainer>

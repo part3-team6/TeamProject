@@ -24,6 +24,7 @@ const ToDoModal = ({
 }: ModalProps) => {
   const router = useRouter();
   const { id } = router.query;
+  const [commentLists, setCommnetLists] = useState<any>(null); // 이게 댓글 api 따오는겁니다.
   const [column, setColumn] = useState("");
   const [comment, setComment] = useState<string>("");
   const [comments, setComments] = useState<{ text: string; time: string }[]>(
@@ -66,7 +67,7 @@ const ToDoModal = ({
       // 필요한 데이터 빼내서 ui그리시면 됩니다 commentList();이 함수로 (콘솔까지 찍어둿으니 테스트해보실려면
       // 댓글 하나 생성해보시면 바로 알수있습니다.)
       commentList();
-      console.log("댓글 생성된거 다 짜고 지워줘요", response);
+      console.log("댓글 보낼때POST", response);
     } catch (error: any) {
       console.error("댓글 생성에러", error);
     }
@@ -74,8 +75,9 @@ const ToDoModal = ({
 
   const commentList = async () => {
     try {
-      const response = await axios.get(`comments?size=10&cardId=3004`);
-      console.log("댓글목록 다 짜고 지워줘요", response);
+      const response = await axios.get(`comments?size=10&cardId=${cardid}`);
+      setCommnetLists(response.data.comments);
+      console.log("댓글목록GET", response);
     } catch (error: any) {
       console.error("댓글 목록 조회 에러", error);
     }
@@ -108,7 +110,11 @@ const ToDoModal = ({
     } else {
       openEditCardModal();
       setRenderedOption(
-        <ToDoModalOption closeShowCardModal={closeShowCardModal} id={cardid} />,
+        <ToDoModalOption
+          closeShowCardModal={closeShowCardModal}
+          id={cardid}
+          columnId={columnId}
+        />,
       );
     }
   };
@@ -126,11 +132,14 @@ const ToDoModal = ({
     updatedComments.splice(id, 1);
     setComments(updatedComments);
   };
+  useEffect(() => {
+    commentList();
+  }, []);
 
   useEffect(() => {
     setColumn(columnName);
   }, [columnName]);
-
+  console.log("여기 봐야합니다", commentLists);
   return (
     <S.ModalBG>
       <S.ModalContainer>
@@ -171,11 +180,11 @@ const ToDoModal = ({
               <Button children="입력" onClick={commnetNew} />
             </div>
             <ul>
-              {comments.map((commentItem, index) => (
+              {commentLists?.map((commentItem: any, index: any) => (
                 <ToDoModalComment
                   key={index}
                   id={index}
-                  user={user}
+                  user={commentItem.author}
                   comment={commentItem}
                   onEditComment={handleEditComment}
                   onDeleteComment={() => handleDeleteComment(index)}
