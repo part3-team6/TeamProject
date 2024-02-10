@@ -40,6 +40,7 @@ const toDoModalOption = ({ closeShowCardModal, id, columnId }: any) => {
   //   "imageUrl": "string"
   // }
 
+  // 이거 할일 수정카드 모달입니다.
   const editCard = async (newCard: CardProps) => {
     try {
       const response = await axiosInstance.post(`cards/${id}`, newCard);

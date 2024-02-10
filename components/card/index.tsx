@@ -70,7 +70,7 @@ export default function CardItem({
                   </S.dateImg>
                   <span>{item.dueDate}</span>
                 </S.date>
-
+                {/* 여기가 동규님이 말한 작성자 프로필입니다. */}
                 <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
               </S.dateWrap>
             </S.tagDate>
