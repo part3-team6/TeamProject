@@ -371,13 +371,24 @@ export const DatePick = styled.input`
 
 export const TagContainer = styled.div`
   display: flex;
+  position: relative;
   height: 4.8rem;
   flex-wrap: wrap;
+  gap: 0.8rem;
   align-items: center;
   background: var(--white-FFFFFF);
   border: 1px solid var(--gray-D9D9D9);
   border-radius: 6px;
   padding-left: 1.6rem;
+`;
+
+export const TagWrapper = styled.div`
+  display: inline-flex;
+  align-items: center;
+  background: var(--light-gray);
+  border-radius: 4px;
+  padding: 0.2rem 0.6rem;
+  font-size: 0.8rem;
 `;
 
 export const Tag = styled.span`

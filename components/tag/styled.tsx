@@ -37,3 +37,13 @@ export const tag = styled.div<{ length: number }>`
     }};
   }
 `;
+
+export const Delete = styled.div`
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0.5rem;
+
+  background-color: var(--gray-FAFAFA);
+`;
