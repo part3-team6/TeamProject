@@ -10,11 +10,11 @@ import Modal from "@/components/modal/modal";
 import Image from "next/image";
 import { ColumnsProps, CardProps, NewCard } from "../../../public/prop/props";
 import { useTodoModalStore } from "@/store/todoModal";
+import useColumnsStore from "../../../store/columns";
 
 export default function boardsById() {
-  const [columns, setColumns] = useState<ColumnsProps>();
   const [cards, setCards] = useState<CardProps[]>([]);
-
+  const { columns, setColumns, setPageId } = useColumnsStore();
   const {
     // cards,
     // setCards,
@@ -244,12 +244,14 @@ export default function boardsById() {
     if (id) {
       getColumns();
     }
+    setPageId(id);
   }, [id, isCreateColumnOpen]);
 
   useEffect(() => {
     if (columns?.data && columns.data.length > 0) {
       getCardsForAllColumns();
     }
+    console.log("columns", columns);
   }, [columns]);
 
   useEffect(() => {
