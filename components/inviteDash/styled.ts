@@ -129,7 +129,7 @@ export const menuDiv = styled.div`
   }
 
   @media (max-width: 767px) {
-    padding: 1.6rem 0 1.2rem 1.6rem;
+    padding: 1rem 0 1.2rem 1rem;
     gap: 1rem;
   }
 `;
