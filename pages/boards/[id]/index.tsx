@@ -85,7 +85,7 @@ export default function boardsById() {
   const addCard = async (newCard: NewCard) => {
     try {
       const response = await axiosInstance.post(`cards`, newCard);
-      console.log("test", response);
+      console.log("testddd", response);
       if (response.status === 201) {
         setCards((prevCards: CardProps[]) => {
           if (!prevCards) {
@@ -202,20 +202,22 @@ export default function boardsById() {
     }
   };
 
-  const getCardsForColumn = async (columnId: number) => {
+  const getCardsForColumn = async (columnId?: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
+      console.log("이게 카드목록입니다", response.data);
       return response.data;
     } catch (error) {
       console.log("getCardsForColumn API 호출 오류", error);
       return [];
     }
   };
+  console.log("함수밖에서찍은카드목록콘솔", getCardsForColumn());
 
   const getCardsForAllColumns = async () => {
     const cardsForColumns = await Promise.all(
       columns?.data?.map(async (column) => {
-        const cardsForColumn = await getCardsForColumn(Number(column.id));
+        const cardsForColumn = await getCardsForColumn(Number(column?.id));
         return cardsForColumn;
       }) || [],
     );
@@ -280,6 +282,7 @@ export default function boardsById() {
                 )} // columnId를 비교하여 현재 column에 속한 카드만 보여줌
                 openEditColumnModal={openEditColumnModal}
                 openCreateCardModal={() => openCreateCardModal(column.id)}
+                columnId={column.id}
               />
             </S.Column>
           ))}
