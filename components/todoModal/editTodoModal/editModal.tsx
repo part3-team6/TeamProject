@@ -47,7 +47,7 @@ function EditModal({
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
   const [memberList, setMemberList] = useState<any[]>([]);
   const [deadline, setDeadline] = useState<Date | undefined>();
-  const [tags, setTags] = useState<string[]>([selectedCard.tags]);
+  const [tags, setTags] = useState<string[]>(selectedCard.tags);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
   const [image, setImage] = useState<string>(selectedCard.imageUrl);
   const [imagePreview, setImagePreview] = useState<any>("");
@@ -208,7 +208,7 @@ function EditModal({
     title: string,
     description: string,
     isColumn: number,
-    assigneeUserId?: number,
+    selectedManager: any,
     deadline?: Date | undefined,
     tags?: string[],
     image?: string,
@@ -259,6 +259,7 @@ function EditModal({
                 <S.inputTitle>상태</S.inputTitle>
                 <S.arrowDropContainer onClick={handleStatusDropDownClick}>
                   <S.statusInput
+                    placeholder="상태를 선택해주세요"
                     value={selectedStatusTitle}
                     readOnly
                   ></S.statusInput>
@@ -281,7 +282,10 @@ function EditModal({
 
               <S.flexContainers>
                 <S.inputTitle>담당자</S.inputTitle>
-                <div style={{ position: "relative" }}>
+                <div
+                  style={{ position: "relative" }}
+                  onClick={handleManagerDropDownClick}
+                >
                   <S.managerInput
                     placeholder="스크롤로 찾고 프로필을 클릭해 주세요"
                     value={selectedManager ? selectedManager.nickname : ""}
@@ -324,7 +328,6 @@ function EditModal({
                       top: "20%",
                       right: "1rem",
                     }}
-                    onClick={handleManagerDropDownClick}
                   >
                     <Image
                       src={arrowDropDown}
@@ -377,7 +380,7 @@ function EditModal({
             <S.TagContainer>
               <Tag tags={tags} removeTag={removeTag}></Tag>
               <S.TagInput
-                defaultValue={tags}
+                // defaultValue={tags}
                 value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value);
