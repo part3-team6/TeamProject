@@ -1,5 +1,20 @@
 import styled from "styled-components";
 
+export const CardWrapper = styled.div`
+  width: 32.9rem; //31.4
+  padding: 0.5rem;
+  background-color: var(--white-FFFFFF);
+
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-D9D9D9);
+
+  @media all and (max-width: 1199px) {
+    width: 100%;
+  }
+  @media all and (max-width: 767px) {
+  }
+`;
+
 export const card = styled.div`
   width: 31.4rem;
   display: flex;
@@ -48,7 +63,8 @@ export const cardImg = styled.div`
   }
 `;
 export const cardTitle = styled.div`
-  font-size: 1.6rem;
+  font-size: 1.8rem;
+  font-weight: 800;
   color: var(--black-333236);
   margin-bottom: 1.2rem;
 `;
@@ -129,16 +145,20 @@ export const cardDescription = styled.div`
 `;
 export const text = styled.div`
   width: 100%;
+  padding-left: 1rem;
+
   @media all and (max-width: 767px) {
     width: 100%;
   }
 `;
 export const cards = styled.div`
-  width: 35.4rem;
+  width: 36.9rem;
   padding: 2rem;
   border-right: 1px solid var(--gray-EEEEEE);
+  background-color: var(--gray-FAFAFA);
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.6rem;
   border-bottom: 1px solid var(--gray-D9D9D9);
   @media all and (max-width: 1199px) {
