@@ -41,7 +41,20 @@ const ToDoModalComment = ({
   const handleDeleteComment = (id: any) => {
     onDeleteComment(id);
   };
-  console.log("댓글id", id);
+  const isoDateString = comment.createdAt;
+  const date = new Date(isoDateString);
+
+  const formattedDate =
+    date.getFullYear() +
+    "-" +
+    ("0" + (date.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + date.getDate()).slice(-2) +
+    " " +
+    ("0" + date.getHours()).slice(-2) +
+    ":" +
+    ("0" + date.getMinutes()).slice(-2);
+
   return (
     <S.ModalComment>
       <S.ModalCommentImg>
@@ -56,7 +69,7 @@ const ToDoModalComment = ({
       <S.ModalCommentContainer>
         <div>
           <h1>{user.nickname}</h1>
-          <p>{comment.createdAt}</p>
+          <p>{formattedDate}</p>
         </div>
         {isEditing ? (
           <S.ModalEditComment>
