@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const ToDoModalTag = (props: { tags?: string[] | any }) => {
   const { tags } = props;
-  const [tagsMore, setTagsMore] = useState(false);
+  const [tagsMore, setTagsMore] = useState<boolean>(false);
 
   return (
     <ul>
