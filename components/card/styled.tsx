@@ -90,8 +90,11 @@ export const colors = styled.div`
   align-items: center;
   justify-content: center;
   color: #fff;
+  overflow: hidden;
 
   background-color: skyblue;
+
+  position: relative;
 `;
 export const date = styled.div`
   display: flex;
