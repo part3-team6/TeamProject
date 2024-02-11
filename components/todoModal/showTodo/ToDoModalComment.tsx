@@ -25,6 +25,7 @@ const ToDoModalComment = ({
   const [editedComment, setEditedComment] = useState(comment.text || "");
 
   const handleEditComment = () => {
+    setEditedComment(comment.text || "");
     setIsEditing(true);
   };
 
@@ -35,7 +36,6 @@ const ToDoModalComment = ({
 
   const handleCancelEdit = () => {
     setIsEditing(false);
-    setEditedComment(comment.text || "");
   };
 
   const handleDeleteComment = (id: any) => {
