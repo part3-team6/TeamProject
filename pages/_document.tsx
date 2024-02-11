@@ -39,7 +39,13 @@ export default class MyDocument extends Document {
   render() {
     return (
       <Html lang="ko">
-        <Head />
+        <Head>
+          <link rel="icon" href="/images/logoNavMobile.svg" />
+          <title>Taskify</title>
+          <meta property="og:title" content="Taskify" />
+          <meta property="og:description" content="Taskify 할일 관리" />
+          <meta property="og:image" content="/images/logoNavMobile.svg" />
+        </Head>
         <body>
           <Main />
           <NextScript />
