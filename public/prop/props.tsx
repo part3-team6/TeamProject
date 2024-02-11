@@ -25,7 +25,6 @@ export interface CardProps {
   dueDate: string;
   assignee: {
     profileImageUrl: string;
-    porfileImageUrl: string;
     nickname: string;
     id: number;
   };
