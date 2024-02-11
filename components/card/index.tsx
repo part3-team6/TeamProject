@@ -71,9 +71,15 @@ export default function CardItem({
                   </S.dateImg>
                   <span>{item.dueDate}</span>
                 </S.date>
-                {/* 여기가 동규님이 말한 작성자 프로필입니다. */}
-                {item.assignee?.porfileImageUrl ? (
-                  <S.colors>{item.assignee?.porfileImageUrl}</S.colors>
+
+                {item.assignee?.profileImageUrl ? (
+                  <S.colors>
+                    <Image
+                      src={item.assignee?.profileImageUrl}
+                      alt="이미지url"
+                      fill
+                    />
+                  </S.colors>
                 ) : (
                   <S.colors>
                     {item.assignee?.nickname.slice(0, 1).toUpperCase()}
