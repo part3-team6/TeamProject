@@ -21,6 +21,7 @@ const ToDoModal = ({
   img,
   cardid,
   columnId,
+  selectedCard,
 }: ModalProps) => {
   const router = useRouter();
   const { id } = router.query;
@@ -115,6 +116,7 @@ const ToDoModal = ({
           id={cardid}
           columnId={columnId}
           openEditCardModal={openEditCardModal}
+          selectedCard={selectedCard}
         />,
       );
     }

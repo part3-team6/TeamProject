@@ -86,7 +86,7 @@ export default function boardsById() {
       throw Error(`getDashboardData 에러 ${e}`);
     }
   };
-
+  // 여기 입니다. 이름 윤수 동규 필겸 범승 욱희
   const addCard = async (newCard: NewCard) => {
     try {
       const response = await axiosInstance.post(`cards`, newCard);

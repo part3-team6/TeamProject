@@ -21,14 +21,21 @@ interface EditModalProps {
   closeEditCardModal: () => void;
   editCard: (newCard: any) => void;
   columnId: number;
+  selectedCard?: any;
 }
 
-function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
+function EditModal({
+  closeEditCardModal,
+  editCard,
+  columnId,
+  selectedCard,
+}: EditModalProps) {
+  // console.table(selectedCard);
   const router = useRouter();
   const { id } = router.query;
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState(selectedCard.title);
+  const [description, setDescription] = useState(selectedCard.description);
   const [statusDropDown, setStatusDropDown] = useState(false);
   const [managerDropDown, setManagerDropDown] = useState(false);
   const [selectedManager, setSelectedManager] = useState<{
@@ -38,12 +45,12 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   } | null>(null);
   const [selectedMemberIndex, setSelectedMemberIndex] = useState(0);
   const [memberList, setMemberList] = useState<any[]>([]);
-  const [deadline, setDeadline] = useState<Date>();
-  const [tags, setTags] = useState<string[]>([]);
+  const [deadline, setDeadline] = useState<Date | undefined>();
+  const [tags, setTags] = useState<string[]>([selectedCard.tags]);
   const [inputValue, setInputValue] = useState(""); // 태그 인풋밸류
-  const [image, setImage] = useState<string | null>("");
+  const [image, setImage] = useState<string>(selectedCard.imageUrl);
   const [imagePreview, setImagePreview] = useState<any>("");
-
+  const [isColumn, setIsColumn] = useState<number>();
   const [statusTitles, setStatusTitles] = useState([]);
   const [selectedStatusTitle, setSelectedStatusTitle] = useState("");
 
@@ -82,7 +89,7 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
     }
   };
 
-  const uploadImage = async (file: string | Blob) => {
+  const uploadImage = async (file: File) => {
     const formData = new FormData();
     formData.append("image", file);
 
@@ -116,7 +123,8 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   };
 
   // 상태창 제목 조작 함수
-  const handleSelectStatusTitle = (title: string) => {
+  const handleSelectStatusTitle = (title: string, id: number) => {
+    setIsColumn(id);
     setSelectedStatusTitle(title);
     setStatusDropDown(false); // 드롭다운 닫기
   };
@@ -206,21 +214,53 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
   //   "imageUrl": "string"
   // }
 
-  // 이걸로 한번 만들어보겠습니다.
+  // ++ input 창에 defalutValue값 초기값 따와서 넣기
+  // 카드 생성 모달 만들때 있던 값들 프롭으로 받아와서 넘겨주기 한번에
+
   const handleEditCard = (
     title: string,
     description: string,
-    columnId: number,
+    isColumn: number,
+    assigneeUserId?: number,
+    deadline?: Date | undefined,
+    tags?: string[],
+    image?: string,
   ) => {
+    const NewTime = () => {
+      if (deadline !== undefined) {
+        const formattedDueDate = `${deadline?.getFullYear()}-${(
+          deadline.getMonth() + 1
+        )
+          .toString()
+          .padStart(2, "0")}-${deadline
+          .getDate()
+          .toString()
+          .padStart(2, "0")} ${deadline
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${deadline
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}`;
+        return formattedDueDate;
+      }
+    };
+
     const newCard = {
-      columnId: columnId,
+      assigneeUserId: selectedManager?.id,
+      columnId: isColumn,
       title: title,
       description: description,
+      dueDate: NewTime(),
+      tags: tags,
+      imageUrl: image,
     };
     editCard(newCard);
     closeEditCardModal();
   };
-
+  console.log("selectedManagerdddddddddd", selectedManager?.id);
+  console.log("tags", tags);
+  // console.log("select", selectedCard);
   return (
     <>
       <S.layer>
@@ -312,12 +352,14 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
 
             <S.inputTitle>제목 *</S.inputTitle>
             <S.input
+              defaultValue={selectedCard.title}
               placeholder="제목을 입력해 주세요"
               value={title}
               onChange={handleTitleChange}
             />
             <S.inputTitle>설명 *</S.inputTitle>
             <S.descriptionInput
+              defaultValue={selectedCard.description}
               value={description}
               placeholder="설명을 입력해 주세요"
               onChange={handleDescriptionChange}
@@ -363,6 +405,7 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
                 </S.Tag>
               ))}
               <S.TagInput
+                defaultValue={tags}
                 value={inputValue}
                 onChange={(e) => {
                   setInputValue(e.target.value);
@@ -400,10 +443,27 @@ function EditModal({ closeEditCardModal, editCard, columnId }: EditModalProps) {
             <S.buttonContainer>
               <S.cancelButton onClick={closeEditCardModal}>취소</S.cancelButton>
               <Button
-                submit={() => handleEditCard(title, description, columnId)}
+                submit={() =>
+                  handleEditCard(
+                    title,
+                    description,
+                    columnId,
+                    selectedManager?.id,
+                    deadline,
+                    tags,
+                    image,
+                  )
+                }
               >
                 수정
               </Button>
+              {/* <Button
+                submit={() =>
+                  handleEditCard(title, description, columnId, deadline, tags, imagePreview)
+                }
+              >
+                수정
+              </Button> */}
             </S.buttonContainer>
           </form>
         </S.container>

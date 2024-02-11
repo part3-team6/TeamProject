@@ -64,4 +64,5 @@ export interface ModalProps {
   img?: string;
   cardid: number;
   columnId: columnId;
+  selectedCard: any;
 }
