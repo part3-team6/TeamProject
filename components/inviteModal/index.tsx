@@ -81,7 +81,7 @@ function InviteModal() {
   useEffect(() => {
     //이메일인지 검사하고 맞으면 true값 반환
     const reg =
-      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+      /^(?!\s*$)[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
     setCanIInvite(reg.test(inviteEmailInput));
   }, [inviteEmailInput]);
 
@@ -105,6 +105,7 @@ function InviteModal() {
             submit={handleInviteEmail}
             value={setInviteEmailInput}
             handleModalEsc={handleModalEsc}
+            disabled={canIInvite}
           />
         </S.ModalContainer>
       ) : (
