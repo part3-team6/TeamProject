@@ -251,7 +251,7 @@ function EditModal({
   return (
     <>
       <S.layer>
-        <S.container style={{ height: "98rem" }}>
+        <S.container>
           <form>
             <S.mainTitle>할 일 수정</S.mainTitle>
             <S.flexContainer>

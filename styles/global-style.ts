@@ -28,6 +28,7 @@ const GlobalStyle = createGlobalStyle`
   * {
   margin: 0;
   padding: 0;
+  border:none;
   box-sizing: border-box;
   text-decoration: none;
   font-family: Pretendard;

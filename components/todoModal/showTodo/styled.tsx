@@ -38,6 +38,7 @@ export const ModalContainer = styled.div`
   }
   @media all and (max-width: 767px) {
     width: 36.7rem;
+    max-height: 65rem;
     overflow-y: auto;
     overflow-x: hidden;
     &::-webkit-scrollbar {
@@ -118,6 +119,9 @@ export const ToDoImg = styled.div`
   width: 2rem;
   height: 2rem;
   position: relative;
+  border-radius: 99px;
+  overflow: hidden;
+
   & > div {
     position: absolute;
     left: 50%;
@@ -219,6 +223,9 @@ export const ModalTag = styled.div`
     align-items: center;
     flex-wrap: wrap;
     gap: 10px;
+    @media all and (max-width: 767px) {
+      width: 19rem;
+    }
   }
 
   & p {

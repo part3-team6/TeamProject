@@ -39,11 +39,21 @@ export const container = styled.div`
   height: 90.7rem;
   flex-shrink: 0;
   padding: 3.2rem 38.3rem 2.8rem 2.8rem;
+  border-radius: 9px;
 
   @media (max-width: 767px) {
     width: 32.7rem;
-    height: 83.6rem;
+    height: 90%;
     padding: 2.8rem 22.8rem 2rem 2rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    &::-webkit-scrollbar {
+      width: 0.6rem;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--violet-5534DA);
+      border-radius: 6px;
+    }
   }
 `;
 
@@ -55,6 +65,7 @@ export const mainTitle = styled.p`
 
   @media (max-width: 767px) {
     font-size: 2rem;
+    padding-top: 1.6rem;
   }
 `;
 
@@ -211,9 +222,11 @@ export const buttonContainer = styled.div`
   justify-content: right;
   gap: 1.2rem;
   margin-top: 2.8rem;
+  border: none;
 
   @media (max-width: 767px) {
     justify-content: space-between;
+    padding-bottom: 1.6rem;
   }
 `;
 

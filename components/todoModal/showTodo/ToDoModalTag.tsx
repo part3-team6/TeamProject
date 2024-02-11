@@ -8,11 +8,12 @@ const ToDoModalTag = (props: { tags?: string[] | any }) => {
   return (
     <ul>
       <Tag tags={tagsMore ? tags : tags?.slice(0, 3)} />
-      {!tagsMore && tags.length > 3 ? (
-        <li onClick={() => setTagsMore(true)}>+ {tags.length - 3}</li>
-      ) : (
-        <button onClick={() => setTagsMore(false)}>접기</button>
-      )}
+      {tags.length > 3 &&
+        (tagsMore ? (
+          <li onClick={() => setTagsMore(false)}>접기</li>
+        ) : (
+          <li onClick={() => setTagsMore(true)}>+ {tags.length - 3}</li>
+        ))}
     </ul>
   );
 };
