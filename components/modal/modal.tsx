@@ -13,6 +13,7 @@ export interface ModalProps {
   value: (value: string) => void;
   submit: any;
   handleModalEsc?: any;
+  disabled?: boolean;
   // (e: KeyboardEvent) => void;
 }
 
@@ -32,6 +33,7 @@ function Modal({
   value,
   submit,
   handleModalEsc,
+  disabled,
 }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -71,7 +73,9 @@ function Modal({
           {children}
           <S.buttonFlex>
             <S.cancelButton onClick={cancel}>{cancelButton}</S.cancelButton>
-            <Button submit={submit}>{submitButton}</Button>
+            <Button submit={submit} disabled={disabled}>
+              {submitButton}
+            </Button>
           </S.buttonFlex>
         </S.container>
       </S.background>

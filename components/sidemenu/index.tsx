@@ -173,7 +173,7 @@ function Sidemenu({ myDashboard, id }: SidemenuProps) {
         </Modal>
       )}
       <S.sidemenu>
-        <Link href={`/`}>
+        <Link href={`/mydashboard `}>
           <S.sideLogo>
             {isMobile ? (
               <Image src={"/images/logoNavMobile.svg"} alt="logo" fill />
