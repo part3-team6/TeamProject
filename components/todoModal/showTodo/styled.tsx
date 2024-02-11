@@ -26,7 +26,6 @@ export const ModalBG = styled.div`
 
 export const ModalContainer = styled.div`
   width: 73rem;
-  height: 100%;
   max-width: 730px;
   max-height: 763px;
   position: relative;
