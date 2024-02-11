@@ -208,7 +208,7 @@ export const section = styled.section`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 0 1.6rem 0;
+    padding: 0 0 0 0;
   }
 `;
 
