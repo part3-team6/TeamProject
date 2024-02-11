@@ -176,7 +176,7 @@ const ToDoModal = ({
           </S.ModalTag>
           <S.ModalWords>{content}</S.ModalWords>
           <S.ModalContentImage>
-            <Image src={img || ""} alt="img" fill />
+            {img ? <Image src={img} alt="이미지" fill /> : ""}
           </S.ModalContentImage>
           <S.ModalCommentInput>
             <h3>댓글</h3>

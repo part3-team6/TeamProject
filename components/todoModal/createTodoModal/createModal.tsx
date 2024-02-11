@@ -13,11 +13,6 @@ import Button from "@/components/modal/modalButton";
 import { NewCard } from "@/public/prop/props";
 import ko from "date-fns/locale/ko";
 import Tag from "@/components/tag";
-
-interface ColorMap {
-  [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐
-}
-
 interface createModalProps {
   closeCreateCardModal: () => void;
   addCard: (newCard: NewCard) => void;
@@ -139,7 +134,8 @@ const CreateModal = ({
   };
 
   // 담당자 클릭시 드롭다운 함수
-  const handleManagerDropDownClick = () => {
+  const handleManagerDropDownClick = (e: any) => {
+    e.preventDefault();
     setManagerDropDown(!managerDropDown);
   };
 
@@ -173,7 +169,7 @@ const CreateModal = ({
   useEffect(() => {
     fetchMembers();
   }, []);
-  const utcOffset = 540;
+
   return (
     <>
       <S.layer>
@@ -322,7 +318,7 @@ const CreateModal = ({
                       )?.toISOString() || "",
                     ), // 날짜를 ISO 문자열로
                     tags,
-                    imageUrl: image ? image : "", // 미리보기 이미지 URL 사용
+                    ...(image ? { imageUrl: image } : {}), // 이미지가 있을 경우에만 imageUrl을 포함
                   })
                 }
               />
