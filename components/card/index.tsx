@@ -52,43 +52,49 @@ export default function CardItem({
       </S.card>
 
       {cards.map((item) => (
-        <S.card key={item.id} onClick={() => openShowCardModal(item.id)}>
-          {item.imageUrl && (
-            <S.cardImg>
-              <Image src={item.imageUrl} alt="카드 이미지" fill />
-            </S.cardImg>
-          )}
+        <S.CardWrapper>
+          <S.card key={item.id} onClick={() => openShowCardModal(item.id)}>
+            {item.imageUrl && (
+              <S.cardImg>
+                <Image src={item.imageUrl} alt="카드 이미지" fill />
+              </S.cardImg>
+            )}
 
-          <S.text>
-            <S.cardTitle>{item.title}</S.cardTitle>
-            <S.cardDescription>{item.description}</S.cardDescription>
-            <S.tagDate>
-              <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
-              <S.dateWrap>
-                <S.date>
-                  <S.dateImg>
-                    <Image src={"/images/calendarToday.svg"} alt="날짜" fill />
-                  </S.dateImg>
-                  <span>{item.dueDate}</span>
-                </S.date>
+            <S.text>
+              <S.cardTitle>{item.title}</S.cardTitle>
 
-                {item.assignee?.profileImageUrl ? (
-                  <S.colors>
-                    <Image
-                      src={item.assignee?.profileImageUrl}
-                      alt="이미지url"
-                      fill
-                    />
-                  </S.colors>
-                ) : (
-                  <S.colors>
-                    {item.assignee?.nickname.slice(0, 1).toUpperCase()}
-                  </S.colors>
-                )}
-              </S.dateWrap>
-            </S.tagDate>
-          </S.text>
-        </S.card>
+              <S.tagDate>
+                <S.tagWrap>{item.tags && <Tag tags={item.tags} />}</S.tagWrap>
+                <S.dateWrap>
+                  <S.date>
+                    <S.dateImg>
+                      <Image
+                        src={"/images/calendarToday.svg"}
+                        alt="날짜"
+                        fill
+                      />
+                    </S.dateImg>
+                    <span>{item.dueDate}</span>
+                  </S.date>
+
+                  {item.assignee?.profileImageUrl ? (
+                    <S.colors>
+                      <Image
+                        src={item.assignee?.profileImageUrl}
+                        alt="이미지url"
+                        fill
+                      />
+                    </S.colors>
+                  ) : (
+                    <S.colors>
+                      {item.assignee?.nickname.slice(0, 1).toUpperCase()}
+                    </S.colors>
+                  )}
+                </S.dateWrap>
+              </S.tagDate>
+            </S.text>
+          </S.card>
+        </S.CardWrapper>
       ))}
 
       {isShowCardOpen && selectedCard && (

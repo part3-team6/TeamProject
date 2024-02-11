@@ -80,7 +80,8 @@ export const ColumnButton = styled.button`
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  margin: 2rem;
+  margin: 3.55rem 2rem 3.55rem;
+
   @media all and (max-width: 1199px) {
     min-width: auto;
     width: 100%;
