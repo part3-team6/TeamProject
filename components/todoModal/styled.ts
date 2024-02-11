@@ -43,7 +43,7 @@ export const container = styled.div`
 
   @media (max-width: 767px) {
     width: 32.7rem;
-    height: 90%;
+    max-height: 65rem;
     padding: 2.8rem 22.8rem 2rem 2rem;
     overflow-y: scroll;
     overflow-x: hidden;
