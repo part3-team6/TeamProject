@@ -45,7 +45,7 @@ export const DeleteText = styled.p`
 /// 끝
 
 export const Background = styled.div`
-  height: 100%;
+  height: calc(100vh - 7rem);
   margin-left: 30rem;
   display: flex;
   background: var(--gray-FAFAFA);
@@ -55,6 +55,7 @@ export const Background = styled.div`
   }
 
   @media (max-width: 767px) {
+    height: 100%;
     margin-left: 6.7rem;
   }
 `;
