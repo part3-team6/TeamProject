@@ -10,7 +10,6 @@ export const DashboardWrap = styled.div`
 export const DashboardContainer = styled.div`
   width: calc(100% - 30rem);
   margin-left: 30rem;
-  overflow: scroll;
 
   @media all and (max-width: 1199px) {
     width: calc(100% - 16rem);
