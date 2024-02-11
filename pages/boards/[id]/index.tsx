@@ -203,6 +203,8 @@ export default function boardsById() {
         }
       } catch (error) {
         console.log("deleteColumn API 호출 오류", error);
+      } finally {
+        getColumns();
       }
     }
   };

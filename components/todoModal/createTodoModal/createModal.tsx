@@ -12,6 +12,7 @@ import axios from "@/lib/axios";
 import Button from "@/components/modal/modalButton";
 import { NewCard } from "@/public/prop/props";
 import ko from "date-fns/locale/ko";
+import Tag from "@/components/tag";
 
 interface ColorMap {
   [key: string]: string; // 모든 문자열 키에 대해 string 타입의 값을 가짐
@@ -58,13 +59,18 @@ const CreateModal = ({
   };
 
   // 태그 추가 함수
-  const addTag = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && inputValue) {
-      if (!tags.includes(inputValue)) {
-        setTags([...tags, inputValue]);
-        setInputValue(""); // 입력 필드 초기화
-      }
-      e.preventDefault();
+  const addTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && inputValue.trim()) {
+      e.preventDefault(); // 기본 이벤트 방지
+
+      // 입력이 완료되었는지 약간의 지연 후 확인
+      setTimeout(() => {
+        const currentValue = inputValue.trim();
+        if (!tags.includes(currentValue)) {
+          setTags([...tags, currentValue]);
+          setInputValue(""); // 입력 필드 초기화
+        }
+      }, 100); // 일부러 지연발생시키기(마지막 한글자 추가 안되게끔)
     }
   };
   // 태그 삭제 함수
@@ -164,24 +170,6 @@ const CreateModal = ({
     setDescription(e.target.value);
   };
 
-  const hangeulColorMap: ColorMap = {
-    ㄱ: "#f44336",
-    ㄴ: "#e91e63",
-    ㄷ: "#9c27b0",
-  };
-
-  const getHangeulColor = (tag: string): string => {
-    const firstLetter = tag[0]; // 태그 첫 글자 가져옴
-    return hangeulColorMap[firstLetter] || "#F1EFFD"; // 기본값 흰색
-  };
-  // 태그 색상 지정 함수
-  const getTagStyle = (tag: string): React.CSSProperties => {
-    const tagColor = getHangeulColor(tag);
-    return {
-      backgroundColor: tagColor,
-    };
-  };
-
   useEffect(() => {
     fetchMembers();
   }, []);
@@ -277,22 +265,8 @@ const CreateModal = ({
             />
             <S.inputTitle>태그</S.inputTitle>
             <S.TagContainer>
-              {tags.map((tag, index) => (
-                <S.Tag key={index} style={getTagStyle(tag)}>
-                  {tag}
-                  <button
-                    style={{
-                      marginLeft: "1rem",
-                      width: "1rem",
-                      height: "1.3rem",
-                    }}
-                    type="button"
-                    onClick={() => removeTag(index)}
-                  >
-                    x
-                  </button>
-                </S.Tag>
-              ))}
+              <Tag tags={tags} removeTag={removeTag} />
+
               <S.TagInput
                 value={inputValue}
                 onChange={(e) => {
@@ -348,7 +322,7 @@ const CreateModal = ({
                             deadline.getTime() + 9 * 60 * 60 * 1000,
                           ).toISOString(),
                         )
-                      : "", // 날짜를 ISO 문자열로
+                      : "",
                     tags,
                     imageUrl: image ? image : "", // 미리보기 이미지 URL 사용
                   })
