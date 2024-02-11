@@ -385,7 +385,7 @@ export const DatePick = styled.input`
 export const TagContainer = styled.div`
   display: flex;
   position: relative;
-  height: 4.8rem;
+  min-height: 4.8rem;
   flex-wrap: wrap;
   gap: 0.8rem;
   align-items: center;
