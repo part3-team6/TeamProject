@@ -1,26 +1,29 @@
 import React, { Fragment } from "react";
 import * as S from "@/components/todoModal/styled";
+import useColumnsStore from "@/store/boards";
 
 interface StatusDropDownProps {
   statusTitles: string[];
-  onSelectStatusTitle: (index: string) => void;
+  onSelectStatusTitle: any;
 }
 
 function StatusDropDownModal({
   statusTitles,
   onSelectStatusTitle,
 }: StatusDropDownProps) {
+  const { columns } = useColumnsStore();
+  console.log("statusTitles?", columns.data);
   return (
     <>
       <S.dropDownContainer>
         <S.dropDownWrapper>
-          {statusTitles.map((title, index) => (
+          {columns.data.map((item: any) => (
             <S.statusFrame
-              key={index}
-              onClick={() => onSelectStatusTitle(title)}
+              key={item.id}
+              onClick={() => onSelectStatusTitle(item.title, item.id)}
             >
               <S.statusEllipse />
-              {title}
+              {item.title}
             </S.statusFrame>
           ))}
         </S.dropDownWrapper>

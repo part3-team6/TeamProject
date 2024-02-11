@@ -14,12 +14,13 @@ const toDoModalOption = ({
   id,
   columnId,
   openEditCardModal,
+  selectedCard,
 }: any) => {
   const [rendered, setRendered] = useState<ReactElement | null>(null);
   const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
   const { setColumns, pageId } = useColumnsStore();
-
+  console.log("여기서 selectedCard", selectedCard);
   const onModifyCard = () => {
     if (rendered) {
       setRendered(null);
@@ -29,6 +30,7 @@ const toDoModalOption = ({
           closeEditCardModal={closeEditCardModal}
           editCard={editCard}
           columnId={columnId}
+          selectedCard={selectedCard}
         />,
       );
     }
@@ -98,8 +100,9 @@ const toDoModalOption = ({
       {isEditCardOpen && ( // card 상세에서 수정하기 눌렀을때
         <EditModal
           closeEditCardModal={closeEditCardModal}
+          selectedCard={selectedCard}
           editCard={editCard}
-          columnId={columnId} // 임시로 초기값 0으로 해놓음. 나중에 삭제.
+          columnId={columnId}
         />
       )}
     </S.ModalOption>
