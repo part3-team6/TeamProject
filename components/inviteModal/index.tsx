@@ -90,7 +90,7 @@ function InviteModal() {
       handleSetInviteModalStateFalse();
     }
   };
-  console.log("canIInvite", canIInvite);
+
   return (
     <>
       {inviteModalState ? (

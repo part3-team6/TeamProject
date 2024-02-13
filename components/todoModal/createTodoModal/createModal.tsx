@@ -91,15 +91,6 @@ const CreateModal = ({
     }
   };
 
-  // const fetchCardImage = async () => {
-  //   try {
-  //     const response = await axios.get(`columns/${columnId}/card-image`);
-  //     setImage(response.data.imageUrl);
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const uploadImage = async (file: string | Blob) => {
     const formData = new FormData();
     formData.append("image", file);

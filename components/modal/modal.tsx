@@ -14,7 +14,6 @@ export interface ModalProps {
   submit: any;
   handleModalEsc?: any;
   disabled?: boolean;
-  // (e: KeyboardEvent) => void;
 }
 
 const test: any = {

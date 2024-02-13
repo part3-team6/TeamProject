@@ -25,11 +25,9 @@ export default function CardItem({
     setEditedCardId(cardId);
     setIsShowCardOpen(true);
   };
-  console.log("ddd", cards);
 
   const selectedCard = cards.find((card) => card.id === editedCardId);
-  console.log("이게 카드클릭시나오는 id값입니다", selectedCard);
-  console.log("cards", cards);
+
   return (
     <S.cards>
       <S.cardsTitle>
