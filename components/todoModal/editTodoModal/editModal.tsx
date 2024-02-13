@@ -192,7 +192,7 @@ function EditModal({
   const handleEditCard = (
     title: string,
     description: string,
-    isColumn: number,
+    columnId: number,
     selectedManager: any,
     deadline?: Date | undefined,
     tags?: string[],
@@ -219,7 +219,7 @@ function EditModal({
     };
 
     const newCard = {
-      assigneeUserId: selectedManager?.id,
+      assigneeUserId: selectedManager,
       columnId: isColumn,
       title: title,
       description: description,
@@ -403,6 +403,7 @@ function EditModal({
               <Button
                 submit={() =>
                   handleEditCard(
+                    // isColumn,
                     title,
                     description,
                     columnId,
