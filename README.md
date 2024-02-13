@@ -43,7 +43,7 @@ ESLint: Airbnb
 ## 팀원 정보 및 연락처
 
 - 김윤수 : https://github.com/yunsusu
-- 문필겸 :
-- 김동규 :
-- 김범승 :
+- 문필겸 : https://github.com/MoonPillGyeom
+- 김동규 : https://github.com/DongKyuK12
+- 김범승 : https://github.com/bumsly
 - 조욱희 : https://github.com/AshtonJo
