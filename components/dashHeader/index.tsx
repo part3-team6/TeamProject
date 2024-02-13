@@ -31,7 +31,6 @@ interface HeaderProps {
 
 function Header({ member, title }: HeaderProps) {
   const { user } = useUserStore();
-  // const [member, setMember] = useState(true);
   const [totalMember, setTotalMember] = useState<number>(0);
   const [isTablet, setIsTablet] = useState(true);
   const [currentUser, setCurrentUser] = useState<Member | null>();

@@ -31,7 +31,6 @@ function EditModal({
   columnId,
   selectedCard,
 }: EditModalProps) {
-  // console.table(selectedCard);
   const router = useRouter();
   const { id } = router.query;
 
@@ -110,8 +109,6 @@ function EditModal({
         },
       );
       if (response.status === 201) {
-        // const response = await axios.get(`columns/${columnId}/`);
-        // return response.data.imageUrl;
         return response.data.imageUrl;
       }
     } catch (err) {
@@ -158,7 +155,7 @@ function EditModal({
         profileImageUrl: member.profileImageUrl,
         createdAt: member.createdAt,
       }));
-      console.log("memberList!!!!", memberList);
+
       setMemberList(memberList);
     } catch (error) {
       console.error("회원 가져오기 오류:", error);
@@ -169,7 +166,7 @@ function EditModal({
   async function fetchColumn() {
     try {
       const response = await axios.get(`/columns?dashboardId=${id}`);
-      console.log(response);
+
       setStatusTitles(response.data.data.map((column: any) => column.title));
     } catch (error) {
       console.error("컬럼 가져오기 오류", error);
@@ -188,18 +185,6 @@ function EditModal({
   const handleDescriptionChange = (e: any) => {
     setDescription(e.target.value);
   };
-
-  // {
-  //   "columnId": 0,
-  //   "assigneeUserId": 0,
-  //   "title": "string",
-  //   "description": "string",
-  //   "dueDate": "string",
-  //   "tags": [
-  //     "string"
-  //   ],
-  //   "imageUrl": "string"
-  // }
 
   // ++ input 창에 defalutValue값 초기값 따와서 넣기
   // 카드 생성 모달 만들때 있던 값들 프롭으로 받아와서 넘겨주기 한번에
@@ -245,9 +230,7 @@ function EditModal({
     editCard(newCard);
     closeEditCardModal();
   };
-  console.log("selectedManagerdddddddddd", selectedManager?.id);
-  console.log("tags", tags);
-  // console.log("select", selectedCard);
+
   return (
     <>
       <S.layer>

@@ -86,11 +86,11 @@ export default function boardsById() {
       throw Error(`getDashboardData 에러 ${e}`);
     }
   };
-  // 여기 입니다. 이름 윤수 동규 필겸 범승 욱희
+
   const addCard = async (newCard: NewCard) => {
     try {
       const response = await axiosInstance.post(`cards`, newCard);
-      console.log("testddd", response);
+
       if (response.status === 201) {
         setCards((prevCards: CardProps[]) => {
           if (!prevCards) {
@@ -99,7 +99,6 @@ export default function boardsById() {
           return [...prevCards, response.data];
         });
       } else if (response.status === 400) {
-        console.log("test");
       }
       setIsCreateCardOpen(false);
     } catch (error) {
@@ -212,7 +211,7 @@ export default function boardsById() {
   const getCardsForColumn = async (columnId?: number) => {
     try {
       const response = await axiosInstance.get(`cards?columnId=${columnId}`);
-      console.log("이게 카드목록입니다", response.data);
+
       return response.data;
     } catch (error) {
       console.log("getCardsForColumn API 호출 오류", error);
@@ -227,8 +226,7 @@ export default function boardsById() {
         return cardsForColumn;
       }) || [],
     );
-    // console.log("cardsForColumns", cardsForColumns);
-    // setCards(cardsForColumns);
+
     const allCards = cardsForColumns.reduce((result, columnData) => {
       return result.concat(columnData.cards);
     }, []);
@@ -258,7 +256,6 @@ export default function boardsById() {
     if (columns?.data && columns.data.length > 0) {
       getCardsForAllColumns();
     }
-    console.log("columns", columns);
   }, [columns]);
 
   useEffect(() => {

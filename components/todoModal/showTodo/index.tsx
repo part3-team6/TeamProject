@@ -35,8 +35,6 @@ const ToDoModal = ({
     null,
   );
   const { setIsEditCardOpen, setIsShowCardOpen } = useTodoModalStore();
-  // console.log(comments);
-  console.log(comment);
 
   // Card Edit 모달
   const openEditCardModal = () => {
@@ -52,9 +50,6 @@ const ToDoModal = ({
     setComment(e.target.value);
   };
 
-  // 값 확인하는건데 나중에 지우시면됩니다.
-  // console.log(comment, cardid, columnId, id);
-
   // 댓글 생성기능. 댓글 ui는 api 따로 있습니다. 그걸로 ui그려야하는데 ui잡기엔 시간이 부족해서 우선 생성기능만 만들게요
   const commnetNew = async () => {
     try {
@@ -69,7 +64,7 @@ const ToDoModal = ({
       // 댓글 하나 생성해보시면 바로 알수있습니다.)
       commentList();
       setComment("");
-      console.log("댓글 보낼때POST", response);
+
       setComment("");
     } catch (error: any) {
       console.error("댓글 생성에러", error);
@@ -80,7 +75,6 @@ const ToDoModal = ({
     try {
       const response = await axios.get(`comments?size=10&cardId=${cardid}`);
       setCommnetLists(response.data.comments);
-      console.log("댓글목록GET", response);
     } catch (error: any) {
       console.error("댓글 목록 조회 에러", error);
     }
@@ -100,7 +94,7 @@ const ToDoModal = ({
   const commentDelete = async (commentId: number) => {
     try {
       const response = await axios.delete(`comments/${commentId}`);
-      console.log("댓글 삭제", response);
+
       commentList();
     } catch (error: any) {
       console.error("댓글 삭제에러", error);
@@ -172,7 +166,7 @@ const ToDoModal = ({
   useEffect(() => {
     setColumn(columnName);
   }, [columnName]);
-  console.log("여기 봐야합니다", commentLists);
+
   return (
     <S.ModalBG>
       <S.ModalContainer>

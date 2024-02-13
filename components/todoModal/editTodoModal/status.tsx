@@ -12,7 +12,7 @@ function StatusDropDownModal({
   onSelectStatusTitle,
 }: StatusDropDownProps) {
   const { columns } = useColumnsStore();
-  console.log("statusTitles?", columns.data);
+
   return (
     <>
       <S.dropDownContainer>

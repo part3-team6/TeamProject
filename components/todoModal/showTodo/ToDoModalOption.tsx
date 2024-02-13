@@ -20,7 +20,7 @@ const toDoModalOption = ({
   const { setCards, isEditCardOpen, setIsEditCardOpen, editedCardId } =
     useTodoModalStore();
   const { setColumns, pageId } = useColumnsStore();
-  console.log("여기서 selectedCard", selectedCard);
+
   const onModifyCard = () => {
     if (rendered) {
       setRendered(null);
@@ -53,7 +53,6 @@ const toDoModalOption = ({
   const editCard = async (newCard: CardProps) => {
     try {
       const response = await axiosInstance.put(`cards/${id}`, newCard);
-      console.log("editCard라는함수", response);
 
       if (response.status === 200) {
         setCards((prevCard: CardProps[]) => {
@@ -82,7 +81,6 @@ const toDoModalOption = ({
 
   // 카드 삭제 기능인데 랜더링을 어떻게 시켜야할지 모르겠음.
   const onDeleteCard = async (id: any) => {
-    console.log("버튼누름!", id);
     const response = await axios.delete(`cards/${id}`);
     closeShowCardModal();
     const getResponse = await axiosInstance.get(
