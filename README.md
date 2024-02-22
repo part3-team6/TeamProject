@@ -18,8 +18,6 @@
 
 ## 기술 스택
 
-빌드: Vite.js
-
 언어: TypeScript
 
 CSS: Styled-Component
@@ -28,7 +26,7 @@ CSS: Styled-Component
 
 상태관리 라이브러리: Zustand
 
-기타 라이브러리: React-query, Axios(async/await), Framer-motion
+기타 라이브러리: Axios(async/await), Framer-motion
 
 ESLint: Airbnb
 
